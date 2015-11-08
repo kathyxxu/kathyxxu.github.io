@@ -9,9 +9,9 @@
     <meta name="keyword"  content="楚爷, Purely, Blog, 博客, 个人网站, 互联网">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>港湾 | Purely Blog</title>
+    <title>macbook通ssh代理来访问受限的git服务 - 港湾 | Purely Blog</title>
 
-    <link rel="canonical" href="http://gitos.org/">
+    <link rel="canonical" href="http://gitos.org/2015/10/25/ssh-proxy-git/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -122,100 +122,178 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-os-metro.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/post-bg-os-metro.jpg')
+    }
+</style>
+<header class="intro-header" >
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>港湾</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">智者远见</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ssh proxy" title="ssh proxy">ssh proxy</a>
+                        
+                        <a class="tag" href="/tags/#git proxy" title="git proxy">git proxy</a>
+                        
+                    </div>
+                    <h1>macbook通ssh代理来访问受限的git服务</h1>
+                    
+                    
+                    <h2 class="subheading">通过有权限的代理服务器提交git</h2>
+                    
+                    <span class="meta">Posted by 楚爷 on October 25, 2015</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-        
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-    			
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-<!-- Pager -->
+				<p>#先安装proxychains-ng:</p>
+
+<p><code>brew install proxychains-ng</code></p>
+
+<p>#然后将公钥上传到服务器, 并在~/.ssh下建立authorized_keys文件，进行免登陆处理</p>
+
+<p><code>cat id_rsa.pub &gt;&gt; authorized_keys</code></p>
+
+<p>#本地编辑</p>
+
+<p><code>vim ~/.ssh/config</code></p>
+
+<p>#代理服务器</p>
+
+<pre><code>Host proxyvm
+
+        HostName 192.168.8.7
+
+        IdentityFile ~/.ssh/id_rsa
+
+        User ubuntu
+
+        Port 22
+</code></pre>
+
+<p>#git服务器</p>
+
+<pre><code>Host 192.168.9.9
+
+        HostName 192.168.9.9
+
+        IdentityFile ~/.ssh/id_rsa
+
+        User git
+
+        ProxyCommand ssh proxyvm -W %h:%p
+</code></pre>
+
+<p>保存<br />
+现在可以通过<br />
+<code>git clone git@192.168.9.9:pro.git</code><br />
+clone工程和提交了。</p>
 
 
-    		</div>
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2015/10/25/ssh-proxy-git"
+                    data-title="macbook通ssh代理来访问受限的git服务"
+                    data-url="http://gitos.org/2015/10/25/ssh-proxy-git/"
+                    data-images="http://gitos.org/img/post-bg-os-metro.jpg"
+                    data-content="#先安装proxychains-ng:
+
+brew install proxychains-ng
+
+#然后将公钥上传到服务器, 并在~/.ssh下建立au... | 港湾 | Purely Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/10/24/new-blog/" data-toggle="tooltip" data-placement="top" title="第一次使用github写博客">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2015/10/25/ssh-proxy-git"
+                        data-title="macbook通ssh代理来访问受限的git服务"
+                        data-url="http://gitos.org/2015/10/25/ssh-proxy-git/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+            </div>
+
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
-                    </div>
+        				
+        			</div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/avatar-cy.png" />
-                        
-                        
-                            <p>创过业、做过独立开发者、上过班</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/xladykiller">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -228,10 +306,69 @@
                     
                 </ul>
                 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- Duoshuo hacking -->
+<input id="dsUser" type="hidden" value="14025164"  />
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User hacking by Hux
+    var _user = document.getElementById('dsUser').value;
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
 
 
     <!-- Footer -->
