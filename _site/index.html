@@ -152,6 +152,64 @@
                 post-container
             ">
     			
+<div class="post-preview">
+    <a href="/2015/10/25/ssh-proxy-git/">
+        <h2 class="post-title">
+            macbook通ssh代理来访问受限的git服务
+        </h2>
+        
+        <h3 class="post-subtitle">
+            通过有权限的代理服务器提交git
+        </h3>
+        
+        <div class="post-content-preview">
+            #先安装proxychains-ng:
+
+brew install proxychains-ng
+
+#然后将公钥上传到服务器, 并在~/.ssh下建立authorized_keys文件，进行免登陆处理
+
+cat id_rsa.pub &gt;&gt; authorized_keys
+
+#本地编辑
+
+vim ~/.ssh/config
+
+#代理服务器
+
+Host proxyvm
+
+      ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by 楚爷 on October 25, 2015
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/24/new-blog/">
+        <h2 class="post-title">
+            第一次使用github写博客
+        </h2>
+        
+        <h3 class="post-subtitle">
+            github pages
+        </h3>
+        
+        <div class="post-content-preview">
+            走上技术道路以来，总是想着要写写博客，记录自己的成长路程。一直用着免费得博客系统，也一直想着要自己搭建一个博客，每次要实施的时候，总是各种原因没有坚持下去，导致服务器到期，然后不了了之。
+
+这几日，经常想着自己重新弄个博客，刚好这周末不加班，就查了查博客方案。发现很多人推荐使用github的page来做博客，然后看了下文档，可以自定义域名。这个正好符合我的要求，一来可以使用自己的域名，二来免...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by 楚爷 on October 24, 2015
+    </p>
+</div>
+<hr>
+
 
 <!-- Pager -->
 
