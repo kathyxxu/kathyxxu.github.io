@@ -1,0 +1,81 @@
+# Site settings
+title: 港湾
+SEOTitle: 港湾 | Purely Blog
+header-img: img/home-bg.jpg
+email: objust@live.com
+description: "全栈工程师 | 楚爷，后端工程师，业余前端，iOS工程师 | 这里是 @Purely 的个人博客，记录点点滴滴。"
+keyword: "楚爷, Purely, Blog, 博客, 个人网站, 互联网"
+url: "http://gitos.org"
+baseurl: ""
+
+
+
+# SNS settings
+RSS: false
+#weibo_username:     xladykiller
+#zhihu_username:     xladykiller
+github_username:    xladykiller
+#twitter_username:  huxpro
+#facebook_username:  xladykiller
+
+
+
+# Build settings
+highlighter: pygments
+permalink: pretty
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+
+
+
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
+# document: http://jekyllrb.com/docs/configuration/#kramdown
+markdown: kramdown
+kramdown:
+  input: GFM                            # use Github Flavored Markdown !important
+
+
+
+# Duoshuo settings
+duoshuo_username: 14025164
+# Share component is depend on Comment so we can NOT use share only.
+duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+
+
+
+
+# Analytics settings
+# Baidu Analytics
+ba_track_id: 3369e79dfb67b43d4cb5b94e399c2f57
+# Google Analytics
+#ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+#ga_domain: gitos.org
+
+
+
+# Sidebar settings
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "创过业、做过独立开发者、上过班"
+sidebar-avatar: /img/avatar-cy.png     # use absolute URL.
+
+
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+
+# Friends
+friends: [
+    {
+        title: "元宝铺",
+        href: "http://www.yuanbaopu.com/"
+    },{
+        title: "广告位",
+        href: "#"
+    }
+]
