@@ -3,10 +3,10 @@
   <channel>
     <title>港湾</title>
     <description>全栈工程师 | 楚爷，后端工程师，业余前端，iOS工程师 | 这里是 @Purely 的个人博客，记录点点滴滴。</description>
-    <link>http://gitos.org/</link>
-    <atom:link href="http://gitos.org/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 08 Nov 2015 23:30:19 +0800</pubDate>
-    <lastBuildDate>Sun, 08 Nov 2015 23:30:19 +0800</lastBuildDate>
+    <link>http://kathyxxu.github.io/</link>
+    <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sun, 08 Nov 2015 23:35:48 +0800</pubDate>
+    <lastBuildDate>Sun, 08 Nov 2015 23:35:48 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -55,8 +55,8 @@
 clone工程和提交了。&lt;/p&gt;
 </description>
         <pubDate>Sun, 25 Oct 2015 00:00:00 +0800</pubDate>
-        <link>http://gitos.org/2015/10/25/ssh-proxy-git/</link>
-        <guid isPermaLink="true">http://gitos.org/2015/10/25/ssh-proxy-git/</guid>
+        <link>http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/</guid>
         
         <category>ssh proxy</category>
         
@@ -72,8 +72,8 @@ clone工程和提交了。&lt;/p&gt;
 &lt;p&gt;这几日，经常想着自己重新弄个博客，刚好这周末不加班，就查了查博客方案。发现很多人推荐使用github的page来做博客，然后看了下文档，可以自定义域名。这个正好符合我的要求，一来可以使用自己的域名，二来免得自己管理服务器，三来编辑也方便，直接编辑好文档后，jekyll生成html通过git传到github就好了。&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Oct 2015 00:00:00 +0800</pubDate>
-        <link>http://gitos.org/2015/10/24/new-blog/</link>
-        <guid isPermaLink="true">http://gitos.org/2015/10/24/new-blog/</guid>
+        <link>http://kathyxxu.github.io/2015/10/24/new-blog/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2015/10/24/new-blog/</guid>
         
         <category>jekyll</category>
         

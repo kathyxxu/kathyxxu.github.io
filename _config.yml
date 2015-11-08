@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: objust@live.com
 description: "全栈工程师 | 楚爷，后端工程师，业余前端，iOS工程师 | 这里是 @Purely 的个人博客，记录点点滴滴。"
 keyword: "楚爷, Purely, Blog, 博客, 个人网站, 互联网"
-url: "http://gitos.org"
+url: "http://kathyxxu.github.io"
 baseurl: ""
 
 
@@ -14,7 +14,7 @@ baseurl: ""
 RSS: false
 #weibo_username:     xladykiller
 #zhihu_username:     xladykiller
-github_username:    xladykiller
+github_username:    kathyxxu
 #twitter_username:  huxpro
 #facebook_username:  xladykiller
 
