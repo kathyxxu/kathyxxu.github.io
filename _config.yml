@@ -1,10 +1,10 @@
 # Site settings
-title: 港湾
-SEOTitle: 港湾 | Kathyxxu Blog
+title: Kathyxxu Blog
+SEOTitle: 徐璇的博客 | Kathyxxu Blog
 header-img: img/home-bg.jpg
 email: kathyxxu@hotmail.com
 description: "前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。"
-keyword: "前端开发, Kathyxxu, Blog, 博客, HTML5"
+keyword: "前端开发, Kathyxxu, 博客, HTML5, javascript"
 url: "http://kathyxxu.github.io"
 baseurl: ""
 
