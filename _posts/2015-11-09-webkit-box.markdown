@@ -19,7 +19,7 @@ tags:
 <style type="text/css">
     .ajax-loader{
         width: 100%;
-        height: 3rem;
+        height: 20px;
         display: -webkit-box;
         -webkit-box-pack: center;
         -webkit-box-align: center;
@@ -28,14 +28,14 @@ tags:
     .ajax-loader i{
         display: block;
         background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 1rem;
-        height: 1rem;
+        width: 16px;
+        height: 16px;
         background-size: contain;
-        margin: 0.8rem 0.6rem;
+        margin-right: 4px;
     }
     .ajax-loader span{
         display: block;
-        font-size: 1.2rem;
+        font-size: 16px;
         color: #ababab;
     }
 </style>
