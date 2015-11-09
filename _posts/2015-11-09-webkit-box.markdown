@@ -13,7 +13,7 @@ tags:
 
 #栗子1：icon和文字对齐   并居中显示
 
-!["栗子1"](../imgPost/2015-11-09/1.png)
+!["栗子1"](../../../../imgPost/2015-11-09/1.png)
 
 ```
 <div class="ajax-loader">

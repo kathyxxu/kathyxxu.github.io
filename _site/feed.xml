@@ -5,15 +5,15 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 09 Nov 2015 15:31:07 +0800</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 15:31:07 +0800</lastBuildDate>
+    <pubDate>Mon, 09 Nov 2015 15:35:42 +0800</pubDate>
+    <lastBuildDate>Mon, 09 Nov 2015 15:35:42 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
         <title>使用webkit-box解决样式对齐问题</title>
         <description>&lt;p&gt;#栗子1：icon和文字对齐   并居中显示&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../imgPost/2015-11-09/1.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-09/1.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;ajax-loader&quot;&amp;gt;
     &amp;lt;i class=&quot;ico ico-ajax-loader&quot;&amp;gt;&amp;lt;/i&amp;gt;
