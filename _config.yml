@@ -58,7 +58,7 @@ ba_track_id: 3369e79dfb67b43d4cb5b94e399c2f57
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "专注前端开发"
+sidebar-about-description: "专注前端开发，关注交互体验"
 sidebar-avatar: /img/avatar-cy.jpg     # use absolute URL.
 
 
@@ -72,8 +72,8 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "元宝铺",
-        href: "http://www.yuanbaopu.com/"
+        title: "广告位",
+        href: "#"
     },{
         title: "广告位",
         href: "#"
