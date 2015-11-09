@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "使用webkit-box解决css对齐问题"
+title:      "使用webkit-box解决样式对齐问题"
 subtitle:   ""
 date:       2015-11-09
 author:     "徐璇"
@@ -11,9 +11,9 @@ tags:
     - 对齐
 ---
 
-#icon和文字对齐   并居中显示
+#栗子1：icon和文字对齐   并居中显示
 
-
+!["栗子1"](../imgPost/2015-11-09/1.png)
 
 ```
 <div class="ajax-loader">
