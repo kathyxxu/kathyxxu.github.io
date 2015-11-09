@@ -1,10 +1,10 @@
 # Site settings
 title: 港湾
-SEOTitle: 港湾 | Purely Blog
+SEOTitle: 港湾 | Kathyxxu Blog
 header-img: img/home-bg.jpg
-email: objust@live.com
-description: "全栈工程师 | 楚爷，后端工程师，业余前端，iOS工程师 | 这里是 @Purely 的个人博客，记录点点滴滴。"
-keyword: "楚爷, Purely, Blog, 博客, 个人网站, 互联网"
+email: kathyxxu@hotmail.com
+description: "前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。"
+keyword: "前端开发, Kathyxxu, Blog, 博客, HTML5"
 url: "http://kathyxxu.github.io"
 baseurl: ""
 
@@ -58,8 +58,8 @@ ba_track_id: 3369e79dfb67b43d4cb5b94e399c2f57
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "创过业、做过独立开发者、上过班"
-sidebar-avatar: /img/avatar-cy.png     # use absolute URL.
+sidebar-about-description: "专注前端开发"
+sidebar-avatar: /img/avatar-cy.jpg     # use absolute URL.
 
 
 
