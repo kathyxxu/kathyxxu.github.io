@@ -15,6 +15,37 @@ tags:
 
 !["栗子1"](../../../../imgPost/2015-11-09/1.png)
 
+
+<style type="text/css">
+    .ajax-loader{
+        width: 100%;
+        height: 3rem;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        text-align: center;
+    }
+    .ajax-loader i{
+        display: block;
+        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
+        width: 1rem;
+        height: 1rem;
+        background-size: contain;
+        margin: 0.8rem 0.6rem;
+    }
+    .ajax-loader span{
+        display: block;
+        font-size: 1.2rem;
+        color: #ababab;
+    }
+</style>
+
+<div class="ajax-loader">
+    <i class="ico ico-ajax-loader"></i>
+    <span>正在加载...</span>
+</div>
+
+
 ```
 <div class="ajax-loader">
     <i class="ico ico-ajax-loader"></i>
