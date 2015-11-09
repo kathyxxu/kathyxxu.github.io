@@ -9,9 +9,9 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>macbook通ssh代理来访问受限的git服务 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>使用webkit-box解决css对齐问题 - 徐璇的博客 | Kathyxxu Blog</title>
 
-    <link rel="canonical" href="http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/">
+    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/09/webkit-box/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -139,17 +139,19 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#ssh proxy" title="ssh proxy">ssh proxy</a>
+                        <a class="tag" href="/tags/#webkit-box" title="webkit-box">webkit-box</a>
                         
-                        <a class="tag" href="/tags/#git proxy" title="git proxy">git proxy</a>
+                        <a class="tag" href="/tags/#css" title="css">css</a>
+                        
+                        <a class="tag" href="/tags/#对齐" title="对齐">对齐</a>
                         
                     </div>
-                    <h1>macbook通ssh代理来访问受限的git服务</h1>
+                    <h1>使用webkit-box解决css对齐问题</h1>
                     
                     
-                    <h2 class="subheading">通过有权限的代理服务器提交git</h2>
+                    <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by 楚爷 on October 25, 2015</span>
+                    <span class="meta">Posted by 徐璇 on November 9, 2015</span>
                 </div>
             </div>
         </div>
@@ -167,48 +169,33 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>#先安装proxychains-ng:</p>
+				<p>#icon和文字对齐   并居中显示</p>
 
-<p><code>brew install proxychains-ng</code></p>
+<pre><code>&lt;div class="ajax-loader"&gt;
+    &lt;i class="ico ico-ajax-loader"&gt;&lt;/i&gt;
+    &lt;span&gt;正在加载...&lt;/span&gt;
+&lt;/div&gt;
 
-<p>#然后将公钥上传到服务器, 并在~/.ssh下建立authorized_keys文件，进行免登陆处理</p>
-
-<p><code>cat id_rsa.pub &gt;&gt; authorized_keys</code></p>
-
-<p>#本地编辑</p>
-
-<p><code>vim ~/.ssh/config</code></p>
-
-<p>#代理服务器</p>
-
-<pre><code>Host proxyvm
-
-        HostName 192.168.8.7
-
-        IdentityFile ~/.ssh/id_rsa
-
-        User ubuntu
-
-        Port 22
+.ajax-loader{
+    width: 100%;
+    height: 3rem;
+    
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    text-align: center;
+    i{
+        display: block;
+        margin: 0.8rem 0.6rem;
+    }
+    span{
+        display: block;
+        font-size: 1.2rem;
+        color: #ababab;
+    }
+}
 </code></pre>
 
-<p>#git服务器</p>
-
-<pre><code>Host 192.168.9.9
-
-        HostName 192.168.9.9
-
-        IdentityFile ~/.ssh/id_rsa
-
-        User git
-
-        ProxyCommand ssh proxyvm -W %h:%p
-</code></pre>
-
-<p>保存<br />
-现在可以通过<br />
-<code>git clone git@192.168.9.9:pro.git</code><br />
-clone工程和提交了。</p>
 
 
                 <hr>
@@ -218,15 +205,14 @@ clone工程和提交了。</p>
                 </style>
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2015/10/25/ssh-proxy-git"
-                    data-title="macbook通ssh代理来访问受限的git服务"
-                    data-url="http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/"
+                    data-thread-key="/2015/11/09/webkit-box"
+                    data-title="使用webkit-box解决css对齐问题"
+                    data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/"
                     data-images="http://kathyxxu.github.io/img/post-bg-os-metro.jpg"
-                    data-content="#先安装proxychains-ng:
+                    data-content="#icon和文字对齐   并居中显示
 
-brew install proxychains-ng
-
-#然后将公钥上传到服务器, 并在~/.ssh下建立au... | 徐璇的博客 | Kathyxxu Blog " >
+&lt;div class="ajax-loader"&gt;
+    &lt;i class="ico ico-... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -246,13 +232,9 @@ brew install proxychains-ng
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/10/24/new-blog/" data-toggle="tooltip" data-placement="top" title="第一次使用github写博客">&larr; Previous Post</a>
+                        <a href="/2015/10/25/ssh-proxy-git/" data-toggle="tooltip" data-placement="top" title="macbook通ssh代理来访问受限的git服务">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/11/09/webkit-box/" data-toggle="tooltip" data-placement="top" title="使用webkit-box解决css对齐问题">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
@@ -261,9 +243,9 @@ brew install proxychains-ng
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2015/10/25/ssh-proxy-git"
-                        data-title="macbook通ssh代理来访问受限的git服务"
-                        data-url="http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/" >
+                        data-thread-key="/2015/11/09/webkit-box"
+                        data-title="使用webkit-box解决css对齐问题"
+                        data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

@@ -5,9 +5,52 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 09 Nov 2015 10:25:29 +0800</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 10:25:29 +0800</lastBuildDate>
+    <pubDate>Mon, 09 Nov 2015 15:21:48 +0800</pubDate>
+    <lastBuildDate>Mon, 09 Nov 2015 15:21:48 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>使用webkit-box解决css对齐问题</title>
+        <description>&lt;p&gt;#icon和文字对齐   并居中显示&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;ajax-loader&quot;&amp;gt;
+    &amp;lt;i class=&quot;ico ico-ajax-loader&quot;&amp;gt;&amp;lt;/i&amp;gt;
+    &amp;lt;span&amp;gt;正在加载...&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+
+.ajax-loader{
+    width: 100%;
+    height: 3rem;
+    
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    text-align: center;
+    i{
+        display: block;
+        margin: 0.8rem 0.6rem;
+    }
+    span{
+        display: block;
+        font-size: 1.2rem;
+        color: #ababab;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Mon, 09 Nov 2015 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2015/11/09/webkit-box/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/09/webkit-box/</guid>
+        
+        <category>webkit-box</category>
+        
+        <category>css</category>
+        
+        <category>对齐</category>
+        
+        
+      </item>
     
       <item>
         <title>macbook通ssh代理来访问受限的git服务</title>
