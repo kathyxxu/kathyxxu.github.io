@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "使用webkit-box实现样式的对齐"
+title:      "webkit-box弹性盒子"
 subtitle:   ""
 date:       2015-11-09
 author:     "徐璇"
@@ -27,7 +27,7 @@ tags:
     }
     .ajax-loader i{
         display: block;
-        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
+        background: url("imgPost/2015-11-09/ajax-loader.gif") no-repeat;
         width: 20px;
         height: 20px;
         background-size: contain;
