@@ -9,7 +9,7 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>使用webkit-box解决样式对齐问题 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>使用webkit-box实现样式的对齐 - 徐璇的博客 | Kathyxxu Blog</title>
 
     <link rel="canonical" href="http://kathyxxu.github.io/2015/11/09/webkit-box/">
 
@@ -146,7 +146,7 @@
                         <a class="tag" href="/tags/#对齐" title="对齐">对齐</a>
                         
                     </div>
-                    <h1>使用webkit-box解决样式对齐问题</h1>
+                    <h1>使用webkit-box实现样式的对齐</h1>
                     
                     
                     <h2 class="subheading"></h2>
@@ -169,31 +169,32 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>#栗子1：icon和文字对齐   并居中显示#</p>
+				<h1 id="icon">栗子1：icon和文字对齐并居中显示</h1>
 
-<p><img src="../../../../imgPost/2015-11-09/1.png" alt="&quot;栗子1&quot;" /></p>
+<!-- !["栗子1"](../../../../imgPost/2015-11-09/1.png) -->
 
 <style type="text/css">
     .ajax-loader{
+        margin: 30px 0 20px 0;
         width: 100%;
-        height: 20px;
+        height: 40px;
         display: -webkit-box;
         -webkit-box-pack: center;
         -webkit-box-align: center;
-        text-align: center;
     }
     .ajax-loader i{
         display: block;
         background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         background-size: contain;
-        margin-right: 4px;
+        margin-right: 8px;
     }
     .ajax-loader span{
         display: block;
-        font-size: 16px;
+        font-size: 24px;
         color: #ababab;
+        line-height: 40px !important;
     }
 </style>
 
@@ -207,24 +208,176 @@
     &lt;span&gt;正在加载...&lt;/span&gt;
 &lt;/div&gt;
 
-.ajax-loader{
-    width: 100%;
-    height: 3rem;
-    
-    display: -webkit-box;
-    -webkit-box-pack: center;
-    -webkit-box-align: center;
-    text-align: center;
-    i{
-        display: block;
-        margin: 0.8rem 0.6rem;
+&lt;style type="text/css"&gt;
+    .ajax-loader{
+        width: 100%;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
     }
-    span{
+    .ajax-loader i{
         display: block;
-        font-size: 1.2rem;
+        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        margin-right: 8px;
+    }
+    .ajax-loader span{
+        display: block;
+        font-size: 24px;
         color: #ababab;
+        line-height: 40px !important;
     }
-}
+&lt;/style&gt;
+</code></pre>
+
+<p>-webkit-box-pack: center;<br />
+水平方向，icon和图片当做一个整体，一起居中显示</p>
+
+<p>-webkit-box-align: center;<br />
+垂直方向，规定如何对齐框的子元素<br />
+<br /> <br /> <br /> <br /></p>
+
+<h1 id="webkit-box-flex">栗子2：webkit-box-flex</h1>
+<style type="text/css">
+    .action-bar{
+        padding: 0 !important;
+        margin: 20px 0 30px 0;
+        height: 45px;
+        background-color: #f8f9fa;
+        display: -webkit-box;
+    }
+    .action-item{
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        -webkit-box-flex: 1;
+        position: relative;
+    }
+    .action-item.action-item-0{
+        -webkit-box-flex: 1;
+    }
+    .action-item.action-item-1{
+        -webkit-box-flex: 2;
+    }
+    .action-item.action-item-2{
+        -webkit-box-flex: 3;
+    }
+    .action-item i{
+        display: block;
+        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
+        width: 26px;
+        height: 26px;
+        background-size: contain;
+        margin-right: 5px;
+    }
+    .action-item span{
+        display: block;
+        font-size: 16px;
+        color: #777777;
+    }
+    .action-item:after{
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+        top: 10px;
+        width: 1px;
+        content: '';
+        background-color: #DEDFE0;
+    }
+    .action-item:last-of-type:after{
+        width: 0;
+    }
+    .action-item:active{
+        background-color: #e5e6e7;
+    }
+</style>
+
+<ul class="action-bar">
+    <li class="action-item action-item-0">
+        <i class="ico"></i>
+        <span>截屏</span>
+    </li>
+    <li class="action-item action-item-1">
+        <i class="ico"></i>
+        <span>收藏</span>
+    </li>
+    <li class="action-item action-item-2">
+        <i class="ico"></i>
+        <span>我要</span>
+    </li>
+</ul>
+
+<pre><code>&lt;style type="text/css"&gt;
+    .action-bar{
+        padding: 0 !important;
+        margin: 20px 0 30px 0;
+        height: 45px;
+        background-color: #f8f9fa;
+        display: -webkit-box;
+    }
+    .action-item{
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        -webkit-box-flex: 1;
+        position: relative;
+    }
+    .action-item.action-item-0{
+        -webkit-box-flex: 1;
+    }
+    .action-item.action-item-1{
+        -webkit-box-flex: 2;
+    }
+    .action-item.action-item-2{
+        -webkit-box-flex: 3;
+    }
+    .action-item i{
+        display: block;
+        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
+        width: 26px;
+        height: 26px;
+        background-size: contain;
+        margin-right: 5px;
+    }
+    .action-item span{
+        display: block;
+        font-size: 16px;
+        color: #777777;
+    }
+    .action-item:after{
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+        top: 10px;
+        width: 1px;
+        content: '';
+        background-color: #DEDFE0;
+    }
+    .action-item:last-of-type:after{
+        width: 0;
+    }
+    .action-item:active{
+        background-color: #e5e6e7;
+    }
+&lt;/style&gt;
+&lt;ul class="action-bar"&gt;
+    &lt;li class="action-item action-item-0"&gt;
+        &lt;i class="ico"&gt;&lt;/i&gt;
+        &lt;span&gt;截屏&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="action-item action-item-1"&gt;
+        &lt;i class="ico"&gt;&lt;/i&gt;
+        &lt;span&gt;收藏&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="action-item action-item-2"&gt;
+        &lt;i class="ico"&gt;&lt;/i&gt;
+        &lt;span&gt;我要&lt;/span&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
 </code></pre>
 
 
@@ -237,10 +390,10 @@
                 <div class="ds-share"
                     style="text-align: right"
                     data-thread-key="/2015/11/09/webkit-box"
-                    data-title="使用webkit-box解决样式对齐问题"
+                    data-title="使用webkit-box实现样式的对齐"
                     data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/"
                     data-images="http://kathyxxu.github.io/img/post-bg-os-metro.jpg"
-                    data-content="#栗子1：icon和文字对齐   并居中显示#
+                    data-content="栗子1：icon和文字对齐并居中显示
 
 
 
@@ -251,7 +404,8 @@
     正在加载...
 
 
-&lt;div class="ajax-loader"&... | 徐璇的博客 | Kathyxxu Blog " >
+&lt;div class="ajax-loader"&gt;
+ ... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -283,7 +437,7 @@
                 <div class="comment">
                     <div class="ds-thread"
                         data-thread-key="/2015/11/09/webkit-box"
-                        data-title="使用webkit-box解决样式对齐问题"
+                        data-title="使用webkit-box实现样式的对齐"
                         data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/" >
                     </div>
                 </div>
@@ -306,19 +460,51 @@
                     <div class="tags">
         				
                             
-        				
+                				<a href="/tags/#jekyll" title="jekyll" rel="1">
+                                    jekyll
+                                </a>
                             
         				
                             
-        				
+                				<a href="/tags/#github.io" title="github.io" rel="1">
+                                    github.io
+                                </a>
                             
         				
                             
-        				
+                				<a href="/tags/#博客" title="博客" rel="1">
+                                    博客
+                                </a>
                             
         				
                             
+                				<a href="/tags/#ssh proxy" title="ssh proxy" rel="1">
+                                    ssh proxy
+                                </a>
+                            
         				
+                            
+                				<a href="/tags/#git proxy" title="git proxy" rel="1">
+                                    git proxy
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#webkit-box" title="webkit-box" rel="1">
+                                    webkit-box
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#css" title="css" rel="1">
+                                    css
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#对齐" title="对齐" rel="1">
+                                    对齐
+                                </a>
                             
         				
         			</div>
@@ -344,7 +530,7 @@
 
 
 <!-- Duoshuo hacking -->
-<input id="dsUser" type="hidden" value="14025164"  />
+<input id="dsUser" type="hidden" value="286198217"  />
 
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

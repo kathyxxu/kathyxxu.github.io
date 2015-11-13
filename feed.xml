@@ -5,37 +5,38 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 09 Nov 2015 15:54:25 +0800</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 15:54:25 +0800</lastBuildDate>
-    <generator>Jekyll v3.0.0</generator>
+    <pubDate>Fri, 13 Nov 2015 08:53:01 +0800</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2015 08:53:01 +0800</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>使用webkit-box解决样式对齐问题</title>
-        <description>&lt;p&gt;#栗子1：icon和文字对齐   并居中显示#&lt;/p&gt;
+        <title>使用webkit-box实现样式的对齐</title>
+        <description>&lt;h1 id=&quot;icon&quot;&gt;栗子1：icon和文字对齐并居中显示&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-09/1.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
+&lt;!-- ![&quot;栗子1&quot;](../../../../imgPost/2015-11-09/1.png) --&gt;
 
 &lt;style type=&quot;text/css&quot;&gt;
     .ajax-loader{
+        margin: 30px 0 20px 0;
         width: 100%;
-        height: 20px;
+        height: 40px;
         display: -webkit-box;
         -webkit-box-pack: center;
         -webkit-box-align: center;
-        text-align: center;
     }
     .ajax-loader i{
         display: block;
         background: url(&quot;../../../../imgPost/2015-11-09/ajax-loader.gif&quot;) no-repeat;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         background-size: contain;
-        margin-right: 4px;
+        margin-right: 8px;
     }
     .ajax-loader span{
         display: block;
-        font-size: 16px;
+        font-size: 24px;
         color: #ababab;
+        line-height: 40px !important;
     }
 &lt;/style&gt;
 
@@ -49,24 +50,176 @@
     &amp;lt;span&amp;gt;正在加载...&amp;lt;/span&amp;gt;
 &amp;lt;/div&amp;gt;
 
-.ajax-loader{
-    width: 100%;
-    height: 3rem;
-    
-    display: -webkit-box;
-    -webkit-box-pack: center;
-    -webkit-box-align: center;
-    text-align: center;
-    i{
-        display: block;
-        margin: 0.8rem 0.6rem;
+&amp;lt;style type=&quot;text/css&quot;&amp;gt;
+    .ajax-loader{
+        width: 100%;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
     }
-    span{
+    .ajax-loader i{
         display: block;
-        font-size: 1.2rem;
+        background: url(&quot;../../../../imgPost/2015-11-09/ajax-loader.gif&quot;) no-repeat;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        margin-right: 8px;
+    }
+    .ajax-loader span{
+        display: block;
+        font-size: 24px;
         color: #ababab;
+        line-height: 40px !important;
     }
-}
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;-webkit-box-pack: center;&lt;br /&gt;
+水平方向，icon和图片当做一个整体，一起居中显示&lt;/p&gt;
+
+&lt;p&gt;-webkit-box-align: center;&lt;br /&gt;
+垂直方向，规定如何对齐框的子元素&lt;br /&gt;
+&lt;br /&gt; &lt;br /&gt; &lt;br /&gt; &lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;webkit-box-flex&quot;&gt;栗子2：webkit-box-flex&lt;/h1&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .action-bar{
+        padding: 0 !important;
+        margin: 20px 0 30px 0;
+        height: 45px;
+        background-color: #f8f9fa;
+        display: -webkit-box;
+    }
+    .action-item{
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        -webkit-box-flex: 1;
+        position: relative;
+    }
+    .action-item.action-item-0{
+        -webkit-box-flex: 1;
+    }
+    .action-item.action-item-1{
+        -webkit-box-flex: 2;
+    }
+    .action-item.action-item-2{
+        -webkit-box-flex: 3;
+    }
+    .action-item i{
+        display: block;
+        background: url(&quot;../../../../imgPost/2015-11-09/icon-collect-light.png&quot;) no-repeat;
+        width: 26px;
+        height: 26px;
+        background-size: contain;
+        margin-right: 5px;
+    }
+    .action-item span{
+        display: block;
+        font-size: 16px;
+        color: #777777;
+    }
+    .action-item:after{
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+        top: 10px;
+        width: 1px;
+        content: &#39;&#39;;
+        background-color: #DEDFE0;
+    }
+    .action-item:last-of-type:after{
+        width: 0;
+    }
+    .action-item:active{
+        background-color: #e5e6e7;
+    }
+&lt;/style&gt;
+
+&lt;ul class=&quot;action-bar&quot;&gt;
+    &lt;li class=&quot;action-item action-item-0&quot;&gt;
+        &lt;i class=&quot;ico&quot;&gt;&lt;/i&gt;
+        &lt;span&gt;截屏&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;action-item action-item-1&quot;&gt;
+        &lt;i class=&quot;ico&quot;&gt;&lt;/i&gt;
+        &lt;span&gt;收藏&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;action-item action-item-2&quot;&gt;
+        &lt;i class=&quot;ico&quot;&gt;&lt;/i&gt;
+        &lt;span&gt;我要&lt;/span&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;style type=&quot;text/css&quot;&amp;gt;
+    .action-bar{
+        padding: 0 !important;
+        margin: 20px 0 30px 0;
+        height: 45px;
+        background-color: #f8f9fa;
+        display: -webkit-box;
+    }
+    .action-item{
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        -webkit-box-flex: 1;
+        position: relative;
+    }
+    .action-item.action-item-0{
+        -webkit-box-flex: 1;
+    }
+    .action-item.action-item-1{
+        -webkit-box-flex: 2;
+    }
+    .action-item.action-item-2{
+        -webkit-box-flex: 3;
+    }
+    .action-item i{
+        display: block;
+        background: url(&quot;../../../../imgPost/2015-11-09/icon-collect-light.png&quot;) no-repeat;
+        width: 26px;
+        height: 26px;
+        background-size: contain;
+        margin-right: 5px;
+    }
+    .action-item span{
+        display: block;
+        font-size: 16px;
+        color: #777777;
+    }
+    .action-item:after{
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+        top: 10px;
+        width: 1px;
+        content: &#39;&#39;;
+        background-color: #DEDFE0;
+    }
+    .action-item:last-of-type:after{
+        width: 0;
+    }
+    .action-item:active{
+        background-color: #e5e6e7;
+    }
+&amp;lt;/style&amp;gt;
+&amp;lt;ul class=&quot;action-bar&quot;&amp;gt;
+    &amp;lt;li class=&quot;action-item action-item-0&quot;&amp;gt;
+        &amp;lt;i class=&quot;ico&quot;&amp;gt;&amp;lt;/i&amp;gt;
+        &amp;lt;span&amp;gt;截屏&amp;lt;/span&amp;gt;
+    &amp;lt;/li&amp;gt;
+    &amp;lt;li class=&quot;action-item action-item-1&quot;&amp;gt;
+        &amp;lt;i class=&quot;ico&quot;&amp;gt;&amp;lt;/i&amp;gt;
+        &amp;lt;span&amp;gt;收藏&amp;lt;/span&amp;gt;
+    &amp;lt;/li&amp;gt;
+    &amp;lt;li class=&quot;action-item action-item-2&quot;&amp;gt;
+        &amp;lt;i class=&quot;ico&quot;&amp;gt;&amp;lt;/i&amp;gt;
+        &amp;lt;span&amp;gt;我要&amp;lt;/span&amp;gt;
+    &amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 
 </description>
