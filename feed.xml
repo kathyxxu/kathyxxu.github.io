@@ -5,8 +5,8 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 13 Nov 2015 09:04:18 +0800</pubDate>
-    <lastBuildDate>Fri, 13 Nov 2015 09:04:18 +0800</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2015 09:06:55 +0800</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2015 09:06:55 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -232,81 +232,6 @@
         <category>css</category>
         
         <category>对齐</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>macbook通ssh代理来访问受限的git服务</title>
-        <description>&lt;p&gt;#先安装proxychains-ng:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;brew install proxychains-ng&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;#然后将公钥上传到服务器, 并在~/.ssh下建立authorized_keys文件，进行免登陆处理&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;cat id_rsa.pub &amp;gt;&amp;gt; authorized_keys&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;#本地编辑&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;vim ~/.ssh/config&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;#代理服务器&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Host proxyvm
-
-        HostName 192.168.8.7
-
-        IdentityFile ~/.ssh/id_rsa
-
-        User ubuntu
-
-        Port 22
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;#git服务器&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Host 192.168.9.9
-
-        HostName 192.168.9.9
-
-        IdentityFile ~/.ssh/id_rsa
-
-        User git
-
-        ProxyCommand ssh proxyvm -W %h:%p
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;保存&lt;br /&gt;
-现在可以通过&lt;br /&gt;
-&lt;code&gt;git clone git@192.168.9.9:pro.git&lt;/code&gt;&lt;br /&gt;
-clone工程和提交了。&lt;/p&gt;
-</description>
-        <pubDate>Sun, 25 Oct 2015 00:00:00 +0800</pubDate>
-        <link>http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/</link>
-        <guid isPermaLink="true">http://kathyxxu.github.io/2015/10/25/ssh-proxy-git/</guid>
-        
-        <category>ssh proxy</category>
-        
-        <category>git proxy</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>第一次使用github写博客</title>
-        <description>&lt;p&gt;走上技术道路以来，总是想着要写写博客，记录自己的成长路程。一直用着免费得博客系统，也一直想着要自己搭建一个博客，每次要实施的时候，总是各种原因没有坚持下去，导致服务器到期，然后不了了之。&lt;/p&gt;
-
-&lt;p&gt;这几日，经常想着自己重新弄个博客，刚好这周末不加班，就查了查博客方案。发现很多人推荐使用github的page来做博客，然后看了下文档，可以自定义域名。这个正好符合我的要求，一来可以使用自己的域名，二来免得自己管理服务器，三来编辑也方便，直接编辑好文档后，jekyll生成html通过git传到github就好了。&lt;/p&gt;
-</description>
-        <pubDate>Sat, 24 Oct 2015 00:00:00 +0800</pubDate>
-        <link>http://kathyxxu.github.io/2015/10/24/new-blog/</link>
-        <guid isPermaLink="true">http://kathyxxu.github.io/2015/10/24/new-blog/</guid>
-        
-        <category>jekyll</category>
-        
-        <category>github.io</category>
-        
-        <category>博客</category>
         
         
       </item>
