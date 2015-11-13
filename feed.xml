@@ -5,12 +5,12 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 13 Nov 2015 09:06:55 +0800</pubDate>
-    <lastBuildDate>Fri, 13 Nov 2015 09:06:55 +0800</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2015 09:14:43 +0800</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2015 09:14:43 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>使用webkit-box实现样式的对齐</title>
+        <title>webkit-box弹性盒子</title>
         <description>&lt;h1 id=&quot;icon&quot;&gt;栗子1：icon和文字对齐并居中显示&lt;/h1&gt;
 
 &lt;!-- ![&quot;栗子1&quot;](../../../../imgPost/2015-11-09/1.png) --&gt;
@@ -26,7 +26,7 @@
     }
     .ajax-loader i{
         display: block;
-        background: url(&quot;../../../../imgPost/2015-11-09/ajax-loader.gif&quot;) no-repeat;
+        background: url(&quot;imgPost/2015-11-09/ajax-loader.gif&quot;) no-repeat;
         width: 20px;
         height: 20px;
         background-size: contain;
