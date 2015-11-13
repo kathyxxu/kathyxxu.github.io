@@ -40,7 +40,7 @@ kramdown:
 
 
 # Duoshuo settings
-duoshuo_username: 14025164
+duoshuo_username: 286198217
 # Share component is depend on Comment so we can NOT use share only.
 duoshuo_share: true                     # set to false if you want to use Comment without Sharing
 
