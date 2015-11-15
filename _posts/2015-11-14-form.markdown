@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "表单常用代码"
+subtitle:   ""
+date:       2015-11-14
+author:     "徐璇"
+header-img: "img/post-bg-universe.jpg"
+tags:
+    - trim
+    - 正则表达式
+---
+
+# 去除字符串左右两边的空格
+<input type="text" id="tvalue" value="   我的左右两边都有空格  ">
+<input type="button" id="tbtn" value="过滤">
+
+<script>
+window.onload = function() {
+	var tvalue = document.getElementById("tvalue"),
+		tbtn = document.getElementById("tbtn");
+
+		tbtn.onclick = function() {
+			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+		}
+}
+
+</script>
