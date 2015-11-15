@@ -5,15 +5,15 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 15 Nov 2015 21:37:48 +0800</pubDate>
-    <lastBuildDate>Sun, 15 Nov 2015 21:37:48 +0800</lastBuildDate>
+    <pubDate>Sun, 15 Nov 2015 21:39:35 +0800</pubDate>
+    <lastBuildDate>Sun, 15 Nov 2015 21:39:35 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>表单常用代码</title>
         <description>&lt;h1 id=&quot;section&quot;&gt;去除字符串左右两边的空格&lt;/h1&gt;
-&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;tvalue&quot; value=&quot;   我的左右两边都有空格  &quot; /&gt;&lt;br /&gt;
-&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
+&lt;textarea type=&quot;text&quot; id=&quot;tvalue&quot; value=&quot;   我的左右两边都有空格  &quot; width=&quot;500&quot; height=&quot;200&quot;&gt;&lt;/textarea&gt;
+&lt;p&gt;&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
 
 &lt;script&gt;
 window.onload = function() {
