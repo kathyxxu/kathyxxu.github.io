@@ -5,14 +5,14 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 15 Nov 2015 21:44:45 +0800</pubDate>
-    <lastBuildDate>Sun, 15 Nov 2015 21:44:45 +0800</lastBuildDate>
+    <pubDate>Sun, 15 Nov 2015 22:43:21 +0800</pubDate>
+    <lastBuildDate>Sun, 15 Nov 2015 22:43:21 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>表单常用代码</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;去除字符串左右两边的空格&lt;/h1&gt;
-&lt;textarea type=&quot;text&quot; id=&quot;tvalue&quot; width=&quot;500&quot; height=&quot;200&quot;&gt;  我的左右两边都有空格   \n\n &lt;/textarea&gt;
+        <description>&lt;h1 id=&quot;section&quot;&gt;1.去除字符串左右两边的空格&lt;/h1&gt;
+&lt;textarea id=&quot;tvalue&quot; width=&quot;500&quot; height=&quot;200&quot;&gt;  我的左右两边都有空格   &lt;/textarea&gt;
 &lt;p&gt;&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
 
 &lt;script&gt;
@@ -24,17 +24,57 @@ window.onload = function() {
 			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
 		}
 }
-
 &lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-1&quot;&gt;2.验证用户是否输入&lt;/h1&gt;
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;tvalue2&quot; value=&quot;xx&quot; /&gt;&lt;br /&gt;
+&lt;input type=&quot;button&quot; id=&quot;tbtn2&quot; value=&quot;验证是否为空&quot; /&gt;&lt;/p&gt;
+
+&lt;script&gt;
+window.onload = function() {
+	var tvalue = document.getElementById(&quot;tvalue2&quot;),
+		tbtn = document.getElementById(&quot;tbtn2&quot;);
+
+		tbtn.onclick = function() {
+			if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
+				alert(&#39;empty input&#39;)
+			}else{
+				alert(&#39;not empty input&#39;)
+			}
+		}
+}
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-2&quot;&gt;3.禁止输入&lt;/h1&gt;
+
+&lt;h4 id=&quot;disabled-readonly&quot;&gt;方案1.通过表单属性disabled readonly来控制输入&lt;/h4&gt;
+&lt;p&gt;&lt;input type=&quot;text&quot; value=&quot;disabled&quot; disabled=&quot;&quot; /&gt;&lt;br /&gt;
+&lt;input type=&quot;text&quot; value=&quot;disabled=&#39;disabled&#39;&quot; disabled=&quot;disabled&quot; /&gt;&lt;br /&gt;
+&lt;input type=&quot;text&quot; value=&quot;readonly&quot; readonly=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;disabled-禁用input元素。&lt;br /&gt;
+无法与 &lt;code&gt;&amp;lt;input type=&quot;hidden&quot;&amp;gt;&lt;/code&gt;一起使用&lt;/li&gt;
+  &lt;li&gt;readonly-字段为只读，不能修改。&lt;br /&gt;
+可以用tab切换到该字段&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;js&quot;&gt;方案2.通过js来控制输入&lt;/h4&gt;
 
 </description>
         <pubDate>Sat, 14 Nov 2015 00:00:00 +0800</pubDate>
         <link>http://kathyxxu.github.io/2015/11/14/form/</link>
         <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/14/form/</guid>
         
-        <category>trim</category>
+        <category>去除空格</category>
         
-        <category>正则表达式</category>
+        <category>禁止输入</category>
+        
+        <category>字符限制</category>
         
         
       </item>
