@@ -139,9 +139,11 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#trim" title="trim">trim</a>
+                        <a class="tag" href="/tags/#去除空格" title="去除空格">去除空格</a>
                         
-                        <a class="tag" href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
+                        <a class="tag" href="/tags/#禁止输入" title="禁止输入">禁止输入</a>
+                        
+                        <a class="tag" href="/tags/#字符限制" title="字符限制">字符限制</a>
                         
                     </div>
                     <h1>表单常用代码</h1>
@@ -167,8 +169,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h1 id="section">去除字符串左右两边的空格</h1>
-<textarea type="text" id="tvalue" width="500" height="200">  我的左右两边都有空格   \n\n </textarea>
+				<h1 id="section">1.去除字符串左右两边的空格</h1>
+<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea>
 <p><input type="button" id="tbtn" value="过滤" /></p>
 
 <script>
@@ -180,8 +182,46 @@ window.onload = function() {
 			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 		}
 }
-
 </script>
+
+<p><br /><br /></p>
+
+<h1 id="section-1">2.验证用户是否输入</h1>
+<p><input type="text" id="tvalue2" value="xx" /><br />
+<input type="button" id="tbtn2" value="验证是否为空" /></p>
+
+<script>
+window.onload = function() {
+	var tvalue = document.getElementById("tvalue2"),
+		tbtn = document.getElementById("tbtn2");
+
+		tbtn.onclick = function() {
+			if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+				alert('empty input')
+			}else{
+				alert('not empty input')
+			}
+		}
+}
+</script>
+
+<p><br /><br /></p>
+
+<h1 id="section-2">3.禁止输入</h1>
+
+<h4 id="disabled-readonly">方案1.通过表单属性disabled readonly来控制输入</h4>
+<p><input type="text" value="disabled" disabled="" /><br />
+<input type="text" value="disabled='disabled'" disabled="disabled" /><br />
+<input type="text" value="readonly" readonly="" /></p>
+
+<ul>
+  <li>disabled-禁用input元素。<br />
+无法与 <code>&lt;input type="hidden"&gt;</code>一起使用</li>
+  <li>readonly-字段为只读，不能修改。<br />
+可以用tab切换到该字段</li>
+</ul>
+
+<h4 id="js">方案2.通过js来控制输入</h4>
 
 
 
@@ -196,13 +236,25 @@ window.onload = function() {
                     data-title="表单常用代码"
                     data-url="http://kathyxxu.github.io/2015/11/14/form/"
                     data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
-                    data-content="去除字符串左右两边的空格
-  我的左右两边都有空格   \n\n 
+                    data-content="1.去除字符串左右两边的空格
+  我的左右两边都有空格   
 
 
 
 
- | 徐璇的博客 | Kathyxxu Blog " >
+
+
+2.验证用户是否输入
+
+
+
+
+
+
+
+3.禁止输入
+
+方案1.通过表单属性disa... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -275,14 +327,20 @@ window.onload = function() {
                             
         				
                             
-                				<a href="/tags/#trim" title="trim" rel="1">
-                                    trim
+                				<a href="/tags/#去除空格" title="去除空格" rel="1">
+                                    去除空格
                                 </a>
                             
         				
                             
-                				<a href="/tags/#正则表达式" title="正则表达式" rel="1">
-                                    正则表达式
+                				<a href="/tags/#禁止输入" title="禁止输入" rel="1">
+                                    禁止输入
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#字符限制" title="字符限制" rel="1">
+                                    字符限制
                                 </a>
                             
         				
