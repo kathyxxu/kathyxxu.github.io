@@ -11,7 +11,7 @@ tags:
 ---
 
 # 去除字符串左右两边的空格
-<textarea type="text" id="tvalue" value="   我的左右两边都有空格  " width="500" height="200"></textarea><input type="button" id="tbtn" value="过滤">
+<textarea type="text" id="tvalue" width="500" height="200">  我的左右两边都有空格   \n\n </textarea><input type="button" id="tbtn" value="过滤">
 
 <script>
 window.onload = function() {
