@@ -5,9 +5,39 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 13 Nov 2015 09:15:54 +0800</pubDate>
-    <lastBuildDate>Fri, 13 Nov 2015 09:15:54 +0800</lastBuildDate>
+    <pubDate>Sun, 15 Nov 2015 21:37:48 +0800</pubDate>
+    <lastBuildDate>Sun, 15 Nov 2015 21:37:48 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>表单常用代码</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;去除字符串左右两边的空格&lt;/h1&gt;
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;tvalue&quot; value=&quot;   我的左右两边都有空格  &quot; /&gt;&lt;br /&gt;
+&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
+
+&lt;script&gt;
+window.onload = function() {
+	var tvalue = document.getElementById(&quot;tvalue&quot;),
+		tbtn = document.getElementById(&quot;tbtn&quot;);
+
+		tbtn.onclick = function() {
+			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
+		}
+}
+
+&lt;/script&gt;
+
+</description>
+        <pubDate>Sat, 14 Nov 2015 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2015/11/14/form/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/14/form/</guid>
+        
+        <category>trim</category>
+        
+        <category>正则表达式</category>
+        
+        
+      </item>
     
       <item>
         <title>webkit-box弹性盒子</title>
