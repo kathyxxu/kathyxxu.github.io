@@ -21,7 +21,10 @@ tags:
         margin: 30px 0 20px 0;
         width: 100%;
         height: 40px;
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
         -webkit-box-pack: center;
         -webkit-box-align: center;
     }
@@ -57,7 +60,10 @@ tags:
     .ajax-loader{
         width: 100%;
         height: 40px;
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
         -webkit-box-pack: center;
         -webkit-box-align: center;
     }
@@ -94,10 +100,16 @@ tags:
         margin: 20px 0 30px 0;
         height: 45px;
         background-color: #f8f9fa;
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
     }
     .action-item{
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
         -webkit-box-pack: center;
         -webkit-box-align: center;
         -webkit-box-flex: 1;
@@ -163,10 +175,16 @@ tags:
         margin: 20px 0 30px 0;
         height: 45px;
         background-color: #f8f9fa;
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
     }
     .action-item{
+        display: -moz-box; 
         display: -webkit-box;
+        display: -o-box;
+        display: box; 
         -webkit-box-pack: center;
         -webkit-box-align: center;
         -webkit-box-flex: 1;
