@@ -174,35 +174,32 @@
 <p><input type="button" id="tbtn" value="过滤" /></p>
 
 <script>
-window.onload = function() {
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
-		tbtn.onclick = function() {
-			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
-		}
-}
+	tbtn.onclick = function() {
+		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+	}
 </script>
 
 <p><br /><br /></p>
 
 <h1 id="section-1">2.验证用户是否输入</h1>
-<p><input type="text" id="tvalue2" value="xx" /><br />
-<input type="button" id="tbtn2" value="验证是否为空" /></p>
-
+<div>
+	<input type="text" id="tvalue2" value="xx" />
+	<input type="button" id="tbtn2" value="验证是否为空" />
+</div>
 <script>
-window.onload = function() {
 	var tvalue = document.getElementById("tvalue2"),
 		tbtn = document.getElementById("tbtn2");
 
-		tbtn.onclick = function() {
-			if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
-				alert('empty input')
-			}else{
-				alert('not empty input')
-			}
+	tbtn.onclick = function() {
+		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+			alert('empty input')
+		}else{
+			alert('not empty input')
 		}
-}
+	}
 </script>
 
 <p><br /><br /></p>
@@ -222,6 +219,17 @@ window.onload = function() {
 </ul>
 
 <h4 id="js">方案2.通过js来控制输入</h4>
+<div>js控制<input type="text" value="禁止输入" id="noInput" /></div>
+
+<script>
+	var _noInput = document.getElementById("noInput");
+
+	_noInput.onfocus = function() {
+		_noInput.blur();
+	}
+</script>
+
+<p><br /><br /></p>
 
 
 
@@ -246,7 +254,8 @@ window.onload = function() {
 
 2.验证用户是否输入
 
-
+	
+	
 
 
 
@@ -254,7 +263,7 @@ window.onload = function() {
 
 3.禁止输入
 
-方案1.通过表单属性disa... | 徐璇的博客 | Kathyxxu Blog " >
+方案1.通过表单属性d... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>

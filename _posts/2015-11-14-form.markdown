@@ -16,35 +16,32 @@ tags:
 <input type="button" id="tbtn" value="过滤">
 
 <script>
-window.onload = function() {
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
-		tbtn.onclick = function() {
-			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
-		}
-}
+	tbtn.onclick = function() {
+		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+	}
 </script>
 <br/><br/>
 
 
 # 2.验证用户是否输入 #
-<input type="text" id="tvalue2" value="xx"/>
-<input type="button" id="tbtn2" value="验证是否为空"/>
-
+<div>
+	<input type="text" id="tvalue2" value="xx"/>
+	<input type="button" id="tbtn2" value="验证是否为空"/>
+</div>
 <script>
-window.onload = function() {
 	var tvalue = document.getElementById("tvalue2"),
 		tbtn = document.getElementById("tbtn2");
 
-		tbtn.onclick = function() {
-			if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
-				alert('empty input')
-			}else{
-				alert('not empty input')
-			}
+	tbtn.onclick = function() {
+		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+			alert('empty input')
+		}else{
+			alert('not empty input')
 		}
-}
+	}
 </script>
 <br/><br/>
 
@@ -62,7 +59,16 @@ window.onload = function() {
   可以用tab切换到该字段
 
 #### 方案2.通过js来控制输入 ####
+<div>js控制<input type="text" value="禁止输入" id="noInput"/></div>
 
+<script>
+	var _noInput = document.getElementById("noInput");
+
+	_noInput.onfocus = function() {
+		_noInput.blur();
+	}
+</script>
+<br/><br/>
 
 
 
