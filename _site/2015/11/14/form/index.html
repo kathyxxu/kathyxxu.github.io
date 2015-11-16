@@ -170,14 +170,16 @@
                 post-container">
 
 				<h1 id="section">1.去除字符串左右两边的空格</h1>
-<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea>
-<p><input type="button" id="tbtn" value="过滤" /></p>
-
-<script>
+<div>
+	<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea><br />
+	<input type="button" id="tbtn" value="过滤" />
+</div>
+<script type="text/javascript">
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
 	tbtn.onclick = function() {
+		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 	}
 </script>
@@ -186,15 +188,16 @@
 
 <h1 id="section-1">2.验证用户是否输入</h1>
 <div>
-	<input type="text" id="tvalue2" value="xx" />
-	<input type="button" id="tbtn2" value="验证是否为空" />
+	<input type="text" id="cvalue" value="kathyxxu" />
+	<input type="button" id="cbtn" value="验证是否为空" />
 </div>
-<script>
-	var tvalue = document.getElementById("tvalue2"),
-		tbtn = document.getElementById("tbtn2");
+<script type="text/javascript">
+	var cvalue = document.getElementById("cvalue"),
+		cbtn = document.getElementById("cbtn");
 
-	tbtn.onclick = function() {
-		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+	cbtn.onclick = function() {
+		console.log(222, cvalue.value)
+		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
 			alert('empty input')
 		}else{
 			alert('not empty input')
@@ -219,17 +222,77 @@
 </ul>
 
 <h4 id="js">方案2.通过js来控制输入</h4>
-<div>js控制<input type="text" value="禁止输入" id="noInput" /></div>
+<p>js控制1-focus &amp; blur <input type="text" value="禁止输入" id="noInput1" /><br />
+js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2" /></p>
 
-<script>
-	var _noInput = document.getElementById("noInput");
+<ul>
+  <li>focus &amp; blur<br />
+第一种写法更简洁，体验效果更好</li>
+  <li>keyup &amp; blur<br />
+第二种写法代码较多，体验上有一点缺陷，输入的文字有一闪然后消失的过程<br />
+无法阻止通过鼠标复制粘贴来的文本，虽然失去焦点时会清空内容</li>
+</ul>
 
-	_noInput.onfocus = function() {
-		_noInput.blur();
+<script type="text/javascript">
+	var _noInput1 = document.getElementById("noInput1");
+	var _noInput2 = document.getElementById("noInput2");
+
+	_noInput1.onfocus = function() {
+		_noInput1.blur();
+	}
+
+	_noInput2.onkeyup = _noInput2.onblur = function() {
+		this.value = "";
 	}
 </script>
 
 <p><br /><br /></p>
+
+<h1 id="section-3">关闭输入法</h1>
+<p>#### 方案1.使用css ime-mode属性 ####<br />
+<input type="text" id="banInputMethod" value="禁止输入法" /></p>
+
+<p>ime-mode : auto  active  inactive  disabled</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>auto</td>
+      <td>默认值，表示打开输入法。</td>
+    </tr>
+    <tr>
+      <td>active</td>
+      <td>指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME</td>
+    </tr>
+    <tr>
+      <td>inactive</td>
+      <td>指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME</td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+	function banInputMethod(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				// 兼容除了chrome之外的浏览器
+				this.style.imeMode = 'disabled'
+			}
+		}
+	}
+
+	banInputMethod(document.getElementById("banInputMethod"))
+</script>
 
 
 
@@ -245,8 +308,9 @@
                     data-url="http://kathyxxu.github.io/2015/11/14/form/"
                     data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
                     data-content="1.去除字符串左右两边的空格
-  我的左右两边都有空格   
 
+	  我的左右两边都有空格   
+	
 
 
 
@@ -263,7 +327,7 @@
 
 3.禁止输入
 
-方案1.通过表单属性d... | 徐璇的博客 | Kathyxxu Blog " >
+方案1.通过表单... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>

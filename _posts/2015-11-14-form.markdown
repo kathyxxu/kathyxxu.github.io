@@ -12,14 +12,16 @@ tags:
 ---
 
 # 1.去除字符串左右两边的空格 #
-<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea>
-<input type="button" id="tbtn" value="过滤">
-
-<script>
+<div>
+	<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea><br/>
+	<input type="button" id="tbtn" value="过滤">
+</div>
+<script type="text/javascript">
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
 	tbtn.onclick = function() {
+		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 	}
 </script>
@@ -28,15 +30,16 @@ tags:
 
 # 2.验证用户是否输入 #
 <div>
-	<input type="text" id="tvalue2" value="xx"/>
-	<input type="button" id="tbtn2" value="验证是否为空"/>
+	<input type="text" id="cvalue" value="kathyxxu"/>
+	<input type="button" id="cbtn" value="验证是否为空"/>
 </div>
-<script>
-	var tvalue = document.getElementById("tvalue2"),
-		tbtn = document.getElementById("tbtn2");
+<script type="text/javascript">
+	var cvalue = document.getElementById("cvalue"),
+		cbtn = document.getElementById("cbtn");
 
-	tbtn.onclick = function() {
-		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+	cbtn.onclick = function() {
+		console.log(222, cvalue.value)
+		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
 			alert('empty input')
 		}else{
 			alert('not empty input')
@@ -44,6 +47,7 @@ tags:
 	}
 </script>
 <br/><br/>
+
 
 
 # 3.禁止输入 #
@@ -58,17 +62,60 @@ tags:
 * readonly-字段为只读，不能修改。
   可以用tab切换到该字段
 
+
 #### 方案2.通过js来控制输入 ####
-<div>js控制<input type="text" value="禁止输入" id="noInput"/></div>
+js控制1-focus & blur <input type="text" value="禁止输入" id="noInput1"/>
+js控制2-keyup & blur <input type="text" value="禁止输入" id="noInput2"/>
 
-<script>
-	var _noInput = document.getElementById("noInput");
+* focus & blur
+  第一种写法更简洁，体验效果更好
+* keyup & blur
+  第二种写法代码较多，体验上有一点缺陷，输入的文字有一闪然后消失的过程
+  无法阻止通过鼠标复制粘贴来的文本，虽然失去焦点时会清空内容
 
-	_noInput.onfocus = function() {
-		_noInput.blur();
+<script type="text/javascript">
+	var _noInput1 = document.getElementById("noInput1");
+	var _noInput2 = document.getElementById("noInput2");
+
+	_noInput1.onfocus = function() {
+		_noInput1.blur();
+	}
+
+	_noInput2.onkeyup = _noInput2.onblur = function() {
+		this.value = "";
 	}
 </script>
 <br/><br/>
 
 
+
+# 关闭输入法 #
+#### 方案1.使用css ime-mode属性 ####
+<input type="text" id="banInputMethod" value="禁止输入法"/>
+
+ime-mode : auto  active  inactive  disabled
+
+auto | 默认值，表示打开输入法。
+active | 指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME
+inactive | 指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME
+disabled | 完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME
+
+<script type="text/javascript">
+	function banInputMethod(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				// 兼容除了chrome之外的浏览器
+				this.style.imeMode = 'disabled'
+			}
+		}
+	}
+
+	banInputMethod(document.getElementById("banInputMethod"))
+</script>
 

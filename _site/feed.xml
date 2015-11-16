@@ -5,21 +5,23 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 16 Nov 2015 08:44:39 +0800</pubDate>
-    <lastBuildDate>Mon, 16 Nov 2015 08:44:39 +0800</lastBuildDate>
+    <pubDate>Mon, 16 Nov 2015 09:28:55 +0800</pubDate>
+    <lastBuildDate>Mon, 16 Nov 2015 09:28:55 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>表单常用代码</title>
         <description>&lt;h1 id=&quot;section&quot;&gt;1.去除字符串左右两边的空格&lt;/h1&gt;
-&lt;textarea id=&quot;tvalue&quot; width=&quot;500&quot; height=&quot;200&quot;&gt;  我的左右两边都有空格   &lt;/textarea&gt;
-&lt;p&gt;&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
-
-&lt;script&gt;
+&lt;div&gt;
+	&lt;textarea id=&quot;tvalue&quot; width=&quot;500&quot; height=&quot;200&quot;&gt;  我的左右两边都有空格   &lt;/textarea&gt;&lt;br /&gt;
+	&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
 	var tvalue = document.getElementById(&quot;tvalue&quot;),
 		tbtn = document.getElementById(&quot;tbtn&quot;);
 
 	tbtn.onclick = function() {
+		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
 	}
 &lt;/script&gt;
@@ -28,15 +30,16 @@
 
 &lt;h1 id=&quot;section-1&quot;&gt;2.验证用户是否输入&lt;/h1&gt;
 &lt;div&gt;
-	&lt;input type=&quot;text&quot; id=&quot;tvalue2&quot; value=&quot;xx&quot; /&gt;
-	&lt;input type=&quot;button&quot; id=&quot;tbtn2&quot; value=&quot;验证是否为空&quot; /&gt;
+	&lt;input type=&quot;text&quot; id=&quot;cvalue&quot; value=&quot;kathyxxu&quot; /&gt;
+	&lt;input type=&quot;button&quot; id=&quot;cbtn&quot; value=&quot;验证是否为空&quot; /&gt;
 &lt;/div&gt;
-&lt;script&gt;
-	var tvalue = document.getElementById(&quot;tvalue2&quot;),
-		tbtn = document.getElementById(&quot;tbtn2&quot;);
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var cvalue = document.getElementById(&quot;cvalue&quot;),
+		cbtn = document.getElementById(&quot;cbtn&quot;);
 
-	tbtn.onclick = function() {
-		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
+	cbtn.onclick = function() {
+		console.log(222, cvalue.value)
+		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
 			alert(&#39;empty input&#39;)
 		}else{
 			alert(&#39;not empty input&#39;)
@@ -61,17 +64,77 @@
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;js&quot;&gt;方案2.通过js来控制输入&lt;/h4&gt;
-&lt;div&gt;js控制&lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;js控制1-focus &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput1&quot; /&gt;&lt;br /&gt;
+js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput2&quot; /&gt;&lt;/p&gt;
 
-&lt;script&gt;
-	var _noInput = document.getElementById(&quot;noInput&quot;);
+&lt;ul&gt;
+  &lt;li&gt;focus &amp;amp; blur&lt;br /&gt;
+第一种写法更简洁，体验效果更好&lt;/li&gt;
+  &lt;li&gt;keyup &amp;amp; blur&lt;br /&gt;
+第二种写法代码较多，体验上有一点缺陷，输入的文字有一闪然后消失的过程&lt;br /&gt;
+无法阻止通过鼠标复制粘贴来的文本，虽然失去焦点时会清空内容&lt;/li&gt;
+&lt;/ul&gt;
 
-	_noInput.onfocus = function() {
-		_noInput.blur();
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var _noInput1 = document.getElementById(&quot;noInput1&quot;);
+	var _noInput2 = document.getElementById(&quot;noInput2&quot;);
+
+	_noInput1.onfocus = function() {
+		_noInput1.blur();
+	}
+
+	_noInput2.onkeyup = _noInput2.onblur = function() {
+		this.value = &quot;&quot;;
 	}
 &lt;/script&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-3&quot;&gt;关闭输入法&lt;/h1&gt;
+&lt;p&gt;#### 方案1.使用css ime-mode属性 ####&lt;br /&gt;
+&lt;input type=&quot;text&quot; id=&quot;banInputMethod&quot; value=&quot;禁止输入法&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ime-mode : auto  active  inactive  disabled&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;auto&lt;/td&gt;
+      &lt;td&gt;默认值，表示打开输入法。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;active&lt;/td&gt;
+      &lt;td&gt;指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;inactive&lt;/td&gt;
+      &lt;td&gt;指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;disabled&lt;/td&gt;
+      &lt;td&gt;完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	function banInputMethod(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i&lt;arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				// 兼容除了chrome之外的浏览器
+				this.style.imeMode = &#39;disabled&#39;
+			}
+		}
+	}
+
+	banInputMethod(document.getElementById(&quot;banInputMethod&quot;))
+&lt;/script&gt;
 
 </description>
         <pubDate>Sat, 14 Nov 2015 00:00:00 +0800</pubDate>
