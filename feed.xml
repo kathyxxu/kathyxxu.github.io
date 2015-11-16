@@ -5,8 +5,8 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 15 Nov 2015 22:44:54 +0800</pubDate>
-    <lastBuildDate>Sun, 15 Nov 2015 22:44:54 +0800</lastBuildDate>
+    <pubDate>Mon, 16 Nov 2015 08:44:39 +0800</pubDate>
+    <lastBuildDate>Mon, 16 Nov 2015 08:44:39 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -16,35 +16,32 @@
 &lt;p&gt;&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;&lt;/p&gt;
 
 &lt;script&gt;
-window.onload = function() {
 	var tvalue = document.getElementById(&quot;tvalue&quot;),
 		tbtn = document.getElementById(&quot;tbtn&quot;);
 
-		tbtn.onclick = function() {
-			tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
-		}
-}
+	tbtn.onclick = function() {
+		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
+	}
 &lt;/script&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section-1&quot;&gt;2.验证用户是否输入&lt;/h1&gt;
-&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;tvalue2&quot; value=&quot;xx&quot; /&gt;&lt;br /&gt;
-&lt;input type=&quot;button&quot; id=&quot;tbtn2&quot; value=&quot;验证是否为空&quot; /&gt;&lt;/p&gt;
-
+&lt;div&gt;
+	&lt;input type=&quot;text&quot; id=&quot;tvalue2&quot; value=&quot;xx&quot; /&gt;
+	&lt;input type=&quot;button&quot; id=&quot;tbtn2&quot; value=&quot;验证是否为空&quot; /&gt;
+&lt;/div&gt;
 &lt;script&gt;
-window.onload = function() {
 	var tvalue = document.getElementById(&quot;tvalue2&quot;),
 		tbtn = document.getElementById(&quot;tbtn2&quot;);
 
-		tbtn.onclick = function() {
-			if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
-				alert(&#39;empty input&#39;)
-			}else{
-				alert(&#39;not empty input&#39;)
-			}
+	tbtn.onclick = function() {
+		if(!tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
+			alert(&#39;empty input&#39;)
+		}else{
+			alert(&#39;not empty input&#39;)
 		}
-}
+	}
 &lt;/script&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
@@ -64,6 +61,17 @@ window.onload = function() {
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;js&quot;&gt;方案2.通过js来控制输入&lt;/h4&gt;
+&lt;div&gt;js控制&lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput&quot; /&gt;&lt;/div&gt;
+
+&lt;script&gt;
+	var _noInput = document.getElementById(&quot;noInput&quot;);
+
+	_noInput.onfocus = function() {
+		_noInput.blur();
+	}
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 14 Nov 2015 00:00:00 +0800</pubDate>
