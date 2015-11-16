@@ -93,12 +93,17 @@ js控制2-keyup & blur <input type="text" value="禁止输入" id="noInput2"/>
 #### 方案1.使用css ime-mode属性 ####
 <input type="text" id="banInputMethod" value="禁止输入法"/>
 
+
+css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态
 ime-mode : auto  active  inactive  disabled
 
 auto | 默认值，表示打开输入法。
 active | 指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME
 inactive | 指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME
 disabled | 完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME
+
+ime-mode的兼容性
+!["栗子1"](../../../../imgPost/2015-11-14/ime.png)
 
 <script type="text/javascript">
 	function banInputMethod(_elementArr) {

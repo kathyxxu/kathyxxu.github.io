@@ -252,7 +252,8 @@ js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2"
 <p>#### 方案1.使用css ime-mode属性 ####<br />
 <input type="text" id="banInputMethod" value="禁止输入法" /></p>
 
-<p>ime-mode : auto  active  inactive  disabled</p>
+<p>css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态<br />
+ime-mode : auto  active  inactive  disabled</p>
 
 <table>
   <tbody>
@@ -274,6 +275,9 @@ js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2"
     </tr>
   </tbody>
 </table>
+
+<p>ime-mode的兼容性<br />
+<img src="../../../../imgPost/2015-11-14/ime.png" alt="&quot;栗子1&quot;" /></p>
 
 <script type="text/javascript">
 	function banInputMethod(_elementArr) {
