@@ -5,8 +5,8 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 16 Nov 2015 09:39:40 +0800</pubDate>
-    <lastBuildDate>Mon, 16 Nov 2015 09:39:40 +0800</lastBuildDate>
+    <pubDate>Mon, 16 Nov 2015 10:24:17 +0800</pubDate>
+    <lastBuildDate>Mon, 16 Nov 2015 10:24:17 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -94,7 +94,8 @@ js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁�
 &lt;p&gt;#### 方案1.使用css ime-mode属性 ####&lt;br /&gt;
 &lt;input type=&quot;text&quot; id=&quot;banInputMethod&quot; value=&quot;禁止输入法&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;ime-mode : auto  active  inactive  disabled&lt;/p&gt;
+&lt;p&gt;css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态&lt;br /&gt;
+ime-mode : auto  active  inactive  disabled&lt;/p&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -116,6 +117,9 @@ js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁�
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;p&gt;ime-mode的兼容性&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2015-11-14/ime.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;script type=&quot;text/javascript&quot;&gt;
 	function banInputMethod(_elementArr) {
