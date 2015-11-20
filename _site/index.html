@@ -153,6 +153,44 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2015/11/20/jsCreateObject/">
+        <h2 class="post-title">
+            js创建对象
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            1.创建对象
+
+var person = new Object();
+person.name = 'kathy';
+person.age = 25;
+person.job = 'frontend';
+person.sayName = function(){
+    alert(this.name);
+}
+
+
+
+  缺点：
+使用同一个接口创建很多对象，会产生大量重复代码
+
+
+2.工厂模式
+
+f...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by 徐璇 on November 20, 2015
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/11/14/form/">
         <h2 class="post-title">
             表单常用代码
@@ -165,8 +203,14 @@
         <div class="post-content-preview">
             1.去除字符串左右两边的空格
 
+
+
+
 	  我的左右两边都有空格   
 	
+
+
+inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 
 
 
@@ -174,25 +218,11 @@
 
 2.验证用户是否输入
 
-	
-	
 
 
 
-
-
-3.禁止输入
-
-方案1.通过表单属性disabled readonly来控制输入
-
-
-
-
-
-  disabled-禁用input元素。
-无法与 &lt;input type="hidden"&gt;一起使用
-  readonly-字段为只读，不能修改。
-可以用tab切换到...
+if(!inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+    alert('em...
         </div>
     </a>
     <p class="post-meta">
@@ -290,6 +320,24 @@
                             
                                 <a href="/tags/#字符限制" title="字符限制" rel="4">
                                     字符限制
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#工厂模式" title="工厂模式" rel="4">
+                                    工厂模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#构造函数模式" title="构造函数模式" rel="6">
+                                    构造函数模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#原型模式" title="原型模式" rel="4">
+                                    原型模式
                                 </a>
                             
                         

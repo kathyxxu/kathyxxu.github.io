@@ -170,16 +170,28 @@
                 post-container">
 
 				<h1 id="section">1.去除字符串左右两边的空格</h1>
+
+<style type="text/css">
+	p{
+		margin: 10px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+</style>
+
 <div>
 	<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea><br />
 	<input type="button" id="tbtn" value="过滤" />
 </div>
+
+<p><code>inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")</code></p>
+
 <script type="text/javascript">
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
 	tbtn.onclick = function() {
-		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 	}
 </script>
@@ -187,16 +199,21 @@
 <p><br /><br /></p>
 
 <h1 id="section-1">2.验证用户是否输入</h1>
-<div>
-	<input type="text" id="cvalue" value="kathyxxu" />
-	<input type="button" id="cbtn" value="验证是否为空" />
-</div>
+
+<p><input type="text" id="cvalue" value="kathyxxu" /><br />
+<input type="button" id="cbtn" value="验证是否为空" /></p>
+
+<pre><code>if(!inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+    alert('empty input')
+}else{
+    alert('not empty input')
+}
+</code></pre>
+
 <script type="text/javascript">
 	var cvalue = document.getElementById("cvalue"),
 		cbtn = document.getElementById("cbtn");
-
 	cbtn.onclick = function() {
-		console.log(222, cvalue.value)
 		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
 			alert('empty input')
 		}else{
@@ -210,9 +227,15 @@
 <h1 id="section-2">3.禁止输入</h1>
 
 <h4 id="disabled-readonly">方案1.通过表单属性disabled readonly来控制输入</h4>
+
 <p><input type="text" value="disabled" disabled="" /><br />
 <input type="text" value="disabled='disabled'" disabled="disabled" /><br />
 <input type="text" value="readonly" readonly="" /></p>
+
+<pre><code>&lt;input type="text" value="disabled" disabled/&gt;
+&lt;input type="text" value="disabled='disabled'" disabled="disabled"/&gt;
+&lt;input type="text" value="readonly" readonly/&gt;
+</code></pre>
 
 <ul>
   <li>disabled-禁用input元素。<br />
@@ -224,6 +247,15 @@
 <h4 id="js">方案2.通过js来控制输入</h4>
 <p>js控制1-focus &amp; blur <input type="text" value="禁止输入" id="noInput1" /><br />
 js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2" /></p>
+
+<pre><code>_noInput1.onfocus = function() {
+    this.blur();
+}
+
+_noInput2.onkeyup = _noInput2.onblur = function() {
+    this.value = "";
+}
+</code></pre>
 
 <ul>
   <li>focus &amp; blur<br />
@@ -238,7 +270,7 @@ js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2"
 	var _noInput2 = document.getElementById("noInput2");
 
 	_noInput1.onfocus = function() {
-		_noInput1.blur();
+		this.blur();
 	}
 
 	_noInput2.onkeyup = _noInput2.onblur = function() {
@@ -249,11 +281,21 @@ js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2"
 <p><br /><br /></p>
 
 <h1 id="section-3">关闭输入法</h1>
-<p>#### 方案1.使用css ime-mode属性 ####<br />
-<input type="text" id="banInputMethod" value="禁止输入法" /></p>
 
-<p>css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态<br />
-ime-mode : auto  active  inactive  disabled</p>
+<h4 id="css-ime-mode">方案1.使用css ime-mode属性</h4>
+
+<p><input type="text" id="banInputMethod" value="禁止输入法" /></p>
+
+<p><code>inputObj.style.imeMode = 'disabled'</code></p>
+
+<p><br /></p>
+
+<p>css非标准的ime-mode属性</p>
+
+<ul>
+  <li>设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态</li>
+  <li>取值 ime-mode : auto  active  inactive  disabled</li>
+</ul>
 
 <table>
   <tbody>
@@ -276,11 +318,11 @@ ime-mode : auto  active  inactive  disabled</p>
   </tbody>
 </table>
 
-<p>ime-mode的兼容性<br />
-<img src="../../../../imgPost/2015-11-14/ime.png" alt="&quot;栗子1&quot;" /></p>
+<p>ime-mode的兼容性，如图 <br />
+<img src="../../../../imgPost/2015-11-14/ime.png" alt="&quot;ime-mode的兼容性&quot;" /></p>
 
 <script type="text/javascript">
-	function banInputMethod(_elementArr) {
+	function banInputMethodCSS(_elementArr) {
 		var arr = _elementArr,
 			self = this;
 		if(!(_elementArr instanceof Array)) {
@@ -294,8 +336,252 @@ ime-mode : auto  active  inactive  disabled</p>
 			}
 		}
 	}
+	banInputMethodCSS(document.getElementById("banInputMethod"))
+</script>
 
-	banInputMethod(document.getElementById("banInputMethod"))
+<h4 id="js-1">方案2.js正则替换中文字符</h4>
+<p><input type="text" id="banInputMethod2" value="禁止输入法" /></p>
+
+<p><code>inputObj.value.replace(/[\u4e00-\u9fa5]/g, "")</code></p>
+
+<script type="text/javascript">
+	function banInputMethodJS(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		var clearChinese = function(_this) {
+			var _v = _this.value;
+			_this.value = _v.replace(/[\u4e00-\u9fa5]/g, "");
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				clearChinese(this)
+			}
+			arrI.onkeyup = function() {
+				clearChinese(this)
+			}
+		}
+	}
+	banInputMethodJS(document.getElementById("banInputMethod2"))
+</script>
+
+<p><br /><br /></p>
+
+<h1 id="section-4">禁止复制与粘贴</h1>
+<p><input type="text" id="banCopyPaste" value="禁止复制与粘贴" /></p>
+
+<pre><code>inputObj.oncopy = function() {
+    return false;
+}
+inputObj.onpaste = function() {
+    return false;
+}
+</code></pre>
+
+<script type="text/javascript">
+	var banCopyPaste = document.getElementById("banCopyPaste");
+	banCopyPaste.oncopy = function() {
+		return false;
+	}
+	banCopyPaste.onpaste = function() {
+		return false;
+	}
+</script>
+
+<p><br /><br /></p>
+
+<h1 id="section-5">限制只能输入数字/中文</h1>
+
+<form>
+	type='number'<input type="number" value="" /><br />
+	pattern=[0-9]<input type="text" pattern="[0-9]" value="" /><br />
+	only number<input type="text" value="" id="onlyNumber" /><br />
+	only chinese<input type="text" value="" id="onlyChinese" /><br />
+	<input type="submit" value="submit" />
+</form>
+
+<ul>
+  <li>type=’number’，只能输入数字，在手机端调起数字键盘；在提交表单时执行验证</li>
+  <li>pattern属性，验证输入字段的正则匹配模式，在提交表单时执行验证，适用text、search、url、telephone、mail、password</li>
+  <li>正则 <code>inputObj.value.replace(/\D/g,"")</code> 去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件</li>
+  <li>正则 <code>inputObj.value.replace(/[^\u4e00-\u9fa5]/g, "")</code>去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件</li>
+</ul>
+
+<script type="text/javascript">
+	var onlyNumber = document.getElementById("onlyNumber");
+	var onlyChinese = document.getElementById("onlyChinese");
+
+	var clearNonumber = function(tThis) {
+		tThis.value = tThis.value.replace(/\D/g,"")
+	}
+	onlyNumber.onfocus = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onkeyup = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onblur = function() {
+		clearNonumber(this);
+	}
+
+	var clearNoChinese = function(tThis) {
+		tThis.value = tThis.value.replace(/[^\u4e00-\u9fa5]/g, "")
+	}
+	onlyChinese.onfocus = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onkeyup = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onblur = function() {
+		clearNoChinese(this);
+	}
+</script>
+
+<p><br /><br /></p>
+
+<h1 id="section-6">限制字符串长度(不区分中英文)</h1>
+
+<h4 id="maxlength">方案1. maxlength属性</h4>
+
+<p>maxlength限制 <input type="text" maxlength="5" /></p>
+
+<p><code>&lt;input type="text" maxlength="5"&gt;</code></p>
+
+<ul>
+  <li>并非所有浏览器都支持maxlength属性</li>
+  <li>不区分中英文和数字的编码占位</li>
+</ul>
+
+<h4 id="js-2">方案2. js控制</h4>
+
+<p>js限制 <input type="text" data-length="5" id="limitLength" data-model="Ch" /></p>
+
+<p><code>inputObj.value = inputObj.value.substr(0, maxLength);</code></p>
+
+<script type="text/javascript">
+	var limitLength = document.getElementById("limitLength");
+	var calLength = function(tThis) {
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute("data-length"),
+			dataModel = tThis.getAttribute("data-model"),
+			subLen = dataLength;
+		if(_vLen > dataLength) {
+			tThis.value = _v.substr(0, subLen);
+		}
+
+	}
+	limitLength.onfocus = function() {
+		calLength(this);
+	}
+	limitLength.onkeyup = function() {
+		calLength(this);
+	}
+	limitLength.onblur = function() {
+		calLength(this);
+	}
+</script>
+
+<p><br /><br /></p>
+
+<h1 id="section-7">限制字符串长度(区分中英文) 并实时提示可输入字符</h1>
+
+<style type="text/css">
+	.remainingCharacters{
+		color: green;
+		font-weight: bold;
+	}
+</style>
+
+<p><input type="text" data-length="20" id="remainingCharacters" data-model="Ch" data-remainingcharacters="charActers1,charActers2" /></p>
+
+<p>测试1：还可以输入<span class="remainingCharacters" id="charActers1">20</span></p>
+<p>测试2：还可以输入<span class="remainingCharacters" id="charActers2">20</span></p>
+
+<ul>
+  <li>data-model “En”-不区分中英文(默认) “Ch”-区分中英文</li>
+</ul>
+
+<script type="text/javascript">
+	var forElementArr = function(_elementArr, callBack) {
+		var arr = _elementArr,
+			self = this;
+		if(!_elementArr instanceof Array) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			if(typeof arrI == "string") {
+				arrI = document.getElementById(arrI);
+			}
+			callBack && callBack(i, arrI);
+		}
+	}
+	var showRemainingCharacters = function(_nums, _remainingCharacters) {
+		if(_remainingCharacters.search(",") != -1) {
+			_remainingCharacters = _remainingCharacters.split(",");
+		}
+		forElementArr(_remainingCharacters, function(_index, _this) {
+			_this.innerHTML = (_nums && _nums.toString()) || "0";
+		})
+	}
+	var strLen = (function() {
+		var trim = function(chars) {
+			return (chars || "").replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+		}
+		return function(_str, _model) {
+			_str = trim(_str);
+			_model = _model || "Ch";
+			var _strLen = _str.length;
+			if(_strLen == 0) {
+				return 0;
+			}
+			else{
+				var chinese = _str.match(/[\u4e00-\u9fa5]/g);
+				return _strLen + (chinese && _model == "Ch" ? chinese.length : 0);
+			}
+		}
+	})()
+	var remainingCharacters = document.getElementById("remainingCharacters");
+	var calLength = function(tThis) {
+		
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute("data-length"),
+			dataModel = tThis.getAttribute("data-model"),
+			subLen = dataLength;
+			remainingCharacters = tThis.getAttribute("data-remainingCharacters");
+			
+		if(dataModel == "Ch") {
+			_vLen = strLen(_v, dataModel);
+			var vv = _v.match(/[\u4e00-\u9fa5]/g);
+			subLen = dataLength - (!vv ? 0 : vv.length);
+		}
+		if(_vLen > dataLength) {
+			tThis.value = _v.substr(0, subLen);
+			// for(var i=0; i<tThis.value.length; i++) {
+			// 	var str = tThis.
+			// 	if()
+			// }
+		}
+
+		if(remainingCharacters) {
+			showRemainingCharacters(!_vLen ? dataLength : (_vLen > dataLength ? 0 : dataLength - _vLen), remainingCharacters)
+		}
+	}
+	remainingCharacters.onfocus = function() {
+		calLength(this);
+	}
+	remainingCharacters.onkeyup = function() {
+		calLength(this);
+	}
+	remainingCharacters.onblur = function() {
+		calLength(this);
+	}
 </script>
 
 
@@ -313,25 +599,14 @@ ime-mode : auto  active  inactive  disabled</p>
                     data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
                     data-content="1.去除字符串左右两边的空格
 
+
+
+
 	  我的左右两边都有空格   
 	
 
 
-
-
-
-2.验证用户是否输入
-
-	
-	
-
-
-
-
-
-3.禁止输入
-
-方案1.通过表单... | 徐璇的博客 | Kathyxxu Blog " >
+inputObj.value.replace(/^(\s|\u00A0)+... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -354,6 +629,10 @@ ime-mode : auto  active  inactive  disabled</p>
                         <a href="/2015/11/09/webkit-box/" data-toggle="tooltip" data-placement="top" title="webkit-box弹性盒子">&larr; Previous Post</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2015/11/20/jsCreateObject/" data-toggle="tooltip" data-placement="top" title="js创建对象">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -418,6 +697,24 @@ ime-mode : auto  active  inactive  disabled</p>
                             
                 				<a href="/tags/#字符限制" title="字符限制" rel="1">
                                     字符限制
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#工厂模式" title="工厂模式" rel="1">
+                                    工厂模式
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#构造函数模式" title="构造函数模式" rel="1">
+                                    构造函数模式
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#原型模式" title="原型模式" rel="1">
+                                    原型模式
                                 </a>
                             
         				

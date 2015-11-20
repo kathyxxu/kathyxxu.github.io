@@ -12,16 +12,28 @@ tags:
 ---
 
 # 1.去除字符串左右两边的空格 #
+
+<style type="text/css">
+	p{
+		margin: 10px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+</style>
+
 <div>
 	<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea><br/>
 	<input type="button" id="tbtn" value="过滤">
 </div>
+
+```inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")```
+
 <script type="text/javascript">
 	var tvalue = document.getElementById("tvalue"),
 		tbtn = document.getElementById("tbtn");
 
 	tbtn.onclick = function() {
-		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
 	}
 </script>
@@ -29,16 +41,22 @@ tags:
 
 
 # 2.验证用户是否输入 #
-<div>
-	<input type="text" id="cvalue" value="kathyxxu"/>
-	<input type="button" id="cbtn" value="验证是否为空"/>
-</div>
+
+<input type="text" id="cvalue" value="kathyxxu"/>
+<input type="button" id="cbtn" value="验证是否为空"/>
+
+```
+if(!inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
+    alert('empty input')
+}else{
+    alert('not empty input')
+}
+```
+
 <script type="text/javascript">
 	var cvalue = document.getElementById("cvalue"),
 		cbtn = document.getElementById("cbtn");
-
 	cbtn.onclick = function() {
-		console.log(222, cvalue.value)
 		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
 			alert('empty input')
 		}else{
@@ -53,9 +71,16 @@ tags:
 # 3.禁止输入 #
 
 #### 方案1.通过表单属性disabled readonly来控制输入 ####
+
 <input type="text" value="disabled" disabled/>
 <input type="text" value="disabled='disabled'" disabled="disabled"/>
 <input type="text" value="readonly" readonly/>
+
+```
+<input type="text" value="disabled" disabled/>
+<input type="text" value="disabled='disabled'" disabled="disabled"/>
+<input type="text" value="readonly" readonly/>
+```
 
 * disabled-禁用input元素。
   无法与 `<input type="hidden">`一起使用
@@ -66,6 +91,16 @@ tags:
 #### 方案2.通过js来控制输入 ####
 js控制1-focus & blur <input type="text" value="禁止输入" id="noInput1"/>
 js控制2-keyup & blur <input type="text" value="禁止输入" id="noInput2"/>
+
+```
+_noInput1.onfocus = function() {
+    this.blur();
+}
+
+_noInput2.onkeyup = _noInput2.onblur = function() {
+    this.value = "";
+}
+```
 
 * focus & blur
   第一种写法更简洁，体验效果更好
@@ -78,7 +113,7 @@ js控制2-keyup & blur <input type="text" value="禁止输入" id="noInput2"/>
 	var _noInput2 = document.getElementById("noInput2");
 
 	_noInput1.onfocus = function() {
-		_noInput1.blur();
+		this.blur();
 	}
 
 	_noInput2.onkeyup = _noInput2.onblur = function() {
@@ -90,23 +125,30 @@ js控制2-keyup & blur <input type="text" value="禁止输入" id="noInput2"/>
 
 
 # 关闭输入法 #
+
 #### 方案1.使用css ime-mode属性 ####
+
 <input type="text" id="banInputMethod" value="禁止输入法"/>
 
+`inputObj.style.imeMode = 'disabled'`
 
-css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态
-ime-mode : auto  active  inactive  disabled
+<br/>
+
+css非标准的ime-mode属性
+
+* 设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态
+* 取值 ime-mode : auto  active  inactive  disabled
 
 auto | 默认值，表示打开输入法。
 active | 指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME
 inactive | 指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME
 disabled | 完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME
 
-ime-mode的兼容性
-!["栗子1"](../../../../imgPost/2015-11-14/ime.png)
+ime-mode的兼容性，如图 
+!["ime-mode的兼容性"](../../../../imgPost/2015-11-14/ime.png)
 
 <script type="text/javascript">
-	function banInputMethod(_elementArr) {
+	function banInputMethodCSS(_elementArr) {
 		var arr = _elementArr,
 			self = this;
 		if(!(_elementArr instanceof Array)) {
@@ -120,7 +162,267 @@ ime-mode的兼容性
 			}
 		}
 	}
-
-	banInputMethod(document.getElementById("banInputMethod"))
+	banInputMethodCSS(document.getElementById("banInputMethod"))
 </script>
+
+
+#### 方案2.js正则替换中文字符 ####
+<input type="text" id="banInputMethod2" value="禁止输入法"/>
+
+`inputObj.value.replace(/[\u4e00-\u9fa5]/g, "")`
+
+<script type="text/javascript">
+	function banInputMethodJS(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		var clearChinese = function(_this) {
+			var _v = _this.value;
+			_this.value = _v.replace(/[\u4e00-\u9fa5]/g, "");
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				clearChinese(this)
+			}
+			arrI.onkeyup = function() {
+				clearChinese(this)
+			}
+		}
+	}
+	banInputMethodJS(document.getElementById("banInputMethod2"))
+</script>
+<br/><br/>
+
+
+
+
+# 禁止复制与粘贴 #
+<input type="text" id="banCopyPaste" value="禁止复制与粘贴"/>
+
+```
+inputObj.oncopy = function() {
+    return false;
+}
+inputObj.onpaste = function() {
+    return false;
+}
+```
+
+<script type="text/javascript">
+	var banCopyPaste = document.getElementById("banCopyPaste");
+	banCopyPaste.oncopy = function() {
+		return false;
+	}
+	banCopyPaste.onpaste = function() {
+		return false;
+	}
+</script>
+<br/><br/>
+
+
+
+# 限制只能输入数字/中文 #
+
+<form>
+	type='number'<input type="number" value=""/><br/>
+	pattern=[0-9]<input type="text" pattern="[0-9]" value=""/><br/>
+	only number<input type="text" value="" id="onlyNumber"/><br/>
+	only chinese<input type="text" value="" id="onlyChinese"/><br/>
+	<input type="submit" value="submit">
+</form>
+
+* type='number'，只能输入数字，在手机端调起数字键盘；在提交表单时执行验证
+* pattern属性，验证输入字段的正则匹配模式，在提交表单时执行验证，适用text、search、url、telephone、mail、password
+* 正则 `inputObj.value.replace(/\D/g,"")` 去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件
+* 正则 `inputObj.value.replace(/[^\u4e00-\u9fa5]/g, "")`去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件
+
+<script type="text/javascript">
+	var onlyNumber = document.getElementById("onlyNumber");
+	var onlyChinese = document.getElementById("onlyChinese");
+
+	var clearNonumber = function(tThis) {
+		tThis.value = tThis.value.replace(/\D/g,"")
+	}
+	onlyNumber.onfocus = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onkeyup = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onblur = function() {
+		clearNonumber(this);
+	}
+
+	var clearNoChinese = function(tThis) {
+		tThis.value = tThis.value.replace(/[^\u4e00-\u9fa5]/g, "")
+	}
+	onlyChinese.onfocus = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onkeyup = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onblur = function() {
+		clearNoChinese(this);
+	}
+</script>
+<br/><br/>
+
+
+
+
+
+# 限制字符串长度(不区分中英文) #
+
+#### 方案1. maxlength属性 ####
+
+maxlength限制 <input type="text" maxlength="5">
+
+`<input type="text" maxlength="5">`
+
+* 并非所有浏览器都支持maxlength属性
+* 不区分中英文和数字的编码占位
+
+
+
+#### 方案2. js控制 ####
+
+js限制 <input type="text" data-length="5" id="limitLength" data-model="Ch">
+
+`inputObj.value = inputObj.value.substr(0, maxLength);`
+
+<script type="text/javascript">
+	var limitLength = document.getElementById("limitLength");
+	var calLength = function(tThis) {
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute("data-length"),
+			dataModel = tThis.getAttribute("data-model"),
+			subLen = dataLength;
+		if(_vLen > dataLength) {
+			tThis.value = _v.substr(0, subLen);
+		}
+
+	}
+	limitLength.onfocus = function() {
+		calLength(this);
+	}
+	limitLength.onkeyup = function() {
+		calLength(this);
+	}
+	limitLength.onblur = function() {
+		calLength(this);
+	}
+</script>
+<br/><br/>
+
+
+
+# 限制字符串长度(区分中英文) 并实时提示可输入字符 #
+
+<style type="text/css">
+	.remainingCharacters{
+		color: green;
+		font-weight: bold;
+	}
+</style>
+
+<input type="text" data-length="20" id="remainingCharacters" data-model="Ch" data-remainingCharacters="charActers1,charActers2"/>
+
+<p>测试1：还可以输入<span class="remainingCharacters" id="charActers1">20</span></p>
+<p>测试2：还可以输入<span class="remainingCharacters" id="charActers2">20</span></p>
+
+
+* data-model "En"-不区分中英文(默认) "Ch"-区分中英文
+
+<script type="text/javascript">
+	var forElementArr = function(_elementArr, callBack) {
+		var arr = _elementArr,
+			self = this;
+		if(!_elementArr instanceof Array) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
+			var arrI = arr[i];
+			if(typeof arrI == "string") {
+				arrI = document.getElementById(arrI);
+			}
+			callBack && callBack(i, arrI);
+		}
+	}
+	var showRemainingCharacters = function(_nums, _remainingCharacters) {
+		if(_remainingCharacters.search(",") != -1) {
+			_remainingCharacters = _remainingCharacters.split(",");
+		}
+		forElementArr(_remainingCharacters, function(_index, _this) {
+			_this.innerHTML = (_nums && _nums.toString()) || "0";
+		})
+	}
+	var strLen = (function() {
+		var trim = function(chars) {
+			return (chars || "").replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+		}
+		return function(_str, _model) {
+			_str = trim(_str);
+			_model = _model || "Ch";
+			var _strLen = _str.length;
+			if(_strLen == 0) {
+				return 0;
+			}
+			else{
+				var chinese = _str.match(/[\u4e00-\u9fa5]/g);
+				return _strLen + (chinese && _model == "Ch" ? chinese.length : 0);
+			}
+		}
+	})()
+	var remainingCharacters = document.getElementById("remainingCharacters");
+	var calLength = function(tThis) {
+		
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute("data-length"),
+			dataModel = tThis.getAttribute("data-model"),
+			subLen = dataLength;
+			remainingCharacters = tThis.getAttribute("data-remainingCharacters");
+			
+		if(dataModel == "Ch") {
+			_vLen = strLen(_v, dataModel);
+			var vv = _v.match(/[\u4e00-\u9fa5]/g);
+			subLen = dataLength - (!vv ? 0 : vv.length);
+		}
+		if(_vLen > dataLength) {
+			tThis.value = _v.substr(0, subLen);
+			// for(var i=0; i<tThis.value.length; i++) {
+			// 	var str = tThis.
+			// 	if()
+			// }
+		}
+
+		if(remainingCharacters) {
+			showRemainingCharacters(!_vLen ? dataLength : (_vLen > dataLength ? 0 : dataLength - _vLen), remainingCharacters)
+		}
+	}
+	remainingCharacters.onfocus = function() {
+		calLength(this);
+	}
+	remainingCharacters.onkeyup = function() {
+		calLength(this);
+	}
+	remainingCharacters.onblur = function() {
+		calLength(this);
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
 

@@ -5,23 +5,499 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 16 Nov 2015 10:24:17 +0800</pubDate>
-    <lastBuildDate>Mon, 16 Nov 2015 10:24:17 +0800</lastBuildDate>
+    <pubDate>Fri, 20 Nov 2015 13:24:22 +0800</pubDate>
+    <lastBuildDate>Fri, 20 Nov 2015 13:24:22 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>js创建对象</title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;1.创建对象&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;var person = new Object();
+person.name = &#39;kathy&#39;;
+person.age = 25;
+person.job = &#39;frontend&#39;;
+person.sayName = function(){
+    alert(this.name);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;缺点：&lt;/strong&gt;&lt;br /&gt;
+使用同一个接口创建很多对象，会产生大量重复代码&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;2.工厂模式&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;function createPerson(name,age,job){
+    var o = new Object();
+    o.name = name;
+    o.age = age;
+    o.job = job;
+    o.sayName = function(){
+        alert(this.name);
+    }
+    return o;
+}
+var p1 = createPerson(&#39;kathy&#39;,25,&#39;frontend&#39;);
+var p2 = createPerson(&#39;jack&#39;,24,&#39;backend&#39;);
+p1.sayName(); //&#39;kathy&#39;
+p2.sayName(); //&#39;jack&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;用函数来封装以特定接口创建对象的细节&lt;br /&gt;
+&lt;strong&gt;优点：&lt;/strong&gt;&lt;br /&gt;
+解决了创建多个相似对象的问题&lt;br /&gt;
+&lt;strong&gt;缺点：&lt;/strong&gt;&lt;br /&gt;
+没有解决对象识别的问题（怎样知道一个对象的类型）&lt;br /&gt;
+不能用new&lt;br /&gt;
+函数重复定义 （p1.sayName == p2.sayName）  false&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;3.构造函数模式：&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function(){
+        alert(this.name);
+    };
+}
+var p1 = new Person(&#39;kathy&#39;,25,&#39;frontend&#39;);
+var p2 = new Person(&#39;jack&#39;,24,&#39;backend&#39;);
+p1.sayName(); //&#39;kathy&#39;
+p2.sayName(); //&#39;jack&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;区别工厂模式：&lt;/strong&gt;&lt;br /&gt;
+1、没有显式的创建对象&lt;br /&gt;
+2、直接将属性和方法赋给了this对象&lt;br /&gt;
+3、没有return语句&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;创建Person的新实例4步骤：&lt;/strong&gt;&lt;br /&gt;
+1、创建一个新的对象&lt;br /&gt;
+2、将构造函数的作用域赋给新对象（this指针就指向了这个新对象）&lt;br /&gt;
+3、执行构造函数中的代码（为这个新对象添加属性）&lt;br /&gt;
+4、返回新对象&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;3.1对象识别问题&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;function Func() {};      // 定义一个空函数
+var obj1 = new Func();   // 使用new操作符，借助Func函数，创建了一个对象
+var obj2 = new Func;     // 函数也可以没有括号，但仍将调用该函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;js的语法可真是飘逸，该如何理解呢？&lt;br /&gt;
+其实，上面的写法可以写成以下等价形式&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;function Func() {}; 
+var obj = {};
+Func.call(obj);   // 将obj对象作为this指针调用Func函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;br /&gt;
+解决了对象识别问题，可以将它的实例表示为一种特定的类型。&lt;br /&gt;
+&lt;code&gt;alert(p1.constructor == Person);  //true&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(p2.constructor == Person);  //true&lt;/code&gt;&lt;br /&gt;
+p1和p2分别保存着Person的一个不同的实例，都有一个constructor属性，指向Person&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;对象的&lt;strong&gt;constructor&lt;/strong&gt;属性最初是用来表示对象类型的。&lt;br /&gt;
+对于检测对象类型，还是&lt;strong&gt;instanceof&lt;/strong&gt;可靠些，&lt;br /&gt;
+&lt;code&gt;alert(p1 instanceof Object);  //true&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(p1 instanceof Person);  //true&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(p2 instanceof Object);  //true&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(p2 instanceof Person);  //true&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;3.2构造函数的三种调用方式&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//当做构造函数使用，构造函数与其他函数唯一区别：调用方式不同，用new
+var person = new Person(&#39;kathy&#39;,25,&#39;student&#39;);
+person.sayName();
+
+//作为普通函数调用
+Person(&#39;Jack&#39;,30,&#39;doctor&#39;);
+window.sayName();
+
+//在另一个对象的作用域中调用
+var o = new Object();
+Person.call(o,&#39;Cate&#39;,27,&#39;nurse&#39;);
+o.sayName();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）&lt;br /&gt;
+可以使用call(),apply()在某个特殊对象的作用域中调用Person()函数。这里是在o的作用域中调用的，调用后o就拥有了所有属性和sayName()方法。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;3.3构造函数的问题&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;// 函数是对象，每定义一个函数，也就是实例化了一个对象。
+function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = new Function(&quot; alert(this.name)&quot;); //与申明函数在逻辑上是等价的
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;缺点：&lt;/strong&gt;&lt;br /&gt;
+每个方法都要在每个实例上重新创建一遍，p1和p2都有一个名为sayName()的方法，但是不是同一个Function的实例，却拥有同样的功能。&lt;br /&gt;
+&lt;code&gt;alert(p1.sayName() == p2.sayName()); //false&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;解决：&lt;/strong&gt;&lt;br /&gt;
+把函数定义移到构造函数外部：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = sayName;
+}
+
+function sayName(){
+    alert(this.name);
+}
+
+var p1 = new Person(&#39;kathy&#39;,25,&#39;student&#39;)
+var p2 = new Person(&#39;cgg&#39;,24,&#39;programmer&#39;);
+
+p1.sayName();
+p2.sayName();
+alert(p1.constructor == Person);  //true
+alert(p2.constructor == Person);  //true
+alert(p1 instanceof Object);  //true
+alert(p1 instanceof Person);  //true
+alert(p2 instanceof Object);  //true
+alert(p2 instanceof Person);  //true
+alert(p1.sayName == p2.sayName);  //true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;p1和p2对象共享在全局作用域中定义的一个sayName()函数。&lt;br /&gt;
+&lt;strong&gt;问题：&lt;/strong&gt;&lt;br /&gt;
+让全局作用域有点名不副实，&lt;br /&gt;
+如果对象需要定义多个方法，就要定义多个全局函数，那么这个自定义的应用类型就毫无封装性可言了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;4.原型模式&lt;/h2&gt;
+&lt;p&gt;原型好处：可以让所有对象实例共享它所包含的属性和方法，&lt;br /&gt;
+不必再构造函数中定义对象信息，可以直接添加到原型对象中。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+
+Person.prototype.name = &#39;kathy&#39;;
+Person.prototype.age = 25;
+Person.prototype.job = &#39;student&#39;;
+Person.prototype.sayName = function(){
+    alert(this.name);
+};
+
+var p1 = new Person();
+p1.sayName();  //&#39;kathy&#39;
+
+var p2 = new Person();
+p2.sayName();  //&#39;kathy&#39;
+
+alert(p1.sayName == p2.sayName);  //true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。&lt;br /&gt;
+仍可调用构造函数创建一个新对象，新对象还会具有相同的属性和方法，p1和p2访问的是同一组属性和同一个sayName()函数；&lt;/p&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;4.1理解原型：&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-20/p1.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一旦创建函数，就为该函数创建一个prototype属性。&lt;br /&gt;
+默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Person.prototype 指向原型对象&lt;/li&gt;
+  &lt;li&gt;Person.prototype.constructor 又指回Person&lt;/li&gt;
+  &lt;li&gt;Person的实例person1,person2包含一个内部属性&lt;code&gt;_proto_&lt;/code&gt;，指向Person.prototype，他们与构造函数没有直接的关系&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 这两个实例都不包含属性和方法，但我们却可以调用person1.sayName()，是通过查找对象属性的过程来实现的。&lt;br /&gt;
+查找顺序：&lt;strong&gt;先对象本身，后原型属性&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+
+Person.prototype.name = &#39;kathy&#39;;
+Person.prototype.age = 25;
+Person.prototype.job = &#39;frontend&#39;;
+Person.prototype.sayName = function(){
+    alert(this.name);
+}
+
+var p1 = new Person();
+var p2 = new Person();
+
+p1.name = &#39;xuxuan&#39;;
+alert(p1.name); //&#39;xuxuan&#39;
+alert(p2.name); //&#39;kathy&#39;
+
+p1.name = null;
+alert(p1.name); // null
+
+delete p1.name;
+alert(p1.name); // &#39;kathy&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。&lt;br /&gt;
+即使将这个属性设置为&lt;code&gt;null&lt;/code&gt;，也只会在实例中设置这个属性，不会恢复其指向原型的链接。&lt;br /&gt;
+不过可以通过&lt;code&gt;delete&lt;/code&gt;操作符完成删除实例的属性，从而能重新访问原型中的属性。&lt;/p&gt;
+
+&lt;h4 id=&quot;isprototypeofhasownpropertyin&quot;&gt;4.2 isPrototypeOf、hasOwnProperty、in属性&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+
+Person.prototype.name = &#39;kathy&#39;;
+Person.prototype.age = 25;
+Person.prototype.job = &#39;student&#39;;
+Person.prototype.sayName = function(){
+    alert(this.name);
+}
+
+var p1 = new Person();
+var p2 = new Person();
+
+alert(Person.prototype.isPrototypeOf(p1));  //true
+alert(Person.prototype.isPrototypeOf(p2));  //true
+
+alert(p1.hasOwnProperty(&#39;name&#39;));  //fasle
+p1.name = &#39;xuxuan&#39;
+alert(p1.name);  //&#39;xuxuan&#39;
+alert(p1.hasOwnProperty(&#39;name&#39;));  //true
+
+alert(p2.name);  //&#39;kathy&#39;
+alert(p2.hasOwnProperty(&#39;name&#39;));  //false
+
+delete p1.name;
+alert(p1.name);  //&#39;kathy&#39;
+alert(p1.hasOwnProperty(&#39;name&#39;));  //false
+alert(&#39;name&#39; in p1);  //true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上段代码图解如下：&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2015-11-20/p2.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;总结如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;isPrototypeOf&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;obj1.isPrototypeOf(obj2);&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;用来判断指定对象obj1是否存在于另一个对象obj2的原型链中，是则返回true，否则返回false。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;hasOwnProperty&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;obj.hasOwnProperty(&#39;name&#39;);&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;只检测&lt;strong&gt;对象本身的属性&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;in&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;&#39;name&#39; in obj&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;检测&lt;strong&gt;对象本身的属性&lt;/strong&gt;或&lt;strong&gt;原型链的属性&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;hasPrototypeProperty(自定义方法)&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;hasPrototypeProperty(obj,&#39;name&#39;)&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;‘name’属性只存在于&lt;strong&gt;原型链的属性&lt;/strong&gt;，而不存在于对象本身的属性&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;pre&gt;&lt;code&gt;function hasPrototypeProperty(object,name){
+    return !object.hasOwnProperty(name) &amp;amp;&amp;amp; (name in object);
+}
+
+function Person(){}
+
+Person.prototype.name = &#39;kathy&#39;;
+Person.prototype.age = 25;
+Person.prototype.job = &#39;student&#39;;
+Person.prototype.sayName = function(){
+     alert(this.name);
+}
+
+var p = new Person();
+alert(hasPrototypeProperty(p,&#39;name&#39;)); //true
+
+p.name = &#39;xuxuan&#39;;
+alert(hasPrototypeProperty(p,&#39;name&#39;)); //false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;4.3更简单的原型语法&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+
+Person.prototype = {
+    name : &#39;kathy&#39;,
+    age : 25 ,
+    job : &#39;student&#39;,
+    sayName : function(){
+        alert(this.name);
+    }
+};
+
+var person = new Person();
+alert(person instanceof Object); //true
+alert(person instanceof Person); //true
+alert(person.constructor == Object); //true
+alert(person.constructor == Person); //false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；&lt;br /&gt;
+每创建一个函数，同时也会创建它的prototype对象，其会自动获得constructor属性；&lt;br /&gt;
+&lt;code&gt;Person.prototype = {...};&lt;/code&gt;本质上重写了默认的prototype属性，constructor属性不再指向Person，而指向Object函数。&lt;br /&gt;
+如果写成&lt;code&gt;Person.prototype.name=&quot;kathy&quot;;...&lt;/code&gt;，constructor还是Person；&lt;br /&gt;
+如果&lt;code&gt;var person = new Person();&lt;/code&gt; 写在&lt;code&gt;Person.prototype = {...}&lt;/code&gt;之前，这个对象的constructor还是Person;&lt;br /&gt;
+尽管instanceof还能返回正确结果，但是通过constructor无法确定对象类型；&lt;br /&gt;
+如果constructor的值真的很重要，可以特意将它设置回适当的值：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Person.prototype = {
+     constructor : Person,
+     name : &#39;kathy&#39;,
+     ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-9&quot;&gt;4.4原型的动态性&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+var person = new Person();
+Person.prototype.sayHi = function(){
+     alert(&quot;hi&quot;);
+}
+person.sayHi(); //hi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个&lt;strong&gt;指针&lt;/strong&gt;，而非一个副本，就可以在原型中找到sayHi属性并返回。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;注意：&lt;/strong&gt; 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的&lt;code&gt;_proto_&lt;/code&gt;指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-20/p3.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从图中可看出：重写原型对象切断了现有原型与任何之前已经存在的对象实例之间的联系，它们引用的仍然是最初的原型。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-20/p4.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-10&quot;&gt;4.5原型对象的问题&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便&lt;/li&gt;
+  &lt;li&gt;2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(){}
+
+Person.prototype = {
+    constructor : Person,
+    name : &#39;kathy&#39;,
+    age : 25 ,
+    job : &#39;student&#39;,
+    sayName : function(){
+        alert(this.name);
+    },
+    friends:[&quot;Jack&quot;,&quot;Cate&quot;]
+};
+
+var person1 = new Person();
+var person2 = new Person();
+person1.friends.push(&quot;Van&quot;);
+
+alert(person1.friends); //&#39;Jack,Cate,Van&#39;
+alert(person2.friends); //&#39;Jack,Cate,Van&#39;
+alert(person1.friends == person2.friends); //true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-11&quot;&gt;5.组合使用构造函数模式和原型模式&lt;/h2&gt;
+
+&lt;p&gt;构造函数 –&amp;gt; 定义实例属性&lt;br /&gt;
+原型模式 –&amp;gt; 定义方法和共享的属性&lt;br /&gt;
+优点：节省内存，向构造函数传参&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(name,age,job){
+     this.name = name;
+     this.age = age;
+     this.job = job;
+     this.friends = [&quot;Jack&quot;,&quot;Cate&quot;];
+}
+
+Person.prototype = {
+     constructor : Person,
+     sayName : function(){
+          alert(this.name);
+     }
+};
+
+var person1 = new Person(&#39;kathy&#39;,25,&#39;frontend&#39;);
+var person2 = new Person(&#39;jack&#39;,24,&#39;backend&#39;);
+person1.friends.push(&quot;Van&quot;);
+
+alert(person1.friends); //&#39;Jack,Cate,Van&#39;
+alert(person2.friends); //&#39;Jack,Cate&#39;
+alert(person1.friends == person2.friends); //false
+alert(person1.sayName == person2.sayName); //true
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Fri, 20 Nov 2015 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2015/11/20/jsCreateObject/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/20/jsCreateObject/</guid>
+        
+        <category>工厂模式</category>
+        
+        <category>构造函数模式</category>
+        
+        <category>原型模式</category>
+        
+        
+      </item>
     
       <item>
         <title>表单常用代码</title>
         <description>&lt;h1 id=&quot;section&quot;&gt;1.去除字符串左右两边的空格&lt;/h1&gt;
+
+&lt;style type=&quot;text/css&quot;&gt;
+	p{
+		margin: 10px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+&lt;/style&gt;
+
 &lt;div&gt;
 	&lt;textarea id=&quot;tvalue&quot; width=&quot;500&quot; height=&quot;200&quot;&gt;  我的左右两边都有空格   &lt;/textarea&gt;&lt;br /&gt;
 	&lt;input type=&quot;button&quot; id=&quot;tbtn&quot; value=&quot;过滤&quot; /&gt;
 &lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)&lt;/code&gt;&lt;/p&gt;
+
 &lt;script type=&quot;text/javascript&quot;&gt;
 	var tvalue = document.getElementById(&quot;tvalue&quot;),
 		tbtn = document.getElementById(&quot;tbtn&quot;);
 
 	tbtn.onclick = function() {
-		console.log(1111, tvalue.value)
 		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
 	}
 &lt;/script&gt;
@@ -29,16 +505,21 @@
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section-1&quot;&gt;2.验证用户是否输入&lt;/h1&gt;
-&lt;div&gt;
-	&lt;input type=&quot;text&quot; id=&quot;cvalue&quot; value=&quot;kathyxxu&quot; /&gt;
-	&lt;input type=&quot;button&quot; id=&quot;cbtn&quot; value=&quot;验证是否为空&quot; /&gt;
-&lt;/div&gt;
+
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;cvalue&quot; value=&quot;kathyxxu&quot; /&gt;&lt;br /&gt;
+&lt;input type=&quot;button&quot; id=&quot;cbtn&quot; value=&quot;验证是否为空&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if(!inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
+    alert(&#39;empty input&#39;)
+}else{
+    alert(&#39;not empty input&#39;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;script type=&quot;text/javascript&quot;&gt;
 	var cvalue = document.getElementById(&quot;cvalue&quot;),
 		cbtn = document.getElementById(&quot;cbtn&quot;);
-
 	cbtn.onclick = function() {
-		console.log(222, cvalue.value)
 		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)){
 			alert(&#39;empty input&#39;)
 		}else{
@@ -52,9 +533,15 @@
 &lt;h1 id=&quot;section-2&quot;&gt;3.禁止输入&lt;/h1&gt;
 
 &lt;h4 id=&quot;disabled-readonly&quot;&gt;方案1.通过表单属性disabled readonly来控制输入&lt;/h4&gt;
+
 &lt;p&gt;&lt;input type=&quot;text&quot; value=&quot;disabled&quot; disabled=&quot;&quot; /&gt;&lt;br /&gt;
 &lt;input type=&quot;text&quot; value=&quot;disabled=&#39;disabled&#39;&quot; disabled=&quot;disabled&quot; /&gt;&lt;br /&gt;
 &lt;input type=&quot;text&quot; value=&quot;readonly&quot; readonly=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input type=&quot;text&quot; value=&quot;disabled&quot; disabled/&amp;gt;
+&amp;lt;input type=&quot;text&quot; value=&quot;disabled=&#39;disabled&#39;&quot; disabled=&quot;disabled&quot;/&amp;gt;
+&amp;lt;input type=&quot;text&quot; value=&quot;readonly&quot; readonly/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;disabled-禁用input元素。&lt;br /&gt;
@@ -66,6 +553,15 @@
 &lt;h4 id=&quot;js&quot;&gt;方案2.通过js来控制输入&lt;/h4&gt;
 &lt;p&gt;js控制1-focus &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput1&quot; /&gt;&lt;br /&gt;
 js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁止输入&quot; id=&quot;noInput2&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;_noInput1.onfocus = function() {
+    this.blur();
+}
+
+_noInput2.onkeyup = _noInput2.onblur = function() {
+    this.value = &quot;&quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;focus &amp;amp; blur&lt;br /&gt;
@@ -80,7 +576,7 @@ js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁�
 	var _noInput2 = document.getElementById(&quot;noInput2&quot;);
 
 	_noInput1.onfocus = function() {
-		_noInput1.blur();
+		this.blur();
 	}
 
 	_noInput2.onkeyup = _noInput2.onblur = function() {
@@ -91,11 +587,21 @@ js控制2-keyup &amp;amp; blur &lt;input type=&quot;text&quot; value=&quot;禁�
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section-3&quot;&gt;关闭输入法&lt;/h1&gt;
-&lt;p&gt;#### 方案1.使用css ime-mode属性 ####&lt;br /&gt;
-&lt;input type=&quot;text&quot; id=&quot;banInputMethod&quot; value=&quot;禁止输入法&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;css非标准的ime-mode属性：设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态&lt;br /&gt;
-ime-mode : auto  active  inactive  disabled&lt;/p&gt;
+&lt;h4 id=&quot;css-ime-mode&quot;&gt;方案1.使用css ime-mode属性&lt;/h4&gt;
+
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;banInputMethod&quot; value=&quot;禁止输入法&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;inputObj.style.imeMode = &#39;disabled&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;css非标准的ime-mode属性&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态&lt;/li&gt;
+  &lt;li&gt;取值 ime-mode : auto  active  inactive  disabled&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -118,11 +624,11 @@ ime-mode : auto  active  inactive  disabled&lt;/p&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;ime-mode的兼容性&lt;br /&gt;
-&lt;img src=&quot;../../../../imgPost/2015-11-14/ime.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;ime-mode的兼容性，如图 &lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2015-11-14/ime.png&quot; alt=&quot;&amp;quot;ime-mode的兼容性&amp;quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;script type=&quot;text/javascript&quot;&gt;
-	function banInputMethod(_elementArr) {
+	function banInputMethodCSS(_elementArr) {
 		var arr = _elementArr,
 			self = this;
 		if(!(_elementArr instanceof Array)) {
@@ -136,8 +642,252 @@ ime-mode : auto  active  inactive  disabled&lt;/p&gt;
 			}
 		}
 	}
+	banInputMethodCSS(document.getElementById(&quot;banInputMethod&quot;))
+&lt;/script&gt;
 
-	banInputMethod(document.getElementById(&quot;banInputMethod&quot;))
+&lt;h4 id=&quot;js-1&quot;&gt;方案2.js正则替换中文字符&lt;/h4&gt;
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;banInputMethod2&quot; value=&quot;禁止输入法&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;inputObj.value.replace(/[\u4e00-\u9fa5]/g, &quot;&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	function banInputMethodJS(_elementArr) {
+		var arr = _elementArr,
+			self = this;
+		if(!(_elementArr instanceof Array)) {
+			arr = [_elementArr];
+		}
+		var clearChinese = function(_this) {
+			var _v = _this.value;
+			_this.value = _v.replace(/[\u4e00-\u9fa5]/g, &quot;&quot;);
+		}
+		for(var i=0, arrLen=arr.length; i&lt;arrLen; i++) {
+			var arrI = arr[i];
+			arrI.onfocus = function() {
+				clearChinese(this)
+			}
+			arrI.onkeyup = function() {
+				clearChinese(this)
+			}
+		}
+	}
+	banInputMethodJS(document.getElementById(&quot;banInputMethod2&quot;))
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-4&quot;&gt;禁止复制与粘贴&lt;/h1&gt;
+&lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;banCopyPaste&quot; value=&quot;禁止复制与粘贴&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inputObj.oncopy = function() {
+    return false;
+}
+inputObj.onpaste = function() {
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var banCopyPaste = document.getElementById(&quot;banCopyPaste&quot;);
+	banCopyPaste.oncopy = function() {
+		return false;
+	}
+	banCopyPaste.onpaste = function() {
+		return false;
+	}
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-5&quot;&gt;限制只能输入数字/中文&lt;/h1&gt;
+
+&lt;form&gt;
+	type=&#39;number&#39;&lt;input type=&quot;number&quot; value=&quot;&quot; /&gt;&lt;br /&gt;
+	pattern=[0-9]&lt;input type=&quot;text&quot; pattern=&quot;[0-9]&quot; value=&quot;&quot; /&gt;&lt;br /&gt;
+	only number&lt;input type=&quot;text&quot; value=&quot;&quot; id=&quot;onlyNumber&quot; /&gt;&lt;br /&gt;
+	only chinese&lt;input type=&quot;text&quot; value=&quot;&quot; id=&quot;onlyChinese&quot; /&gt;&lt;br /&gt;
+	&lt;input type=&quot;submit&quot; value=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;type=’number’，只能输入数字，在手机端调起数字键盘；在提交表单时执行验证&lt;/li&gt;
+  &lt;li&gt;pattern属性，验证输入字段的正则匹配模式，在提交表单时执行验证，适用text、search、url、telephone、mail、password&lt;/li&gt;
+  &lt;li&gt;正则 &lt;code&gt;inputObj.value.replace(/\D/g,&quot;&quot;)&lt;/code&gt; 去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件&lt;/li&gt;
+  &lt;li&gt;正则 &lt;code&gt;inputObj.value.replace(/[^\u4e00-\u9fa5]/g, &quot;&quot;)&lt;/code&gt;去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var onlyNumber = document.getElementById(&quot;onlyNumber&quot;);
+	var onlyChinese = document.getElementById(&quot;onlyChinese&quot;);
+
+	var clearNonumber = function(tThis) {
+		tThis.value = tThis.value.replace(/\D/g,&quot;&quot;)
+	}
+	onlyNumber.onfocus = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onkeyup = function() {
+		clearNonumber(this);
+	}
+	onlyNumber.onblur = function() {
+		clearNonumber(this);
+	}
+
+	var clearNoChinese = function(tThis) {
+		tThis.value = tThis.value.replace(/[^\u4e00-\u9fa5]/g, &quot;&quot;)
+	}
+	onlyChinese.onfocus = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onkeyup = function() {
+		clearNoChinese(this);
+	}
+	onlyChinese.onblur = function() {
+		clearNoChinese(this);
+	}
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-6&quot;&gt;限制字符串长度(不区分中英文)&lt;/h1&gt;
+
+&lt;h4 id=&quot;maxlength&quot;&gt;方案1. maxlength属性&lt;/h4&gt;
+
+&lt;p&gt;maxlength限制 &lt;input type=&quot;text&quot; maxlength=&quot;5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;input type=&quot;text&quot; maxlength=&quot;5&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;并非所有浏览器都支持maxlength属性&lt;/li&gt;
+  &lt;li&gt;不区分中英文和数字的编码占位&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;js-2&quot;&gt;方案2. js控制&lt;/h4&gt;
+
+&lt;p&gt;js限制 &lt;input type=&quot;text&quot; data-length=&quot;5&quot; id=&quot;limitLength&quot; data-model=&quot;Ch&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;inputObj.value = inputObj.value.substr(0, maxLength);&lt;/code&gt;&lt;/p&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var limitLength = document.getElementById(&quot;limitLength&quot;);
+	var calLength = function(tThis) {
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute(&quot;data-length&quot;),
+			dataModel = tThis.getAttribute(&quot;data-model&quot;),
+			subLen = dataLength;
+		if(_vLen &gt; dataLength) {
+			tThis.value = _v.substr(0, subLen);
+		}
+
+	}
+	limitLength.onfocus = function() {
+		calLength(this);
+	}
+	limitLength.onkeyup = function() {
+		calLength(this);
+	}
+	limitLength.onblur = function() {
+		calLength(this);
+	}
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;section-7&quot;&gt;限制字符串长度(区分中英文) 并实时提示可输入字符&lt;/h1&gt;
+
+&lt;style type=&quot;text/css&quot;&gt;
+	.remainingCharacters{
+		color: green;
+		font-weight: bold;
+	}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;input type=&quot;text&quot; data-length=&quot;20&quot; id=&quot;remainingCharacters&quot; data-model=&quot;Ch&quot; data-remainingcharacters=&quot;charActers1,charActers2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;测试1：还可以输入&lt;span class=&quot;remainingCharacters&quot; id=&quot;charActers1&quot;&gt;20&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;测试2：还可以输入&lt;span class=&quot;remainingCharacters&quot; id=&quot;charActers2&quot;&gt;20&lt;/span&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;data-model “En”-不区分中英文(默认) “Ch”-区分中英文&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var forElementArr = function(_elementArr, callBack) {
+		var arr = _elementArr,
+			self = this;
+		if(!_elementArr instanceof Array) {
+			arr = [_elementArr];
+		}
+		for(var i=0, arrLen=arr.length; i&lt;arrLen; i++) {
+			var arrI = arr[i];
+			if(typeof arrI == &quot;string&quot;) {
+				arrI = document.getElementById(arrI);
+			}
+			callBack &amp;&amp; callBack(i, arrI);
+		}
+	}
+	var showRemainingCharacters = function(_nums, _remainingCharacters) {
+		if(_remainingCharacters.search(&quot;,&quot;) != -1) {
+			_remainingCharacters = _remainingCharacters.split(&quot;,&quot;);
+		}
+		forElementArr(_remainingCharacters, function(_index, _this) {
+			_this.innerHTML = (_nums &amp;&amp; _nums.toString()) || &quot;0&quot;;
+		})
+	}
+	var strLen = (function() {
+		var trim = function(chars) {
+			return (chars || &quot;&quot;).replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, &quot;&quot;)
+		}
+		return function(_str, _model) {
+			_str = trim(_str);
+			_model = _model || &quot;Ch&quot;;
+			var _strLen = _str.length;
+			if(_strLen == 0) {
+				return 0;
+			}
+			else{
+				var chinese = _str.match(/[\u4e00-\u9fa5]/g);
+				return _strLen + (chinese &amp;&amp; _model == &quot;Ch&quot; ? chinese.length : 0);
+			}
+		}
+	})()
+	var remainingCharacters = document.getElementById(&quot;remainingCharacters&quot;);
+	var calLength = function(tThis) {
+		
+		var _v = tThis.value,
+			_vLen = _v.length,
+			dataLength = tThis.getAttribute(&quot;data-length&quot;),
+			dataModel = tThis.getAttribute(&quot;data-model&quot;),
+			subLen = dataLength;
+			remainingCharacters = tThis.getAttribute(&quot;data-remainingCharacters&quot;);
+			
+		if(dataModel == &quot;Ch&quot;) {
+			_vLen = strLen(_v, dataModel);
+			var vv = _v.match(/[\u4e00-\u9fa5]/g);
+			subLen = dataLength - (!vv ? 0 : vv.length);
+		}
+		if(_vLen &gt; dataLength) {
+			tThis.value = _v.substr(0, subLen);
+			// for(var i=0; i&lt;tThis.value.length; i++) {
+			// 	var str = tThis.
+			// 	if()
+			// }
+		}
+
+		if(remainingCharacters) {
+			showRemainingCharacters(!_vLen ? dataLength : (_vLen &gt; dataLength ? 0 : dataLength - _vLen), remainingCharacters)
+		}
+	}
+	remainingCharacters.onfocus = function() {
+		calLength(this);
+	}
+	remainingCharacters.onkeyup = function() {
+		calLength(this);
+	}
+	remainingCharacters.onblur = function() {
+		calLength(this);
+	}
 &lt;/script&gt;
 
 </description>
