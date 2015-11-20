@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。">
+    <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <title>js创建对象 - 徐璇的博客 | Kathyxxu Blog</title>
+
+    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/20/jsCreateObject/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kathyxxu Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#工厂模式" title="工厂模式">工厂模式</a>
+                        
+                        <a class="tag" href="/tags/#构造函数模式" title="构造函数模式">构造函数模式</a>
+                        
+                        <a class="tag" href="/tags/#原型模式" title="原型模式">原型模式</a>
+                        
+                    </div>
+                    <h1>js创建对象</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by 徐璇 on November 20, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1.创建对象</h2>
+
+<pre><code>var person = new Object();
+person.name = 'kathy';
+person.age = 25;
+person.job = 'frontend';
+person.sayName = function(){
+    alert(this.name);
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>缺点：</strong><br />
+使用同一个接口创建很多对象，会产生大量重复代码</p>
+</blockquote>
+
+<h2 id="section-1">2.工厂模式</h2>
+
+<pre><code>function createPerson(name,age,job){
+    var o = new Object();
+    o.name = name;
+    o.age = age;
+    o.job = job;
+    o.sayName = function(){
+        alert(this.name);
+    }
+    return o;
+}
+var p1 = createPerson('kathy',25,'frontend');
+var p2 = createPerson('jack',24,'backend');
+p1.sayName(); //'kathy'
+p2.sayName(); //'jack'
+</code></pre>
+
+<blockquote>
+  <p>用函数来封装以特定接口创建对象的细节<br />
+<strong>优点：</strong><br />
+解决了创建多个相似对象的问题<br />
+<strong>缺点：</strong><br />
+没有解决对象识别的问题（怎样知道一个对象的类型）<br />
+不能用new<br />
+函数重复定义 （p1.sayName == p2.sayName）  false</p>
+</blockquote>
+
+<h2 id="section-2">3.构造函数模式：</h2>
+
+<pre><code>function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function(){
+        alert(this.name);
+    };
+}
+var p1 = new Person('kathy',25,'frontend');
+var p2 = new Person('jack',24,'backend');
+p1.sayName(); //'kathy'
+p2.sayName(); //'jack'
+</code></pre>
+
+<blockquote>
+  <p><strong>区别工厂模式：</strong><br />
+1、没有显式的创建对象<br />
+2、直接将属性和方法赋给了this对象<br />
+3、没有return语句</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>创建Person的新实例4步骤：</strong><br />
+1、创建一个新的对象<br />
+2、将构造函数的作用域赋给新对象（this指针就指向了这个新对象）<br />
+3、执行构造函数中的代码（为这个新对象添加属性）<br />
+4、返回新对象</p>
+</blockquote>
+
+<h4 id="section-3">3.1对象识别问题</h4>
+<pre><code>function Func() {};      // 定义一个空函数
+var obj1 = new Func();   // 使用new操作符，借助Func函数，创建了一个对象
+var obj2 = new Func;     // 函数也可以没有括号，但仍将调用该函数
+</code></pre>
+
+<blockquote>
+  <p>js的语法可真是飘逸，该如何理解呢？<br />
+其实，上面的写法可以写成以下等价形式</p>
+</blockquote>
+
+<pre><code>function Func() {}; 
+var obj = {};
+Func.call(obj);   // 将obj对象作为this指针调用Func函数
+</code></pre>
+
+<blockquote>
+  <p><strong>优点</strong><br />
+解决了对象识别问题，可以将它的实例表示为一种特定的类型。<br />
+<code>alert(p1.constructor == Person);  //true</code><br />
+<code>alert(p2.constructor == Person);  //true</code><br />
+p1和p2分别保存着Person的一个不同的实例，都有一个constructor属性，指向Person</p>
+</blockquote>
+
+<blockquote>
+  <p>对象的<strong>constructor</strong>属性最初是用来表示对象类型的。<br />
+对于检测对象类型，还是<strong>instanceof</strong>可靠些，<br />
+<code>alert(p1 instanceof Object);  //true</code><br />
+<code>alert(p1 instanceof Person);  //true</code><br />
+<code>alert(p2 instanceof Object);  //true</code><br />
+<code>alert(p2 instanceof Person);  //true</code></p>
+</blockquote>
+
+<h4 id="section-4">3.2构造函数的三种调用方式</h4>
+
+<pre><code>//当做构造函数使用，构造函数与其他函数唯一区别：调用方式不同，用new
+var person = new Person('kathy',25,'student');
+person.sayName();
+
+//作为普通函数调用
+Person('Jack',30,'doctor');
+window.sayName();
+
+//在另一个对象的作用域中调用
+var o = new Object();
+Person.call(o,'Cate',27,'nurse');
+o.sayName();
+</code></pre>
+
+<p>当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）<br />
+可以使用call(),apply()在某个特殊对象的作用域中调用Person()函数。这里是在o的作用域中调用的，调用后o就拥有了所有属性和sayName()方法。</p>
+
+<h4 id="section-5">3.3构造函数的问题</h4>
+
+<pre><code>// 函数是对象，每定义一个函数，也就是实例化了一个对象。
+function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = new Function(" alert(this.name)"); //与申明函数在逻辑上是等价的
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>缺点：</strong><br />
+每个方法都要在每个实例上重新创建一遍，p1和p2都有一个名为sayName()的方法，但是不是同一个Function的实例，却拥有同样的功能。<br />
+<code>alert(p1.sayName() == p2.sayName()); //false</code></p>
+</blockquote>
+
+<blockquote>
+  <p><strong>解决：</strong><br />
+把函数定义移到构造函数外部：</p>
+</blockquote>
+
+<pre><code>function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = sayName;
+}
+
+function sayName(){
+    alert(this.name);
+}
+
+var p1 = new Person('kathy',25,'student')
+var p2 = new Person('cgg',24,'programmer');
+
+p1.sayName();
+p2.sayName();
+alert(p1.constructor == Person);  //true
+alert(p2.constructor == Person);  //true
+alert(p1 instanceof Object);  //true
+alert(p1 instanceof Person);  //true
+alert(p2 instanceof Object);  //true
+alert(p2 instanceof Person);  //true
+alert(p1.sayName == p2.sayName);  //true
+</code></pre>
+
+<blockquote>
+  <p>p1和p2对象共享在全局作用域中定义的一个sayName()函数。<br />
+<strong>问题：</strong><br />
+让全局作用域有点名不副实，<br />
+如果对象需要定义多个方法，就要定义多个全局函数，那么这个自定义的应用类型就毫无封装性可言了。</p>
+</blockquote>
+
+<h2 id="section-6">4.原型模式</h2>
+<p>原型好处：可以让所有对象实例共享它所包含的属性和方法，<br />
+不必再构造函数中定义对象信息，可以直接添加到原型对象中。</p>
+
+<pre><code>function Person(){}
+
+Person.prototype.name = 'kathy';
+Person.prototype.age = 25;
+Person.prototype.job = 'student';
+Person.prototype.sayName = function(){
+    alert(this.name);
+};
+
+var p1 = new Person();
+p1.sayName();  //'kathy'
+
+var p2 = new Person();
+p2.sayName();  //'kathy'
+
+alert(p1.sayName == p2.sayName);  //true
+</code></pre>
+
+<p>将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。<br />
+仍可调用构造函数创建一个新对象，新对象还会具有相同的属性和方法，p1和p2访问的是同一组属性和同一个sayName()函数；</p>
+
+<h4 id="section-7">4.1理解原型：</h4>
+
+<p><img src="../../../../imgPost/2015-11-20/p1.png" alt="&quot;理解原型&quot;" /></p>
+
+<p>一旦创建函数，就为该函数创建一个prototype属性。<br />
+默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。</p>
+
+<ul>
+  <li>Person.prototype 指向原型对象</li>
+  <li>Person.prototype.constructor 又指回Person</li>
+  <li>Person的实例person1,person2包含一个内部属性<code>_proto_</code>，指向Person.prototype，他们与构造函数没有直接的关系</li>
+</ul>
+
+<blockquote>
+  <p><strong>注意：</strong> 这两个实例都不包含属性和方法，但我们却可以调用person1.sayName()，是通过查找对象属性的过程来实现的。<br />
+查找顺序：<strong>先对象本身，后原型属性</strong></p>
+</blockquote>
+
+<pre><code>function Person(){}
+
+Person.prototype.name = 'kathy';
+Person.prototype.age = 25;
+Person.prototype.job = 'frontend';
+Person.prototype.sayName = function(){
+    alert(this.name);
+}
+
+var p1 = new Person();
+var p2 = new Person();
+
+p1.name = 'xuxuan';
+alert(p1.name); //'xuxuan'
+alert(p2.name); //'kathy'
+
+p1.name = null;
+alert(p1.name); // null
+
+delete p1.name;
+alert(p1.name); // 'kathy'
+</code></pre>
+
+<p>当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。<br />
+即使将这个属性设置为<code>null</code>，也只会在实例中设置这个属性，不会恢复其指向原型的链接。<br />
+不过可以通过<code>delete</code>操作符完成删除实例的属性，从而能重新访问原型中的属性。</p>
+
+<h4 id="isprototypeofhasownpropertyin">4.2 isPrototypeOf、hasOwnProperty、in属性</h4>
+
+<pre><code>function Person(){}
+
+Person.prototype.name = 'kathy';
+Person.prototype.age = 25;
+Person.prototype.job = 'student';
+Person.prototype.sayName = function(){
+    alert(this.name);
+}
+
+var p1 = new Person();
+var p2 = new Person();
+
+alert(Person.prototype.isPrototypeOf(p1));  //true
+alert(Person.prototype.isPrototypeOf(p2));  //true
+
+alert(p1.hasOwnProperty('name'));  //fasle
+p1.name = 'xuxuan'
+alert(p1.name);  //'xuxuan'
+alert(p1.hasOwnProperty('name'));  //true
+
+alert(p2.name);  //'kathy'
+alert(p2.hasOwnProperty('name'));  //false
+
+delete p1.name;
+alert(p1.name);  //'kathy'
+alert(p1.hasOwnProperty('name'));  //false
+alert('name' in p1);  //true
+</code></pre>
+
+<p>上段代码图解如下：<br />
+<img src="../../../../imgPost/2015-11-20/p2.png" alt="&quot;理解原型&quot;" /></p>
+
+<p>总结如下：</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>isPrototypeOf</td>
+      <td><code>obj1.isPrototypeOf(obj2);</code></td>
+      <td>用来判断指定对象obj1是否存在于另一个对象obj2的原型链中，是则返回true，否则返回false。</td>
+    </tr>
+    <tr>
+      <td>hasOwnProperty</td>
+      <td><code>obj.hasOwnProperty('name');</code></td>
+      <td>只检测<strong>对象本身的属性</strong></td>
+    </tr>
+    <tr>
+      <td>in</td>
+      <td><code>'name' in obj</code></td>
+      <td>检测<strong>对象本身的属性</strong>或<strong>原型链的属性</strong></td>
+    </tr>
+    <tr>
+      <td>hasPrototypeProperty(自定义方法)</td>
+      <td><code>hasPrototypeProperty(obj,'name')</code></td>
+      <td>‘name’属性只存在于<strong>原型链的属性</strong>，而不存在于对象本身的属性</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code>function hasPrototypeProperty(object,name){
+    return !object.hasOwnProperty(name) &amp;&amp; (name in object);
+}
+
+function Person(){}
+
+Person.prototype.name = 'kathy';
+Person.prototype.age = 25;
+Person.prototype.job = 'student';
+Person.prototype.sayName = function(){
+     alert(this.name);
+}
+
+var p = new Person();
+alert(hasPrototypeProperty(p,'name')); //true
+
+p.name = 'xuxuan';
+alert(hasPrototypeProperty(p,'name')); //false
+</code></pre>
+
+<h4 id="section-8">4.3更简单的原型语法</h4>
+
+<pre><code>function Person(){}
+
+Person.prototype = {
+    name : 'kathy',
+    age : 25 ,
+    job : 'student',
+    sayName : function(){
+        alert(this.name);
+    }
+};
+
+var person = new Person();
+alert(person instanceof Object); //true
+alert(person instanceof Person); //true
+alert(person.constructor == Object); //true
+alert(person.constructor == Person); //false
+</code></pre>
+
+<p>为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；<br />
+每创建一个函数，同时也会创建它的prototype对象，其会自动获得constructor属性；<br />
+<code>Person.prototype = {...};</code>本质上重写了默认的prototype属性，constructor属性不再指向Person，而指向Object函数。<br />
+如果写成<code>Person.prototype.name="kathy";...</code>，constructor还是Person；<br />
+如果<code>var person = new Person();</code> 写在<code>Person.prototype = {...}</code>之前，这个对象的constructor还是Person;<br />
+尽管instanceof还能返回正确结果，但是通过constructor无法确定对象类型；<br />
+如果constructor的值真的很重要，可以特意将它设置回适当的值：</p>
+
+<pre><code>Person.prototype = {
+     constructor : Person,
+     name : 'kathy',
+     ...
+}
+</code></pre>
+
+<h4 id="section-9">4.4原型的动态性</h4>
+
+<pre><code>function Person(){}
+var person = new Person();
+Person.prototype.sayHi = function(){
+     alert("hi");
+}
+person.sayHi(); //hi
+</code></pre>
+
+<ul>
+  <li>在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；</li>
+  <li><strong>原因：</strong> 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个<strong>指针</strong>，而非一个副本，就可以在原型中找到sayHi属性并返回。</li>
+  <li><strong>注意：</strong> 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的<code>_proto_</code>指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。</li>
+</ul>
+
+<p><img src="../../../../imgPost/2015-11-20/p3.png" alt="&quot;理解原型&quot;" /></p>
+
+<p>从图中可看出：重写原型对象切断了现有原型与任何之前已经存在的对象实例之间的联系，它们引用的仍然是最初的原型。</p>
+
+<p><img src="../../../../imgPost/2015-11-20/p4.png" alt="&quot;理解原型&quot;" /></p>
+
+<h4 id="section-10">4.5原型对象的问题</h4>
+
+<ul>
+  <li>1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便</li>
+  <li>2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出</li>
+</ul>
+
+<pre><code>function Person(){}
+
+Person.prototype = {
+    constructor : Person,
+    name : 'kathy',
+    age : 25 ,
+    job : 'student',
+    sayName : function(){
+        alert(this.name);
+    },
+    friends:["Jack","Cate"]
+};
+
+var person1 = new Person();
+var person2 = new Person();
+person1.friends.push("Van");
+
+alert(person1.friends); //'Jack,Cate,Van'
+alert(person2.friends); //'Jack,Cate,Van'
+alert(person1.friends == person2.friends); //true
+</code></pre>
+
+<h2 id="section-11">5.组合使用构造函数模式和原型模式</h2>
+
+<p>构造函数 –&gt; 定义实例属性<br />
+原型模式 –&gt; 定义方法和共享的属性<br />
+优点：节省内存，向构造函数传参</p>
+
+<pre><code>function Person(name,age,job){
+     this.name = name;
+     this.age = age;
+     this.job = job;
+     this.friends = ["Jack","Cate"];
+}
+
+Person.prototype = {
+     constructor : Person,
+     sayName : function(){
+          alert(this.name);
+     }
+};
+
+var person1 = new Person('kathy',25,'frontend');
+var person2 = new Person('jack',24,'backend');
+person1.friends.push("Van");
+
+alert(person1.friends); //'Jack,Cate,Van'
+alert(person2.friends); //'Jack,Cate'
+alert(person1.friends == person2.friends); //false
+alert(person1.sayName == person2.sayName); //true
+</code></pre>
+
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2015/11/20/jsCreateObject"
+                    data-title="js创建对象"
+                    data-url="http://kathyxxu.github.io/2015/11/20/jsCreateObject/"
+                    data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
+                    data-content="1.创建对象
+
+var person = new Object();
+person.name = 'kathy';
+person.age = 25;
+pe... | 徐璇的博客 | Kathyxxu Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/11/14/form/" data-toggle="tooltip" data-placement="top" title="表单常用代码">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2015/11/20/jsCreateObject"
+                        data-title="js创建对象"
+                        data-url="http://kathyxxu.github.io/2015/11/20/jsCreateObject/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+            </div>
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#webkit-box" title="webkit-box" rel="1">
+                                    webkit-box
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#css" title="css" rel="1">
+                                    css
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#对齐" title="对齐" rel="1">
+                                    对齐
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#去除空格" title="去除空格" rel="1">
+                                    去除空格
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#禁止输入" title="禁止输入" rel="1">
+                                    禁止输入
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#字符限制" title="字符限制" rel="1">
+                                    字符限制
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#工厂模式" title="工厂模式" rel="1">
+                                    工厂模式
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#构造函数模式" title="构造函数模式" rel="1">
+                                    构造函数模式
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#原型模式" title="原型模式" rel="1">
+                                    原型模式
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="#">广告位</a></li>
+                    
+                        <li><a href="#">广告位</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- Duoshuo hacking -->
+<input id="dsUser" type="hidden" value="286198217"  />
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User hacking by Hux
+    var _user = document.getElementById('dsUser').value;
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/kathyxxu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kathyxxu Blog 2015
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+<!-- BT hacking -->
+<input id="baId" type="hidden" value="3369e79dfb67b43d4cb5b94e399c2f57"  />
+
+<!-- Baidu Tongji -->
+<script>
+    var _baId = document.getElementById('baId').value;
+    
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
