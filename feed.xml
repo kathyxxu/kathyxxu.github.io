@@ -5,8 +5,8 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 20 Nov 2015 13:24:22 +0800</pubDate>
-    <lastBuildDate>Fri, 20 Nov 2015 13:24:22 +0800</lastBuildDate>
+    <pubDate>Fri, 20 Nov 2015 18:49:25 +0800</pubDate>
+    <lastBuildDate>Fri, 20 Nov 2015 18:49:25 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -135,8 +135,10 @@ Person.call(o,&#39;Cate&#39;,27,&#39;nurse&#39;);
 o.sayName();
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）&lt;br /&gt;
 可以使用call(),apply()在某个特殊对象的作用域中调用Person()函数。这里是在o的作用域中调用的，调用后o就拥有了所有属性和sayName()方法。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section-5&quot;&gt;3.3构造函数的问题&lt;/h4&gt;
 
@@ -193,8 +195,10 @@ alert(p1.sayName == p2.sayName);  //true
 &lt;/blockquote&gt;
 
 &lt;h2 id=&quot;section-6&quot;&gt;4.原型模式&lt;/h2&gt;
-&lt;p&gt;原型好处：可以让所有对象实例共享它所包含的属性和方法，&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;原型好处：可以让所有对象实例共享它所包含的属性和方法，&lt;br /&gt;
 不必再构造函数中定义对象信息，可以直接添加到原型对象中。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;pre&gt;&lt;code&gt;function Person(){}
 
@@ -214,15 +218,19 @@ p2.sayName();  //&#39;kathy&#39;
 alert(p1.sayName == p2.sayName);  //true
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。&lt;br /&gt;
 仍可调用构造函数创建一个新对象，新对象还会具有相同的属性和方法，p1和p2访问的是同一组属性和同一个sayName()函数；&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section-7&quot;&gt;4.1理解原型：&lt;/h4&gt;
 
 &lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-20/p1.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;一旦创建函数，就为该函数创建一个prototype属性。&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;一旦创建函数，就为该函数创建一个prototype属性。&lt;br /&gt;
 默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Person.prototype 指向原型对象&lt;/li&gt;
@@ -258,9 +266,11 @@ delete p1.name;
 alert(p1.name); // &#39;kathy&#39;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。&lt;br /&gt;
 即使将这个属性设置为&lt;code&gt;null&lt;/code&gt;，也只会在实例中设置这个属性，不会恢复其指向原型的链接。&lt;br /&gt;
 不过可以通过&lt;code&gt;delete&lt;/code&gt;操作符完成删除实例的属性，从而能重新访问原型中的属性。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;isprototypeofhasownpropertyin&quot;&gt;4.2 isPrototypeOf、hasOwnProperty、in属性&lt;/h4&gt;
 
@@ -363,13 +373,15 @@ alert(person.constructor == Object); //true
 alert(person.constructor == Person); //false
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；&lt;br /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；&lt;br /&gt;
 每创建一个函数，同时也会创建它的prototype对象，其会自动获得constructor属性；&lt;br /&gt;
 &lt;code&gt;Person.prototype = {...};&lt;/code&gt;本质上重写了默认的prototype属性，constructor属性不再指向Person，而指向Object函数。&lt;br /&gt;
 如果写成&lt;code&gt;Person.prototype.name=&quot;kathy&quot;;...&lt;/code&gt;，constructor还是Person；&lt;br /&gt;
 如果&lt;code&gt;var person = new Person();&lt;/code&gt; 写在&lt;code&gt;Person.prototype = {...}&lt;/code&gt;之前，这个对象的constructor还是Person;&lt;br /&gt;
 尽管instanceof还能返回正确结果，但是通过constructor无法确定对象类型；&lt;br /&gt;
 如果constructor的值真的很重要，可以特意将它设置回适当的值：&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;pre&gt;&lt;code&gt;Person.prototype = {
      constructor : Person,
@@ -388,11 +400,11 @@ Person.prototype.sayHi = function(){
 person.sayHi(); //hi
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个&lt;strong&gt;指针&lt;/strong&gt;，而非一个副本，就可以在原型中找到sayHi属性并返回。&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;注意：&lt;/strong&gt; 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的&lt;code&gt;_proto_&lt;/code&gt;指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；&lt;br /&gt;
+&lt;strong&gt;原因：&lt;/strong&gt; 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个&lt;strong&gt;指针&lt;/strong&gt;，而非一个副本，就可以在原型中找到sayHi属性并返回。&lt;br /&gt;
+&lt;strong&gt;注意：&lt;/strong&gt; 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的&lt;code&gt;_proto_&lt;/code&gt;指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;img src=&quot;../../../../imgPost/2015-11-20/p3.png&quot; alt=&quot;&amp;quot;理解原型&amp;quot;&quot; /&gt;&lt;/p&gt;
 
@@ -402,10 +414,10 @@ person.sayHi(); //hi
 
 &lt;h4 id=&quot;section-10&quot;&gt;4.5原型对象的问题&lt;/h4&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便&lt;/li&gt;
-  &lt;li&gt;2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出&lt;/li&gt;
-&lt;/ul&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便&lt;br /&gt;
+2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;pre&gt;&lt;code&gt;function Person(){}
 
@@ -431,22 +443,18 @@ alert(person1.friends == person2.friends); //true
 
 &lt;h2 id=&quot;section-11&quot;&gt;5.组合使用构造函数模式和原型模式&lt;/h2&gt;
 
-&lt;p&gt;构造函数 –&amp;gt; 定义实例属性&lt;br /&gt;
-原型模式 –&amp;gt; 定义方法和共享的属性&lt;br /&gt;
-优点：节省内存，向构造函数传参&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;function Person(name,age,job){
-     this.name = name;
-     this.age = age;
-     this.job = job;
-     this.friends = [&quot;Jack&quot;,&quot;Cate&quot;];
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.friends = [&quot;Jack&quot;,&quot;Cate&quot;];
 }
 
 Person.prototype = {
-     constructor : Person,
-     sayName : function(){
-          alert(this.name);
-     }
+    constructor : Person,
+    sayName : function(){
+        alert(this.name);
+    }
 };
 
 var person1 = new Person(&#39;kathy&#39;,25,&#39;frontend&#39;);
@@ -458,6 +466,37 @@ alert(person2.friends); //&#39;Jack,Cate&#39;
 alert(person1.friends == person2.friends); //false
 alert(person1.sayName == person2.sayName); //true
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;构造函数 –&amp;gt; 定义实例属性&lt;br /&gt;
+原型模式 –&amp;gt; 定义方法和共享的属性&lt;br /&gt;
+&lt;strong&gt;优点：&lt;/strong&gt; 节省内存，向构造函数传参&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-12&quot;&gt;6.动态原型模式：&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+
+    if(typeof this.sayName != &#39;function&#39;){
+        //只在sayName方法不存在时，才添加到原型中；只会在初次调用构造函数才执行，此后原型已完成初始化
+        Person.prototype.sayName = function(){
+            alert(this.name);
+        };
+    }
+}
+
+var person = new Person(&#39;kathy&#39;,25,&#39;student&#39;);
+person.sayName();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;把所有信息封装在了构造函数中&lt;br /&gt;
+&lt;strong&gt;优点：&lt;/strong&gt; 在构造函数中初始化原型，又保持了同时使用构造函数和原型的优点；通过检查某个应该存在的方法是否有效，来决定是否需要初始化原型；&lt;br /&gt;
+&lt;strong&gt;注意：&lt;/strong&gt; 不能使用对象字面量重写原型，如果在创建了实例的情况下，会切断所有现有实例与新原型之间的联系；&lt;/p&gt;
+&lt;/blockquote&gt;
 
 </description>
         <pubDate>Fri, 20 Nov 2015 00:00:00 +0800</pubDate>
