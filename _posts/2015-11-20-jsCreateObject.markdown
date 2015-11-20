@@ -141,8 +141,8 @@ Person.call(o,'Cate',27,'nurse');
 o.sayName();
 ```
 
-当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）
-可以使用call(),apply()在某个特殊对象的作用域中调用Person()函数。这里是在o的作用域中调用的，调用后o就拥有了所有属性和sayName()方法。
+> 当在全局作用域中调用一个函数，this对象总是指向Global对象（在浏览器中就是window对象）
+> 可以使用call(),apply()在某个特殊对象的作用域中调用Person()函数。这里是在o的作用域中调用的，调用后o就拥有了所有属性和sayName()方法。
 
 
 
@@ -200,8 +200,8 @@ alert(p1.sayName == p2.sayName);  //true
 
 
 ## 4.原型模式
-原型好处：可以让所有对象实例共享它所包含的属性和方法，
-不必再构造函数中定义对象信息，可以直接添加到原型对象中。
+> 原型好处：可以让所有对象实例共享它所包含的属性和方法，
+> 不必再构造函数中定义对象信息，可以直接添加到原型对象中。
 
 ```
 function Person(){}
@@ -222,8 +222,8 @@ p2.sayName();  //'kathy'
 alert(p1.sayName == p2.sayName);  //true
 ```
 
-将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。
-仍可调用构造函数创建一个新对象，新对象还会具有相同的属性和方法，p1和p2访问的是同一组属性和同一个sayName()函数；
+> 将Person的所有属性都直接添加到Person的prototype属性中，构造函数变成了空函数。
+> 仍可调用构造函数创建一个新对象，新对象还会具有相同的属性和方法，p1和p2访问的是同一组属性和同一个sayName()函数；
 
 
 
@@ -231,8 +231,8 @@ alert(p1.sayName == p2.sayName);  //true
 
 !["理解原型"](../../../../imgPost/2015-11-20/p1.png)
 
-一旦创建函数，就为该函数创建一个prototype属性。
-默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。
+> 一旦创建函数，就为该函数创建一个prototype属性。
+> 默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。
 
 * Person.prototype 指向原型对象
 * Person.prototype.constructor 又指回Person
@@ -265,9 +265,9 @@ delete p1.name;
 alert(p1.name); // 'kathy'
 ```
 
-当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。
-即使将这个属性设置为`null`，也只会在实例中设置这个属性，不会恢复其指向原型的链接。
-不过可以通过`delete`操作符完成删除实例的属性，从而能重新访问原型中的属性。
+> 当为对象实例添加一个属性时，会屏蔽原型对象中同名属性，添加的这个属性会阻止我们访问原型中的那个属性，但不会修改那个值。
+> 即使将这个属性设置为`null`，也只会在实例中设置这个属性，不会恢复其指向原型的链接。
+> 不过可以通过`delete`操作符完成删除实例的属性，从而能重新访问原型中的属性。
 
 
 #### 4.2 isPrototypeOf、hasOwnProperty、in属性
@@ -356,13 +356,13 @@ alert(person.constructor == Object); //true
 alert(person.constructor == Person); //false
 ```
 
-为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；
-每创建一个函数，同时也会创建它的prototype对象，其会自动获得constructor属性；
-`Person.prototype = {...};`本质上重写了默认的prototype属性，constructor属性不再指向Person，而指向Object函数。
-如果写成`Person.prototype.name="kathy";...`，constructor还是Person；
-如果`var person = new Person();` 写在`Person.prototype = {...}`之前，这个对象的constructor还是Person;
-尽管instanceof还能返回正确结果，但是通过constructor无法确定对象类型；
-如果constructor的值真的很重要，可以特意将它设置回适当的值：
+> 为了从视觉上更好的封装原型，用一个包含所有属性和方法的对象字面量来重写整个原型对象；
+> 每创建一个函数，同时也会创建它的prototype对象，其会自动获得constructor属性；
+> `Person.prototype = {...};`本质上重写了默认的prototype属性，constructor属性不再指向Person，而指向Object函数。
+> 如果写成`Person.prototype.name="kathy";...`，constructor还是Person；
+> 如果`var person = new Person();` 写在`Person.prototype = {...}`之前，这个对象的constructor还是Person;
+> 尽管instanceof还能返回正确结果，但是通过constructor无法确定对象类型；
+> 如果constructor的值真的很重要，可以特意将它设置回适当的值：
 
 ```
 Person.prototype = {
@@ -384,9 +384,9 @@ Person.prototype.sayHi = function(){
 person.sayHi(); //hi
 ```
 
-* 在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；
-* **原因：** 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个**指针**，而非一个副本，就可以在原型中找到sayHi属性并返回。
-* **注意：** 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的`_proto_`指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。
+> 在原型中查找值得过程是一次搜索，因此对原型做的任何修改能立刻从实例中反映出来（先创建实例，后修改原型也如此）；
+> **原因：** 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个**指针**，而非一个副本，就可以在原型中找到sayHi属性并返回。
+> **注意：** 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的`_proto_`指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。
 
 !["理解原型"](../../../../imgPost/2015-11-20/p3.png)
 
@@ -398,8 +398,8 @@ person.sayHi(); //hi
 
 #### 4.5原型对象的问题
 
-* 1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便
-* 2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出
+> 1、省略了为构造函数传递初始化参数这一环节，所有实例默认情况下取得相同的属性值，一定不便
+> 2、共享，对函数非常适合；包含基本值的属性，也还好；引用类型的属性，问题突出
 
 ```
 function Person(){}
@@ -426,23 +426,19 @@ alert(person1.friends == person2.friends); //true
 
 ## 5.组合使用构造函数模式和原型模式
 
-构造函数 --> 定义实例属性
-原型模式 --> 定义方法和共享的属性
-优点：节省内存，向构造函数传参
-
 ```
 function Person(name,age,job){
-     this.name = name;
-     this.age = age;
-     this.job = job;
-     this.friends = ["Jack","Cate"];
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.friends = ["Jack","Cate"];
 }
 
 Person.prototype = {
-     constructor : Person,
-     sayName : function(){
-          alert(this.name);
-     }
+    constructor : Person,
+    sayName : function(){
+        alert(this.name);
+    }
 };
 
 var person1 = new Person('kathy',25,'frontend');
@@ -455,6 +451,34 @@ alert(person1.friends == person2.friends); //false
 alert(person1.sayName == person2.sayName); //true
 ```
 
+> 构造函数 --> 定义实例属性
+> 原型模式 --> 定义方法和共享的属性
+> **优点：** 节省内存，向构造函数传参
 
 
+
+
+## 6.动态原型模式：
+
+```
+function Person(name,age,job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+
+    if(typeof this.sayName != 'function'){
+        //只在sayName方法不存在时，才添加到原型中；只会在初次调用构造函数才执行，此后原型已完成初始化
+        Person.prototype.sayName = function(){
+            alert(this.name);
+        };
+    }
+}
+
+var person = new Person('kathy',25,'student');
+person.sayName();
+```
+
+> 把所有信息封装在了构造函数中
+> **优点：** 在构造函数中初始化原型，又保持了同时使用构造函数和原型的优点；通过检查某个应该存在的方法是否有效，来决定是否需要初始化原型；
+> **注意：** 不能使用对象字面量重写原型，如果在创建了实例的情况下，会切断所有现有实例与新原型之间的联系；
 
