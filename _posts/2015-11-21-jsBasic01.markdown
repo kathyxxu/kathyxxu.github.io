@@ -1,0 +1,365 @@
+---
+layout:     post
+title:      "js基础一：六大基本数据类型Undefined、Null、Boolean、Number、String、Object"
+subtitle:   ""
+date:       2015-11-21
+author:     "徐璇"
+header-img: "img/post-bg-universe.jpg"
+tags:
+    - js基础
+---
+
+
+<style type="text/css">
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+</style>
+
+**5种简单数据类型：** Undefined、Null、Boolean、Number 和 String
+**1种复杂数据类型：** Object
+**typeof** 返回的是字符串，有六种可能：
+"undefined"、"boolean"、"number"、"string"、"object"、"function"
+
+## undefined vs null vs NaN
+
+```
+var a1;
+var a2 = true;
+var a3 = 1;
+var a4 = "Hello";
+var a5 = new Object();
+var a6 = null;
+var a7 = NaN;
+var a8 = undefined;
+alert(typeof a);  //显示"undefined"
+alert(typeof a1); //显示"undefined"
+alert(typeof a2); //显示"boolean"
+alert(typeof a3); //显示"number"
+alert(typeof a4); //显示"string"
+alert(typeof a5); //显示"object"
+alert(typeof a6); //显示"object"
+alert(typeof a7); //显示"number"
+alert(typeof a8); //显示"undefined"
+```
+> 从上面的代码中可以看出:
+> 1. 未定义的值和定义未赋值的为undefined
+> 2. null是一种特殊的object
+> 3. NaN是一种特殊的number
+
+
+
+```
+// 空的对象，表示这个对象创建了，里面没有东西
+// var box = {};
+var box = new Object();   // box是Object类型，值是[object,Object]，类型返回的字符串是object
+alert(box);               // [object,Object]
+alert(typeof box);        // "object"
+
+//空对象，表示没有创建，就是一个null
+var box = null;          // box是Null类型，值是null，类型返回的字符串是object
+alert(box);              // null
+alert(typeof box);       // "object"
+
+var box = function(){ var a = 20;}
+alert(box);              // function(){ var a = 20;}
+alert(typeof  box);      // "function"
+```
+
+> 注意：函数在ECMAScript 中是对象，不是一种数据类型。
+> 所以，使用typeof 来区分function 和object 是非常有必要的!
+
+```
+var box;
+alert(box);     // undefined
+alert(cat);     // Uncaught ReferenceError: cat is not defined 浏览器报错
+alert(typeof box);     // "undefined"
+alert(typeof cat);     // "undefined"
+```
+
+变量 | 描述 | 值 | 类型
+box | 未初始化的变量                |  "undefined"   |  undefined
+cat | 根本不存在的变量(未声明的变量)   |  报错         |  undefined
+
+
+**Undefined** 类型只有一个值，即特殊的"undefined"。在使用var声明变量，但没有对其初始化时，这个变量的值就是undefined。无法使用 for/in 循环来枚举 undefined 属性，也不能用 delete 运算符来删除它。undefined 不是常量，可以把它设置为其他值。
+**Null** 类型是一个只有一个值，即特殊的值"null"。它表示一个空对象引用(指针)，而typeof操作符检测null会返回object。
+
+```
+var box;
+var car = null;
+alert(box == car)  // true
+alert(typeof box == typeof car)  // false
+```
+
+> 有个要说明的是：undefined 是派生自null 的，因此ECMA-262 规定对它们的相等性测试返回true。
+> `alert(undefined == null);   //true值相等`
+> `alert(undefined === null); //false值相等，数据类型不等`
+> 由于undefined 和null 两个值的比较是相等的，所以，未初始化的变量和赋值为null 的变量会相等。
+> 这时，可以采用typeof 变量的类型进行比较。但，建议还是养成编码的规范，不要忘记初始化变量。
+
+
+```
+var a1;         //a1的值为undefined
+var a2 = null;
+var a3 = NaN;
+alert(a1 == a2); //显示"true"
+alert(a1 != a2); //显示"false"
+alert(a1 == a3); //显示"false"
+alert(a1 != a3); //显示"true"
+alert(a2 == a3); //显示"false"
+alert(a2 != a3); //显示"true"
+alert(a3 == a3); //显示"false"
+alert(a3 != a3); //显示"true"
+```
+
+> 从上面的例子可以得出结论：
+> 1.undefined与null是相等；
+> 2.NaN与任何值都不相等，与自己也不相等。
+
+
+## Boolean
+```
+var box = true;
+alert(box == 1); //true
+alert(box === 1); //false
+alert(typeof box == typeof 1); //false
+```
+
+强制性转——要将一个值转换为其对应的Boolean 值，可以使用转型函数Boolean()
+隐式转换——if 条件语句里面的条件判断
+
+以下是其他类型转换成Boolean类型规则：
+
+数据类型 | 转换为true的值 | 转换为false的值
+Boolean | true | false
+String | 非空字符串 | 空字符串
+Number | 任何非0数值（包括无穷大） | 0 和 NaN
+Object | 任何对象 | null
+Undefined |  | undefined
+
+
+## Number
+```
+var box = 070;   //八进制
+alert(box);      //56  -- 输出都是十进制！！！
+
+var box = 079;
+alert(box);      //无效的八进制，自动解析为79
+
+浮点类型
+var box = 03.8;
+alert(box);      //error
+var box = 3.80;
+alert(box);      //3.8
+var box = .8     //0.8 有效，但不推荐此写法
+
+//由于保存浮点数值需要的内存空间比整型数值大两倍，因此ECMAScript 会自动将可以转换为整型的浮点数值转成为整型。
+var box = 8.;   //小数点后面没有值，转换为8
+var box = 12.0; //小数点后面是0，转成为12
+```
+
+
+```
+alert(Number.MIN_VALUE); //最小值 5e-324
+alert(Number.MAX_VALUE); //最大值 1.7976931348623157e+308
+
+var box1 = 100e1000; //超出范围，Infinity
+var box2 = -100e1000; //超出范围，-Infinity
+alert(box1);   // Infinity
+alert(box2);   // -Infinity
+
+alert(Number.POSITIVE_INFINITY); //Infinity(正无穷)
+alert(Number.NEGATIVE_INFINITY); //-Infinity(负无穷)
+```
+
+
+`isFinite()`函数。如果没有超过，返回true，超过了返回false。
+
+```
+var box = 100e1000;
+alert(isFinite(box));  // false
+```
+
+`NaN`，即非数值(Not a Number)是一个特殊的值，这个数值用于表示一个本来要返回数值的操作数未返回数值的情况(这样就不会抛出错误了)。
+
+```
+var box = 0 / 0; //NaN
+var box = 12 / 0; //Infinity
+var box = 12 / 0 * 0; //NaN
+```
+
+可以通过`Number.NaN` 得到NaN 值，任何与NaN 进行运算的结果均为NaN，NaN 与自身不相等(NaN 不与任何值相等)。
+
+```
+alert(Number.NaN); //NaN
+alert(NaN+1); //NaN
+alert(NaN == NaN) //false
+```
+
+
+ECMAScript 提供了`isNaN()`函数，用来判断这个值到底是不是NaN。isNaN()函数在接收到一个值之后，会尝试将这个值转换为数值。
+
+```
+alert(isNaN(NaN)); //true
+alert(isNaN(25)); //false，25 是一个数值
+alert(isNaN('25')); //false，'25'是一个字符串数值，可以转成数值
+alert(isNaN('Lee')); //true，'Lee'不能转换为数值
+alert(isNaN(true)); //false， true可以转成成1
+```
+
+
+`isNaN()`函数也适用于对象。在调用isNaN()函数过程中，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果不能，则基于这个返回值再调用toString()方法，再测试返回值。
+
+```
+var box = {
+    toString : function () {
+        return '123'; //可以改成return 'Lee'查看效果
+    }
+};
+alert(isNaN(box)); //false
+```
+
+#### 非数值转换为数值
+
+有3 个函数可以把非数值转换为数值：`Number()`、`parseInt()`和`parseFloat()`。
+
+`Number()`函数是转型函数，可以用于任何数据类型，而另外两个则专门用于把字符串转成数值。
+
+```
+alert(Number(true)); //1，Boolean 类型的true 和false 分别转换成1 和0
+alert(Number(25)); //25，数值型直接返回
+alert(Number(null)); //0，空对象返回0
+alert(Number(undefined)); //NaN，undefined 返回NaN
+```
+
+如果是字符串，应该遵循以下规则：
+1.只包含数值的字符串，会直接转成成十进制数值，如果包含前导0，即自动去掉。
+`alert(Number('456')); //456`
+`alert(Number('070')); //70`
+
+2.只包含浮点数值的字符串，会直接转成浮点数值，如果包含前导和后导0，即自动去掉。
+`alert(Number('08.90')); //8.9`
+
+3.如果字符串是空，那么直接转成成0。
+`alert(Number('')); //0`
+
+4.如果不是以上三种字符串类型，则返回NaN。
+`alert(Number('Lee123')); //NaN`
+
+5.如果是对象，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果
+转换的结果是NaN，则基于这个返回值再调用toString()方法，再测试返回值。
+
+```
+var box = {
+    toString : function () {
+        return '123'; //可以改成return 'Lee'查看效果
+    }
+};
+alert(Number(box)); //123
+```
+
+由于`Number()`函数在转换字符串时比较复杂且不够合理，因此在处理整数的时候更常用的是`parseInt()`。
+
+```
+alert(parsetInt('456Lee')); //456，会返回整数部分
+alert(parsetInt('Lee456Lee')); //NaN，如果第一个不是数值，就返回NaN
+alert(parseInt('12Lee56Lee')); //12，从第一数值开始取，到最后一个连续数值结束
+alert(parseInt('56.12')); //56，小数点不是数值，会被去掉
+alert(parseInt('')); //NaN，空返回NaN
+
+//parseInt()除了能够识别十进制数值，也可以识别八进制和十六进制。
+alert(parseInt('0xA')); //10，十六进制
+alert(parseInt('070')); //56，八进制
+alert(parseInt('0xALee')); //100，十六进制，Lee 被自动过滤掉
+
+//ECMAScript 为parseInt()提供了第二个参数，用于解决各种进制的转换。
+alert(parseInt('0xAF')); //175，十六进制
+alert(parseInt('AF',16)); //175，第二参数指定十六进制，可以去掉0x 前导
+alert(parseInt('AF')); //NaN，理所当然
+alert(parseInt('101010101',2)); //314，二进制转换
+alert(parseInt('70',8)) //56，八进制转换
+
+//parseFloat()是用于浮点数值转换的，和parseInt()一样，从第一位解析到非浮点数值位置。
+alert(parseFloat('123Lee')); //123，去掉不是别的部分
+alert(parseFloat('0xA')); //0，不认十六进制
+alert(parseFloat('123.4.5')); //123.4，只认一个小数点
+alert(parseFloat('0123.400')); //123.4，去掉前后导
+alert(parseFloat('1.234e7')); //12340000，把科学技术法转成普通数值
+```
+
+
+## String
+
+字面量 | 含义
+\n | 换行
+\t | 制表
+\b | 空格
+\r | 回车
+\f | 换页
+\\ | 斜杠
+\' | 单引号
+\" | 双引号
+\xnn | 以十六进制代码nn表示的一个字符(0~F)。例：\x41
+\unnn | 以十六进制代码nnn表示的一个Unicode字符(0~F)。例：\u01a9
+
+ECMAScript 中的字符串是不可变的，也就是说，字符串一旦创建它们的值就不能改变。要改变某个变量保存的字符串，首先要销毁原来的字符串，然后再用另一个包含新值的字符串填充该变量。
+
+```
+var box = 'Mr.';
+box = box + ' Lee';   //把原来的‘Mr’复制一份，再加上‘Lee’，赋值给box，原来的‘Mr’销毁
+```
+
+`toString()`方法一般是不需要传参的，但在数值转成字符串的时候，可以传递进制参数。
+
+```
+var box = 10;
+alert(box.toString()); //'10'，默认输出
+alert(box.toString(2)); //'1010'，二进制输出
+alert(box.toString(8)); //'12'，八进制输出
+alert(box.toString(10)); //'10'，十进制输出
+alert(box.toString(16)); //'a'，十六进制输出
+```
+
+如果在转型之前不知道变量是否是null 或者undefined 的情况下，我们还可以使用转型函数`String()`，这个函数能够将任何类型的值转换为字符串。
+
+```
+var box = null;
+alert(String(box));//'null'
+```
+
+
+## Objec
+
+```
+var box = null;
+var box = {};
+var box = new Object();
+var box = Object();
+```
+
+Object()里可以任意传参，可以传数值、字符串、布尔值等。而且，还可以进行相应的计算。
+
+```
+var box = new Object(2);  //Object 类型，值是2
+alert(box);               //2
+alert(typeof box);        //"object"
+alert(box+2);             //4，可以和普通变量运算
+alert(typeof (box+2));    //"number"，输出结果转型成Number类型了
+```
+
+
+Number，String，Boolean用`new`出来的是Object类型
+数组和对象不用new也是object类型
+
+```
+var box = new Number(22);
+alert(typeof box);   //object
+
+var cat = 22;
+alert(typeof cat);     //number
+```
+
