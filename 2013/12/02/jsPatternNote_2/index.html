@@ -9,9 +9,9 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>webkit-box弹性盒子 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>javascript模式笔记2——字面量和构造函数 - 徐璇的博客 | Kathyxxu Blog</title>
 
-    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/09/webkit-box/">
+    <link rel="canonical" href="http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -124,12 +124,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-os-metro.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/post-bg-os-metro.jpg')
+        background-image: url('/img/post-bg-universe.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -139,15 +139,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#webkit-box" title="webkit-box">webkit-box</a>
+                        <a class="tag" href="/tags/#js模式笔记" title="js模式笔记">js模式笔记</a>
                         
                     </div>
-                    <h1>webkit-box弹性盒子</h1>
+                    <h1>javascript模式笔记2——字面量和构造函数</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by 徐璇 on November 9, 2015</span>
+                    <span class="meta">Posted by 徐璇 on December 2, 2013</span>
                 </div>
             </div>
         </div>
@@ -165,217 +165,132 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h1 id="icon">栗子1：icon和文字对齐并居中显示</h1>
-
-<!-- !["栗子1"](../../../../imgPost/2015-11-09/1.png) -->
-
-<style type="text/css">
-    .ajax-loader{
-        margin: 30px 0 20px 0;
-        width: 100%;
-        height: 40px;
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-    }
-    .ajax-loader i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-        margin-right: 8px;
-    }
-    .ajax-loader span{
-        display: block;
-        font-size: 24px;
-        color: #ababab;
-        line-height: 40px !important;
-    }
+				<style type="text/css">
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+	.post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+    	margin: 60px 0 10px;
+	}
+	.post-container ul, .post-container ol {
+	    margin-bottom: 20px;
+	}
 </style>
 
-<div class="ajax-loader">
-    <i class="ico ico-ajax-loader"></i>
-    <span>正在加载...</span>
-</div>
+<h3 id="section">对象字面量：</h3>
 
-<pre><code>&lt;div class="ajax-loader"&gt;
-    &lt;i class="ico ico-ajax-loader"&gt;&lt;/i&gt;
-    &lt;span&gt;正在加载...&lt;/span&gt;
-&lt;/div&gt;
+<pre><code>//开始定义一个空对象
+var dog = {};
+//添加属性
+dog.name = "wangwagn";
+//添加方法
+dog.getName = function(){
+    return dog.name;
+}
 
-&lt;style type="text/css"&gt;
-    .ajax-loader{
-        width: 100%;
-        height: 40px;
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
+
+//改变属性和方法
+dog.getName = function(){
+    return "Fido";
+}
+
+//删除属性和方法
+delete dog.name;
+
+
+//添加属性和方法
+dog.say = function(){
+    return "Woof!";
+}
+dog.fleas = true;
+
+
+//也可以在创建对象时，向其添加属性和方法
+var dog = {
+    name : "wangwang";
+    getName : function(){
+        return this.name;
     }
-    .ajax-loader i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-        margin-right: 8px;
-    }
-    .ajax-loader span{
-        display: block;
-        font-size: 24px;
-        color: #ababab;
-        line-height: 40px !important;
-    }
-&lt;/style&gt;
+}
 </code></pre>
 
-<p>-webkit-box-pack: center;<br />
-水平方向，icon和图片当做一个整体，一起居中显示</p>
+<blockquote>
+  <p>注意：全局变量（var 声明）不可删</p>
+</blockquote>
 
-<p>-webkit-box-align: center;<br />
-垂直方向，规定如何对齐框的子元素<br />
-<br /> <br /> <br /> <br /></p>
+<h3 id="section-1">创建对象的两种的方法</h3>
+<p>第一种是使用<strong>字面量</strong>方法创建对象：<code>var oschina = {goes:"far"};</code><br />
+第二种是使用<strong>内置构造函数</strong>创建对象：<code>var oschina = new Object();  car.gose = "far";</code><br />
+我们应该尽量使用字面量方法创建对象，其显著优点在于它仅仅输入更短的字符。<br />
+但是选择它还有以下几个更重要的原因：</p>
 
-<h1 id="webkit-box-flex">栗子2：webkit-box-flex</h1>
-<style type="text/css">
-    .action-bar{
-        padding: 0 !important;
-        margin: 20px 0 30px 0;
-        height: 45px;
-        background-color: #f8f9fa;
-        display: -webkit-box;
-    }
-    .action-item{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        -webkit-box-flex: 1;
-        position: relative;
-    }
-    .action-item.action-item-0{
-        -webkit-box-flex: 1;
-    }
-    .action-item.action-item-1{
-        -webkit-box-flex: 2;
-    }
-    .action-item.action-item-2{
-        -webkit-box-flex: 3;
-    }
-    .action-item i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
-        width: 26px;
-        height: 26px;
-        background-size: contain;
-        margin-right: 5px;
-    }
-    .action-item span{
-        display: block;
-        font-size: 16px;
-        color: #777777;
-    }
-    .action-item:after{
-        position: absolute;
-        right: 0;
-        bottom: 10px;
-        top: 10px;
-        width: 1px;
-        content: '';
-        background-color: #DEDFE0;
-    }
-    .action-item:last-of-type:after{
-        width: 0;
-    }
-    .action-item:active{
-        background-color: #e5e6e7;
-    }
-</style>
+<ol>
+  <li>选择字面量法创建对象强调该对象仅是一个可变的hash映射，而不是从对象中提取的属性或方法。</li>
+  <li>对使用Object构造函数相对，使用字面量在于它并没有作用域解析。因为可能以同样的名字创建一个局部函数，解释器需要从调用Object()的位置开始一直向上查询作用域链，知道发现全局Object构造函数</li>
+  <li>构造函数Object可以仅接受一个参数，并且还依赖传递的值，该Object()可能会委派另一个内置函数来创建对象，并且返回了一个并非期望的不同对象。如将数字、字符串、布尔值当做参数传递给Object构造函数，其结果是获得了以不同构造函数所创建的对象，例如：<code>var oschina = new Object(1);</code> <code>ochina.constructor</code>为Number；传递的值是动态的，直到运行时才确定其类型，这种行为会导致意想不到的结果。</li>
+</ol>
 
-<ul class="action-bar">
-    <li class="action-item action-item-0">
-        <i class="ico"></i>
-        <span>截屏</span>
-    </li>
-    <li class="action-item action-item-1">
-        <i class="ico"></i>
-        <span>收藏</span>
-    </li>
-    <li class="action-item action-item-2">
-        <i class="ico"></i>
-        <span>我要</span>
-    </li>
-</ul>
+<pre><code>//一个空对象
+var o = new Object();
+console.log(o.constructor === Object);  //true
 
-<pre><code>&lt;style type="text/css"&gt;
-    .action-bar{
-        padding: 0 !important;
-        margin: 20px 0 30px 0;
-        height: 45px;
-        background-color: #f8f9fa;
-        display: -webkit-box;
-    }
-    .action-item{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        -webkit-box-flex: 1;
-        position: relative;
-    }
-    .action-item.action-item-0{
-        -webkit-box-flex: 1;
-    }
-    .action-item.action-item-1{
-        -webkit-box-flex: 2;
-    }
-    .action-item.action-item-2{
-        -webkit-box-flex: 3;
-    }
-    .action-item i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
-        width: 26px;
-        height: 26px;
-        background-size: contain;
-        margin-right: 5px;
-    }
-    .action-item span{
-        display: block;
-        font-size: 16px;
-        color: #777777;
-    }
-    .action-item:after{
-        position: absolute;
-        right: 0;
-        bottom: 10px;
-        top: 10px;
-        width: 1px;
-        content: '';
-        background-color: #DEDFE0;
-    }
-    .action-item:last-of-type:after{
-        width: 0;
-    }
-    .action-item:active{
-        background-color: #e5e6e7;
-    }
-&lt;/style&gt;
-&lt;ul class="action-bar"&gt;
-    &lt;li class="action-item action-item-0"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;截屏&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="action-item action-item-1"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;收藏&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="action-item action-item-2"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;我要&lt;/span&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;
 
+//一个数值对象
+var o = new Object(1);
+console.log(o.constructor === Number);  //true
+console.log(o.toFixed(2));  //1.00
+
+
+//一个字符串对象
+var o = new Object("I am a string");
+console.log(o.constructor === String);  //true
+//一般的对象没有substring方法，但是字符串对象有
+console.log(typeof o.substring);    //"function"
+
+
+//一个布尔对象
+var o = new Object(true);
+console.log(o.constructor === Boolean);  //true
 </code></pre>
 
+<h3 id="section-2">自定义构造函数</h3>
+
+<pre><code>var Person = function(name){
+    this.name = name;
+    this.say = function(){
+        return "I'am " + this.name;
+    };
+}
+
+
+var Person = function(name){
+    //使用对象字面量模式创建一个新对象
+    //var this = {};
+
+    //向this添加属性和方法
+    this.name = name;
+    this.say = function(){
+        return "I'am " + this.name;
+    };
+
+    //return this;
+}
+
+var xuxuan = new Person("kathy");
+console.log(xuxuan.say());
+</code></pre>
+
+<p>使用new调用构造函数：<br />
+1. 创建一个空对象，并且this引用了该对象，同时还继承了该函数的原型<br />
+2. 属性和方法添加到this引用的对象中<br />
+3. 新创建的对象由this引用， 最后隐式地返回this（如果没有显示的返回其他对象）</p>
+
+<p><code>//var this = {};</code><br />
+以上语句并不是真相的全部哦。因为“空”对象实际上并不空，已从Person的原型中继承了许多成员，因此它更像下面的语句：<br />
+<code>//var this = Object.create(Person.prototype);</code></p>
 
 
                 <hr>
@@ -385,23 +300,20 @@
                 </style>
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2015/11/09/webkit-box"
-                    data-title="webkit-box弹性盒子"
-                    data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/"
-                    data-images="http://kathyxxu.github.io/img/post-bg-os-metro.jpg"
-                    data-content="栗子1：icon和文字对齐并居中显示
+                    data-thread-key="/2013/12/02/jsPatternNote_2"
+                    data-title="javascript模式笔记2——字面量和构造函数"
+                    data-url="http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/"
+                    data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
+                    data-content="
 
+对象字面量：
 
-
-
-
-
-    
-    正在加载...
-
-
-&lt;div class="ajax-loader"&gt;
- ... | 徐璇的博客 | Kathyxxu Blog " >
+//开始定义一个空对象
+var dog = {};
+//添加属性
+dog.name = "wangwagn";
+//添加方法
+dog.... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -421,12 +333,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2013/12/02/jsPatternNote_2/" data-toggle="tooltip" data-placement="top" title="javascript模式笔记2——字面量和构造函数">&larr; Previous Post</a>
+                        <a href="/2013/11/25/jsPatternNote_1/" data-toggle="tooltip" data-placement="top" title="javascript模式笔记1——基本技巧">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2015/11/14/form/" data-toggle="tooltip" data-placement="top" title="表单常用代码">Next Post &rarr;</a>
+                        <a href="/2015/11/09/webkit-box/" data-toggle="tooltip" data-placement="top" title="webkit-box弹性盒子">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -436,9 +348,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2015/11/09/webkit-box"
-                        data-title="webkit-box弹性盒子"
-                        data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/" >
+                        data-thread-key="/2013/12/02/jsPatternNote_2"
+                        data-title="javascript模式笔记2——字面量和构造函数"
+                        data-url="http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
