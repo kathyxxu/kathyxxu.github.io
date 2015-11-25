@@ -6,9 +6,6 @@ date:       2015-11-14
 author:     "徐璇"
 header-img: "img/post-bg-universe.jpg"
 tags:
-    - 去除空格
-    - 禁止输入
-    - 字符限制
 ---
 
 # 1.去除字符串左右两边的空格 #

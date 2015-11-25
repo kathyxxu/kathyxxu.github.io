@@ -7,8 +7,6 @@ author:     "徐璇"
 header-img: "img/post-bg-os-metro.jpg"
 tags:
     - webkit-box
-    - css
-    - 对齐
 ---
 
 # 栗子1：icon和文字对齐并居中显示 #

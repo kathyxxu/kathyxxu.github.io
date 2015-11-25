@@ -5,434 +5,12 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 23 Nov 2015 09:32:00 +0800</pubDate>
-    <lastBuildDate>Mon, 23 Nov 2015 09:32:00 +0800</lastBuildDate>
+    <pubDate>Wed, 25 Nov 2015 08:58:16 +0800</pubDate>
+    <lastBuildDate>Wed, 25 Nov 2015 08:58:16 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>js基础一：六大基本数据类型Undefined、Null、Boolean、Number、String、Object</title>
-        <description>&lt;style type=&quot;text/css&quot;&gt;
-	p{
-		margin: 30px 0 5px 0;
-	}
-	img{
-		margin-top: 5px !important;
-	}
-&lt;/style&gt;
-
-&lt;p&gt;&lt;strong&gt;5种简单数据类型：&lt;/strong&gt; Undefined、Null、Boolean、Number 和 String&lt;br /&gt;
-&lt;strong&gt;1种复杂数据类型：&lt;/strong&gt; Object&lt;br /&gt;
-&lt;strong&gt;typeof&lt;/strong&gt; 返回的是字符串，有六种可能：&lt;br /&gt;
-“undefined”、”boolean”、”number”、”string”、”object”、”function”&lt;/p&gt;
-
-&lt;h2 id=&quot;undefined-vs-null-vs-nan&quot;&gt;undefined vs null vs NaN&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;var a1;
-var a2 = true;
-var a3 = 1;
-var a4 = &quot;Hello&quot;;
-var a5 = new Object();
-var a6 = null;
-var a7 = NaN;
-var a8 = undefined;
-alert(typeof a);  //显示&quot;undefined&quot;
-alert(typeof a1); //显示&quot;undefined&quot;
-alert(typeof a2); //显示&quot;boolean&quot;
-alert(typeof a3); //显示&quot;number&quot;
-alert(typeof a4); //显示&quot;string&quot;
-alert(typeof a5); //显示&quot;object&quot;
-alert(typeof a6); //显示&quot;object&quot;
-alert(typeof a7); //显示&quot;number&quot;
-alert(typeof a8); //显示&quot;undefined&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;从上面的代码中可以看出:&lt;br /&gt;
-1. 未定义的值和定义未赋值的为undefined&lt;br /&gt;
-2. null是一种特殊的object&lt;br /&gt;
-3. NaN是一种特殊的number&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;// 空的对象，表示这个对象创建了，里面没有东西
-// var box = {};
-var box = new Object();   // box是Object类型，值是[object,Object]，类型返回的字符串是object
-alert(box);               // [object,Object]
-alert(typeof box);        // &quot;object&quot;
-
-//空对象，表示没有创建，就是一个null
-var box = null;          // box是Null类型，值是null，类型返回的字符串是object
-alert(box);              // null
-alert(typeof box);       // &quot;object&quot;
-
-var box = function(){ var a = 20;}
-alert(box);              // function(){ var a = 20;}
-alert(typeof  box);      // &quot;function&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注意：函数在ECMAScript 中是对象，不是一种数据类型。&lt;br /&gt;
-所以，使用typeof 来区分function 和object 是非常有必要的!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var box;
-alert(box);     // undefined
-alert(cat);     // Uncaught ReferenceError: cat is not defined 浏览器报错
-alert(typeof box);     // &quot;undefined&quot;
-alert(typeof cat);     // &quot;undefined&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;变量&lt;/td&gt;
-      &lt;td&gt;描述&lt;/td&gt;
-      &lt;td&gt;值&lt;/td&gt;
-      &lt;td&gt;类型&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;box&lt;/td&gt;
-      &lt;td&gt;未初始化的变量&lt;/td&gt;
-      &lt;td&gt;“undefined”&lt;/td&gt;
-      &lt;td&gt;undefined&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;cat&lt;/td&gt;
-      &lt;td&gt;根本不存在的变量(未声明的变量)&lt;/td&gt;
-      &lt;td&gt;报错&lt;/td&gt;
-      &lt;td&gt;undefined&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;strong&gt;Undefined&lt;/strong&gt; 类型只有一个值，即特殊的”undefined”。在使用var声明变量，但没有对其初始化时，这个变量的值就是undefined。无法使用 for/in 循环来枚举 undefined 属性，也不能用 delete 运算符来删除它。undefined 不是常量，可以把它设置为其他值。&lt;br /&gt;
-&lt;strong&gt;Null&lt;/strong&gt; 类型是一个只有一个值，即特殊的值”null”。它表示一个空对象引用(指针)，而typeof操作符检测null会返回object。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box;
-var car = null;
-alert(box == car)  // true
-alert(typeof box == typeof car)  // false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;有个要说明的是：undefined 是派生自null 的，因此ECMA-262 规定对它们的相等性测试返回true。&lt;br /&gt;
-&lt;code&gt;alert(undefined == null);   //true值相等&lt;/code&gt;&lt;br /&gt;
-&lt;code&gt;alert(undefined === null); //false值相等，数据类型不等&lt;/code&gt;&lt;br /&gt;
-由于undefined 和null 两个值的比较是相等的，所以，未初始化的变量和赋值为null 的变量会相等。&lt;br /&gt;
-这时，可以采用typeof 变量的类型进行比较。但，建议还是养成编码的规范，不要忘记初始化变量。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var a1;         //a1的值为undefined
-var a2 = null;
-var a3 = NaN;
-alert(a1 == a2); //显示&quot;true&quot;
-alert(a1 != a2); //显示&quot;false&quot;
-alert(a1 == a3); //显示&quot;false&quot;
-alert(a1 != a3); //显示&quot;true&quot;
-alert(a2 == a3); //显示&quot;false&quot;
-alert(a2 != a3); //显示&quot;true&quot;
-alert(a3 == a3); //显示&quot;false&quot;
-alert(a3 != a3); //显示&quot;true&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;从上面的例子可以得出结论：&lt;br /&gt;
-1.undefined与null是相等；&lt;br /&gt;
-2.NaN与任何值都不相等，与自己也不相等。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;boolean&quot;&gt;Boolean&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;var box = true;
-alert(box == 1); //true
-alert(box === 1); //false
-alert(typeof box == typeof 1); //false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;强制性转——要将一个值转换为其对应的Boolean 值，可以使用转型函数Boolean()&lt;br /&gt;
-隐式转换——if 条件语句里面的条件判断&lt;/p&gt;
-
-&lt;p&gt;以下是其他类型转换成Boolean类型规则：&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;数据类型&lt;/td&gt;
-      &lt;td&gt;转换为true的值&lt;/td&gt;
-      &lt;td&gt;转换为false的值&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Boolean&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;String&lt;/td&gt;
-      &lt;td&gt;非空字符串&lt;/td&gt;
-      &lt;td&gt;空字符串&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Number&lt;/td&gt;
-      &lt;td&gt;任何非0数值（包括无穷大）&lt;/td&gt;
-      &lt;td&gt;0 和 NaN&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Object&lt;/td&gt;
-      &lt;td&gt;任何对象&lt;/td&gt;
-      &lt;td&gt;null&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Undefined&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;undefined&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;number&quot;&gt;Number&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;var box = 070;   //八进制
-alert(box);      //56  -- 输出都是十进制！！！
-
-var box = 079;
-alert(box);      //无效的八进制，自动解析为79
-
-浮点类型
-var box = 03.8;
-alert(box);      //error
-var box = 3.80;
-alert(box);      //3.8
-var box = .8     //0.8 有效，但不推荐此写法
-
-//由于保存浮点数值需要的内存空间比整型数值大两倍，因此ECMAScript 会自动将可以转换为整型的浮点数值转成为整型。
-var box = 8.;   //小数点后面没有值，转换为8
-var box = 12.0; //小数点后面是0，转成为12
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;alert(Number.MIN_VALUE); //最小值 5e-324
-alert(Number.MAX_VALUE); //最大值 1.7976931348623157e+308
-
-var box1 = 100e1000; //超出范围，Infinity
-var box2 = -100e1000; //超出范围，-Infinity
-alert(box1);   // Infinity
-alert(box2);   // -Infinity
-
-alert(Number.POSITIVE_INFINITY); //Infinity(正无穷)
-alert(Number.NEGATIVE_INFINITY); //-Infinity(负无穷)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;isFinite()&lt;/code&gt;函数。如果没有超过，返回true，超过了返回false。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = 100e1000;
-alert(isFinite(box));  // false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;NaN&lt;/code&gt;，即非数值(Not a Number)是一个特殊的值，这个数值用于表示一个本来要返回数值的操作数未返回数值的情况(这样就不会抛出错误了)。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = 0 / 0; //NaN
-var box = 12 / 0; //Infinity
-var box = 12 / 0 * 0; //NaN
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;可以通过&lt;code&gt;Number.NaN&lt;/code&gt; 得到NaN 值，任何与NaN 进行运算的结果均为NaN，NaN 与自身不相等(NaN 不与任何值相等)。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;alert(Number.NaN); //NaN
-alert(NaN+1); //NaN
-alert(NaN == NaN) //false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;ECMAScript 提供了&lt;code&gt;isNaN()&lt;/code&gt;函数，用来判断这个值到底是不是NaN。isNaN()函数在接收到一个值之后，会尝试将这个值转换为数值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;alert(isNaN(NaN)); //true
-alert(isNaN(25)); //false，25 是一个数值
-alert(isNaN(&#39;25&#39;)); //false，&#39;25&#39;是一个字符串数值，可以转成数值
-alert(isNaN(&#39;Lee&#39;)); //true，&#39;Lee&#39;不能转换为数值
-alert(isNaN(true)); //false， true可以转成成1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;isNaN()&lt;/code&gt;函数也适用于对象。在调用isNaN()函数过程中，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果不能，则基于这个返回值再调用toString()方法，再测试返回值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = {
-    toString : function () {
-        return &#39;123&#39;; //可以改成return &#39;Lee&#39;查看效果
-    }
-};
-alert(isNaN(box)); //false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;非数值转换为数值&lt;/h4&gt;
-
-&lt;p&gt;有3 个函数可以把非数值转换为数值：&lt;code&gt;Number()&lt;/code&gt;、&lt;code&gt;parseInt()&lt;/code&gt;和&lt;code&gt;parseFloat()&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;Number()&lt;/code&gt;函数是转型函数，可以用于任何数据类型，而另外两个则专门用于把字符串转成数值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;alert(Number(true)); //1，Boolean 类型的true 和false 分别转换成1 和0
-alert(Number(25)); //25，数值型直接返回
-alert(Number(null)); //0，空对象返回0
-alert(Number(undefined)); //NaN，undefined 返回NaN
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果是字符串，应该遵循以下规则：&lt;br /&gt;
-1.只包含数值的字符串，会直接转成成十进制数值，如果包含前导0，即自动去掉。&lt;br /&gt;
-&lt;code&gt;alert(Number(&#39;456&#39;)); //456&lt;/code&gt;&lt;br /&gt;
-&lt;code&gt;alert(Number(&#39;070&#39;)); //70&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;2.只包含浮点数值的字符串，会直接转成浮点数值，如果包含前导和后导0，即自动去掉。&lt;br /&gt;
-&lt;code&gt;alert(Number(&#39;08.90&#39;)); //8.9&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;3.如果字符串是空，那么直接转成成0。&lt;br /&gt;
-&lt;code&gt;alert(Number(&#39;&#39;)); //0&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;4.如果不是以上三种字符串类型，则返回NaN。&lt;br /&gt;
-&lt;code&gt;alert(Number(&#39;Lee123&#39;)); //NaN&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;5.如果是对象，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果&lt;br /&gt;
-转换的结果是NaN，则基于这个返回值再调用toString()方法，再测试返回值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = {
-    toString : function () {
-        return &#39;123&#39;; //可以改成return &#39;Lee&#39;查看效果
-    }
-};
-alert(Number(box)); //123
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由于&lt;code&gt;Number()&lt;/code&gt;函数在转换字符串时比较复杂且不够合理，因此在处理整数的时候更常用的是&lt;code&gt;parseInt()&lt;/code&gt;。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;alert(parsetInt(&#39;456Lee&#39;)); //456，会返回整数部分
-alert(parsetInt(&#39;Lee456Lee&#39;)); //NaN，如果第一个不是数值，就返回NaN
-alert(parseInt(&#39;12Lee56Lee&#39;)); //12，从第一数值开始取，到最后一个连续数值结束
-alert(parseInt(&#39;56.12&#39;)); //56，小数点不是数值，会被去掉
-alert(parseInt(&#39;&#39;)); //NaN，空返回NaN
-
-//parseInt()除了能够识别十进制数值，也可以识别八进制和十六进制。
-alert(parseInt(&#39;0xA&#39;)); //10，十六进制
-alert(parseInt(&#39;070&#39;)); //56，八进制
-alert(parseInt(&#39;0xALee&#39;)); //100，十六进制，Lee 被自动过滤掉
-
-//ECMAScript 为parseInt()提供了第二个参数，用于解决各种进制的转换。
-alert(parseInt(&#39;0xAF&#39;)); //175，十六进制
-alert(parseInt(&#39;AF&#39;,16)); //175，第二参数指定十六进制，可以去掉0x 前导
-alert(parseInt(&#39;AF&#39;)); //NaN，理所当然
-alert(parseInt(&#39;101010101&#39;,2)); //314，二进制转换
-alert(parseInt(&#39;70&#39;,8)) //56，八进制转换
-
-//parseFloat()是用于浮点数值转换的，和parseInt()一样，从第一位解析到非浮点数值位置。
-alert(parseFloat(&#39;123Lee&#39;)); //123，去掉不是别的部分
-alert(parseFloat(&#39;0xA&#39;)); //0，不认十六进制
-alert(parseFloat(&#39;123.4.5&#39;)); //123.4，只认一个小数点
-alert(parseFloat(&#39;0123.400&#39;)); //123.4，去掉前后导
-alert(parseFloat(&#39;1.234e7&#39;)); //12340000，把科学技术法转成普通数值
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;string&quot;&gt;String&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;字面量&lt;/td&gt;
-      &lt;td&gt;含义&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\n&lt;/td&gt;
-      &lt;td&gt;换行&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\t&lt;/td&gt;
-      &lt;td&gt;制表&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\b&lt;/td&gt;
-      &lt;td&gt;空格&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\r&lt;/td&gt;
-      &lt;td&gt;回车&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\f&lt;/td&gt;
-      &lt;td&gt;换页&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\&lt;/td&gt;
-      &lt;td&gt;斜杠&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&#39;&lt;/td&gt;
-      &lt;td&gt;单引号&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&quot;&lt;/td&gt;
-      &lt;td&gt;双引号&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\xnn&lt;/td&gt;
-      &lt;td&gt;以十六进制代码nn表示的一个字符(0~F)。例：\x41&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;\unnn&lt;/td&gt;
-      &lt;td&gt;以十六进制代码nnn表示的一个Unicode字符(0~F)。例：\u01a9&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;ECMAScript 中的字符串是不可变的，也就是说，字符串一旦创建它们的值就不能改变。要改变某个变量保存的字符串，首先要销毁原来的字符串，然后再用另一个包含新值的字符串填充该变量。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = &#39;Mr.&#39;;
-box = box + &#39; Lee&#39;;   //把原来的‘Mr’复制一份，再加上‘Lee’，赋值给box，原来的‘Mr’销毁
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;toString()&lt;/code&gt;方法一般是不需要传参的，但在数值转成字符串的时候，可以传递进制参数。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = 10;
-alert(box.toString()); //&#39;10&#39;，默认输出
-alert(box.toString(2)); //&#39;1010&#39;，二进制输出
-alert(box.toString(8)); //&#39;12&#39;，八进制输出
-alert(box.toString(10)); //&#39;10&#39;，十进制输出
-alert(box.toString(16)); //&#39;a&#39;，十六进制输出
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果在转型之前不知道变量是否是null 或者undefined 的情况下，我们还可以使用转型函数&lt;code&gt;String()&lt;/code&gt;，这个函数能够将任何类型的值转换为字符串。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = null;
-alert(String(box));//&#39;null&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;objec&quot;&gt;Objec&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = null;
-var box = {};
-var box = new Object();
-var box = Object();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Object()里可以任意传参，可以传数值、字符串、布尔值等。而且，还可以进行相应的计算。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = new Object(2);  //Object 类型，值是2
-alert(box);               //2
-alert(typeof box);        //&quot;object&quot;
-alert(box+2);             //4，可以和普通变量运算
-alert(typeof (box+2));    //&quot;number&quot;，输出结果转型成Number类型了
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Number，String，Boolean用&lt;code&gt;new&lt;/code&gt;出来的是Object类型&lt;br /&gt;
-数组和对象不用new也是object类型&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var box = new Number(22);
-alert(typeof box);   //object
-
-var cat = 22;
-alert(typeof cat);     //number
-&lt;/code&gt;&lt;/pre&gt;
-
-</description>
-        <pubDate>Sat, 21 Nov 2015 00:00:00 +0800</pubDate>
-        <link>http://kathyxxu.github.io/2015/11/21/jsBasic01/</link>
-        <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/21/jsBasic01/</guid>
-        
-        <category>js基础</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>js创建对象</title>
+        <title>javascript创建对象</title>
         <description>&lt;h2 id=&quot;section&quot;&gt;1.创建对象&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;var person = new Object();
@@ -1356,12 +934,6 @@ inputObj.onpaste = function() {
         <link>http://kathyxxu.github.io/2015/11/14/form/</link>
         <guid isPermaLink="true">http://kathyxxu.github.io/2015/11/14/form/</guid>
         
-        <category>去除空格</category>
-        
-        <category>禁止输入</category>
-        
-        <category>字符限制</category>
-        
         
       </item>
     
@@ -1585,9 +1157,1023 @@ inputObj.onpaste = function() {
         
         <category>webkit-box</category>
         
-        <category>css</category>
         
-        <category>对齐</category>
+      </item>
+    
+      <item>
+        <title>javascript模式笔记2——字面量和构造函数</title>
+        <description>&lt;style type=&quot;text/css&quot;&gt;
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+	.post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+    	margin: 60px 0 10px;
+	}
+	.post-container ul, .post-container ol {
+	    margin-bottom: 20px;
+	}
+&lt;/style&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;对象字面量：&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//开始定义一个空对象
+var dog = {};
+//添加属性
+dog.name = &quot;wangwagn&quot;;
+//添加方法
+dog.getName = function(){
+    return dog.name;
+}
+
+
+//改变属性和方法
+dog.getName = function(){
+    return &quot;Fido&quot;;
+}
+
+//删除属性和方法
+delete dog.name;
+
+
+//添加属性和方法
+dog.say = function(){
+    return &quot;Woof!&quot;;
+}
+dog.fleas = true;
+
+
+//也可以在创建对象时，向其添加属性和方法
+var dog = {
+    name : &quot;wangwang&quot;;
+    getName : function(){
+        return this.name;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意：全局变量（var 声明）不可删&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;创建对象的两种的方法&lt;/h3&gt;
+&lt;p&gt;第一种是使用&lt;strong&gt;字面量&lt;/strong&gt;方法创建对象：&lt;code&gt;var oschina = {goes:&quot;far&quot;};&lt;/code&gt;&lt;br /&gt;
+第二种是使用&lt;strong&gt;内置构造函数&lt;/strong&gt;创建对象：&lt;code&gt;var oschina = new Object();  car.gose = &quot;far&quot;;&lt;/code&gt;&lt;br /&gt;
+我们应该尽量使用字面量方法创建对象，其显著优点在于它仅仅输入更短的字符。&lt;br /&gt;
+但是选择它还有以下几个更重要的原因：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;选择字面量法创建对象强调该对象仅是一个可变的hash映射，而不是从对象中提取的属性或方法。&lt;/li&gt;
+  &lt;li&gt;对使用Object构造函数相对，使用字面量在于它并没有作用域解析。因为可能以同样的名字创建一个局部函数，解释器需要从调用Object()的位置开始一直向上查询作用域链，知道发现全局Object构造函数&lt;/li&gt;
+  &lt;li&gt;构造函数Object可以仅接受一个参数，并且还依赖传递的值，该Object()可能会委派另一个内置函数来创建对象，并且返回了一个并非期望的不同对象。如将数字、字符串、布尔值当做参数传递给Object构造函数，其结果是获得了以不同构造函数所创建的对象，例如：&lt;code&gt;var oschina = new Object(1);&lt;/code&gt; &lt;code&gt;ochina.constructor&lt;/code&gt;为Number；传递的值是动态的，直到运行时才确定其类型，这种行为会导致意想不到的结果。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;//一个空对象
+var o = new Object();
+console.log(o.constructor === Object);  //true
+
+
+//一个数值对象
+var o = new Object(1);
+console.log(o.constructor === Number);  //true
+console.log(o.toFixed(2));  //1.00
+
+
+//一个字符串对象
+var o = new Object(&quot;I am a string&quot;);
+console.log(o.constructor === String);  //true
+//一般的对象没有substring方法，但是字符串对象有
+console.log(typeof o.substring);    //&quot;function&quot;
+
+
+//一个布尔对象
+var o = new Object(true);
+console.log(o.constructor === Boolean);  //true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;自定义构造函数&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;var Person = function(name){
+    this.name = name;
+    this.say = function(){
+        return &quot;I&#39;am &quot; + this.name;
+    };
+}
+
+
+var Person = function(name){
+    //使用对象字面量模式创建一个新对象
+    //var this = {};
+
+    //向this添加属性和方法
+    this.name = name;
+    this.say = function(){
+        return &quot;I&#39;am &quot; + this.name;
+    };
+
+    //return this;
+}
+
+var xuxuan = new Person(&quot;kathy&quot;);
+console.log(xuxuan.say());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用new调用构造函数：&lt;br /&gt;
+1. 创建一个空对象，并且this引用了该对象，同时还继承了该函数的原型&lt;br /&gt;
+2. 属性和方法添加到this引用的对象中&lt;br /&gt;
+3. 新创建的对象由this引用， 最后隐式地返回this（如果没有显示的返回其他对象）&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;//var this = {};&lt;/code&gt;&lt;br /&gt;
+以上语句并不是真相的全部哦。因为“空”对象实际上并不空，已从Person的原型中继承了许多成员，因此它更像下面的语句：&lt;br /&gt;
+&lt;code&gt;//var this = Object.create(Person.prototype);&lt;/code&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 02 Dec 2013 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/</guid>
+        
+        <category>js模式笔记</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>javascript模式笔记1——基本技巧</title>
+        <description>&lt;style type=&quot;text/css&quot;&gt;
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+	.post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+    	margin: 60px 0 10px;
+	}
+	.post-container ul, .post-container ol {
+	    margin-bottom: 20px;
+	}
+&lt;/style&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;关于全局变量&lt;/h3&gt;
+
+&lt;p&gt;js使用函数管理作用域，变量在函数内声明，只在函数内有效，外部无法访问。&lt;br /&gt;
+全局变量在函数外声明，在函数内无需声明就可使用。&lt;/p&gt;
+
+&lt;p&gt;js如下特性，即&lt;strong&gt;意外创建全局变量：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;可以直接使用变量，甚至无需声明&lt;/li&gt;
+  &lt;li&gt;有个暗示全局变量，即任何变量若未经声明，就为全局对象所有&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;myGolbal = &quot;hello&quot;;  //反模式
+console.log(myGolbal);  //hello
+console.log(window.myGolbal);  //hello
+console.log(window[&quot;myGolbal&quot;]);  //hello
+console.log(this.myGolbal);  //hello
+
+function xx(){
+    console.log(typeof this.myGolbal);  //&quot;string&quot;
+    console.log(this.myGolbal); //hello
+}
+xx();
+
+var Xu= function(){
+    this.say = function(){
+        console.log(typeof this.myGolbal);  //&quot;undefined&quot;
+        console.log(this.myGolbal); //undefined
+    }
+}
+var xu = new Xu();
+xu.say();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;最小化全局变量：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;使用var声明&lt;/li&gt;
+  &lt;li&gt;命名空间模式&lt;/li&gt;
+  &lt;li&gt;自执行立即生效函数(the self-executing immediate functions)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;function foo(){
+    var a = b = 0;
+    // 结果：a-局部  b-全局
+    // 解释：var a =( b= 0);  从右至左的操作符优先级；优先级高的是表达式b=0,此时b未声明；表达式的返回值为0，赋给var声明的局部变量a
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;function foo(){
+    var a, b;
+    a = b = 0;
+    // 这样，a，b都是全局变量
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;访问全局对象：&lt;/strong&gt;&lt;br /&gt;
+这种方式通常能获得全局对象，因为this在函数内部作为一个函数调用（而不是通过构造器new创建）时，往往指向该全局对象。但是，在严格模式下会出错。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&quot;use strict&quot;
+var global = (function(){
+    return this;
+})();
+console.log(global);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;varsingle-var-pattern&quot;&gt;单一var模式（Single var Pattern）&lt;/h3&gt;
+&lt;p&gt;只是用一个var在函数顶部进行变量声明&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function func(){
+    var a = 1,
+        b=2,
+        sum = a + b,
+        myobject = {},
+        i,
+        j;
+    //....
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;变量提升&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;myname = &quot;global&quot;;
+function func(){
+    console.log(myname); //undefined
+    var myname = &quot;local&quot;;
+    console.log(myname); //&quot;local&quot;
+}
+func();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所有的变量声明都提升到函数的最顶层&lt;br /&gt;
+为避免混乱，最好在开始就声明要用的所有变量&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;myname = &quot;global&quot;;
+function func(){
+    var myname;
+    console.log(myname); //undefined
+    var myname = &quot;local&quot;;
+    console.log(myname); //&quot;local&quot;
+}
+func();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于变量代码处理两个阶段：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;进入上下文：创建变量、函数声明、形式参数&lt;/li&gt;
+  &lt;li&gt;代码运行：创建函数表达式和不合格标示符（未定义变量）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;for&quot;&gt;for循环&lt;/h3&gt;
+
+&lt;p&gt;问题：每次都要访问数组的长度，导致速度变慢。尤其当myarray不是数组，而是HTML容器对象的时候。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for(var i=0; i&amp;lt;myarray.length; i++){
+  ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HTML容器是DOM方法返回的对象：&lt;br /&gt;
+document.getElementsByName()&lt;br /&gt;
+document.getElementsByClassName()&lt;br /&gt;
+document.getElementsByTagName()&lt;br /&gt;
+documents.images&lt;br /&gt;
+documents.links&lt;br /&gt;
+documents.forms&lt;br /&gt;
+document.forms[0].elements&lt;/p&gt;
+
+&lt;p&gt;容器的问题在于他们在document（HTML页面）下是活动的查询，每次访问任何容器的长度是，也就是在查询活动的DOM，通常DOM操作是非常耗时的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;优化：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;用i++; 代替 i=i+1; i+=1;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for(var i=0, max=myarray.length; i&amp;lt;max; i++){
+  ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用最少的变量：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var i, myarray=[5,9,&quot;dd&quot;];
+for(i=myarray.length; i&amp;gt;0 ;i--){
+    console.log(myarray[i-1]);
+}
+
+
+var i, myarray=[5,9,&quot;dd&quot;];
+for(i=myarray.length; i--; ){
+    console.log(myarray[i]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;逐步减至0，因为同0比较长度效率更高&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var myarray=[5,9,&quot;dd&quot;];
+var i = myarray.length;
+console.log(i); //3
+while(i--){
+    console.log(i);  //2 1 0
+    console.log(myarray[i]);  //dd 9 5
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;for-in&quot;&gt;for-in循环&lt;/h3&gt;
+
+&lt;p&gt;for-in遍历非数组对象，不推荐遍历数组（当数组对象已经被自定义函数扩大后，这样做会导致逻辑错误）,&lt;br /&gt;
+所以推荐for循环处理数组，for-in循环处理对象。&lt;br /&gt;
+当遍历对象属性遇到原型链属性时，使用hasOwnProperty()非常重要！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var man={
+    hands : 2,
+    legs : 2,
+    heads : 1
+}
+
+if(typeof Object.prototype.clone === &quot;undefined&quot;){
+    Object.prototype.clone = function(){
+        console.log(&quot;I&#39;m clone!&quot;);
+    }
+}
+
+
+//不过滤，会打印出clone()
+for(var i in man){
+    console.log(i,&quot;:&quot;,man[i]);
+}
+/*
+hands : 2
+legs : 2
+heads : 1
+clone : (){
+    console.log(&quot;I&#39;m clone!&quot;);
+}
+*/
+
+
+//使用hasOwnProperty过滤原型属性
+for(var i in man){
+    if(man.hasOwnProperty(i)){
+        console.log(i,&quot;:&quot;,man[i]);
+    }
+}
+/*
+hands : 2
+legs : 2
+heads : 1
+*/
+
+
+//另一种使用hasOwnProperty的模式是在Object.prototype中调用
+for(var i in man){
+    if(Object.prototype.hasOwnProperty.call(man,i)){
+        console.log(i,&quot;:&quot;,man[i]);
+    }
+}
+
+
+//使用本地变量缓存较长属性名
+var i,
+    hasOwn = Object.prototype.hasOwnProperty;
+for(i in man){
+    if(hasOwn.call(man,i)){
+        console.log(i,&quot;:&quot;,man[i]);
+    }
+}
+
+
+//一种格式化的变种（没有通过JSLint测试）省略了花括号，并将if语句放在同一行中
+//好处：可读性强（拥有属性X的元素，就直接对其操作；更少的缩进达到循环的目的）
+var i,
+    hasOwn = Object.prototype.hasOwnProperty;
+for(i in man) if(hasOwn.call(man,i)){
+    console.log(i,&quot;:&quot;,man[i]);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;不要随意增加内置的原型&lt;/h3&gt;
+
+&lt;p&gt;1.影响代码可维护性&lt;br /&gt;
+2.给原型添加的属性在没有使用hasOwnProperty()时，可能在循环中出现，导致一些混乱&lt;/p&gt;
+
+&lt;p&gt;可采用如下模式为原型增加自定义的方法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if(typeof Object.prototype.myMethod !== &quot;function&quot;){
+    Object.prototype.myMethod = function(){
+        //.....
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;switch&quot;&gt;switch模式&lt;/h3&gt;
+
+&lt;p&gt;要注意一点的是：避免使用fall-throughs（即有意不使用break语句，这样会使程序一直向下执行）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var inspect_me = 0,
+    result = &quot;&quot;;
+
+switch(inspect_me){
+    case 0:
+        result = &quot;zero&quot;;
+        break;
+    case 1 :
+        result = &quot;one&quot;;
+        break;
+    default:
+        result = &quot;unknow&quot;;
+}
+
+console.log(result);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;避免使用隐式类型转换&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;var zero = 0;
+if(zero == false){
+    console.log(&quot;zero == false is true!&quot;);
+}
+if(zero === false){
+    console.log(&quot;zero === false is true!&quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果：zero == false is true!&lt;br /&gt;
+原因：js在使用比较语句时会执行隐式类型转换，false==0 or “”==0 会返回true；&lt;br /&gt;
+为避免混淆，在使用比较语句的时候使用=== or !==&lt;/p&gt;
+
+&lt;h3 id=&quot;eval&quot;&gt;避免使用eval()&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;var property = &quot;name&quot;,
+    method = &quot;getName&quot;;
+var obj = {
+    name:&quot;kathy&quot;,
+    getName : function(){
+        return this.name;
+    }
+};
+
+//反模式
+console.log(eval(&quot;obj.&quot;+property));
+console.log(eval(&quot;obj.&quot;+method+&quot;()&quot;));
+
+
+//推荐的方法，简单的使用[]访问动态属性
+console.log(obj[property]);
+console.log(obj[method]());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用&lt;code&gt;eval()&lt;/code&gt;包含一些安全隐患，有可能执行被篡改过得代码（例如来自网络的代码），这是在处理一个Ajax请求的JSON响应时常见的反模式。在这些情况下，最好使用浏览器内置方法解析JSON请求，确保安全性和有效性。&lt;br /&gt;
+注意：通过&lt;code&gt;setInterval()&lt;/code&gt;  &lt;code&gt;setTimeout()&lt;/code&gt;  &lt;code&gt;function()&lt;/code&gt;等构造函数来传递参数，大部分情况下会导致类似eval()隐患，应避免使用；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var myFunc1 = function(){
+    console.log(1);
+}
+var myFunc2 = function(p1,p2,p3){
+    console.log(p1,p2,p3);
+}
+
+//反模式
+setTimeout(&quot;myFunc1()&quot;,1000);
+setTimeout(&quot;myFunc2(2,3,4)&quot;,2000);
+
+//推荐的模式
+setTimeout(myFunc1,3000);
+setTimeout(myFunc2(7,8,9),4000);  // setTimeout(myFunc2(7,8,9),4000); 是立即执行的，所以设置4000不生效
+setTimeout(function(){
+    myFunc2(77,88,99);
+},5000);
+
+/*
+7 8 9
+1
+2 3 4
+1
+77 88 99
+*/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;考虑使用&lt;strong&gt;new Function() 代替eval()&lt;/strong&gt;或者&lt;strong&gt;将eval()封装到一个即时函数中&lt;/strong&gt;。&lt;br /&gt;
+这样做的好处是new Function()代码在局部函数空间运行，代码中任何var定义的变量不会自动成为全局变量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;console.log(typeof one);   //&quot;undefined&quot;
+console.log(typeof two);   //&quot;undefined&quot;
+console.log(typeof three); //&quot;undefined&quot;
+
+//使用eval
+var jsstring = &quot;var one = 1; console.log(one);&quot;;
+eval(jsstring);
+
+//使用new Function
+var jsstring = &quot;var two = 2; console.log(two);&quot;;
+new Function(jsstring)();
+
+//将eval封装到一个即时函数中
+var jsstring = &quot;var three = 3; console.log(three);&quot;;
+(function(){
+    eval(jsstring);
+})();
+
+console.log(typeof one);    //&quot;number&quot;
+console.log(typeof two);    //&quot;undefined&quot;
+console.log(typeof three);  //&quot;undefined&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;eval()&lt;/code&gt;可以访问和修改它外部作用域的变量&lt;br /&gt;
+&lt;code&gt;Function&lt;/code&gt;多类似一个沙盒，无论在哪里执行，只能看到全局作用域&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(function(){
+    var local = 1;
+    //eval可以访问和修改它外部作用域的变量
+    eval(&quot;local = 3; console.log(local)&quot;); //3
+    console.log(local);  //3
+})();
+
+
+(function(){
+    var local = 1;
+    //Function就不可以，它仅能看到全局作用域
+    new Function(&quot;local = 3; console.log(local)&quot;)();  //3
+    console.log(local);  //1
+})();
+
+
+(function(){
+    var local = 1;
+    eval(&quot;console.log(typeof local)&quot;); //&quot;number&quot;
+    console.log(local);  //1
+})();
+
+
+var global = &quot;golbal_var&quot;;
+(function(){
+    var local = 1;
+    //Function类似一个沙盒，它仅能看到全局作用域(global)，因此对局部变量(local)的影响比较小
+    Function(&quot;console.log(typeof local)&quot;)();  //&quot;undefined&quot;
+    Function(&quot;console.log(typeof global)&quot;)();  //&quot;string&quot;
+    console.log(local);  //1
+})();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;parseint&quot;&gt;使用parseInt()的数值约定：&lt;/h3&gt;
+
+&lt;p&gt;当解析的字符串是0开始，可能被当做8进制，为避免冲突，最好每次都指定具体进制参数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var month = &quot;06&quot;;
+var day = &quot;09&quot;;
+month = parseInt(month,10);
+day = parseInt(day,10);
+
+console.log(month,day); // 6 9
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;两个方法将非数值–&amp;gt;数值&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box1 = &quot;08&quot;;
+console.log(typeof +box1); //number
+
+var box2 = Number(&quot;08&quot;);
+console.log(typeof box2);  //number
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;比较：&lt;br /&gt;
+parseInt()——解析&lt;br /&gt;
+Number()——简单转换&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;console.log(Number(&quot;012xx&quot;)); //NaN
+console.log(Number(&quot;xx012&quot;)); //NaN
+console.log(parseInt(&quot;012xx&quot;)); //12
+console.log(parseInt(&quot;xx012&quot;)); //NaN,如果第一个不是数值，就返回NaN
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Mon, 25 Nov 2013 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2013/11/25/jsPatternNote_1/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2013/11/25/jsPatternNote_1/</guid>
+        
+        <category>js模式笔记</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>javascript基础一：六大基本数据类型Undefined、Null、Boolean、Number、String、Object</title>
+        <description>&lt;style type=&quot;text/css&quot;&gt;
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;strong&gt;5种简单数据类型：&lt;/strong&gt; Undefined、Null、Boolean、Number 和 String&lt;br /&gt;
+&lt;strong&gt;1种复杂数据类型：&lt;/strong&gt; Object&lt;br /&gt;
+&lt;strong&gt;typeof&lt;/strong&gt; 返回的是字符串，有六种可能：&lt;br /&gt;
+“undefined”、”boolean”、”number”、”string”、”object”、”function”&lt;/p&gt;
+
+&lt;h2 id=&quot;undefined-vs-null-vs-nan&quot;&gt;undefined vs null vs NaN&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;var a1;
+var a2 = true;
+var a3 = 1;
+var a4 = &quot;Hello&quot;;
+var a5 = new Object();
+var a6 = null;
+var a7 = NaN;
+var a8 = undefined;
+alert(typeof a);  //显示&quot;undefined&quot;
+alert(typeof a1); //显示&quot;undefined&quot;
+alert(typeof a2); //显示&quot;boolean&quot;
+alert(typeof a3); //显示&quot;number&quot;
+alert(typeof a4); //显示&quot;string&quot;
+alert(typeof a5); //显示&quot;object&quot;
+alert(typeof a6); //显示&quot;object&quot;
+alert(typeof a7); //显示&quot;number&quot;
+alert(typeof a8); //显示&quot;undefined&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;从上面的代码中可以看出:&lt;br /&gt;
+1. 未定义的值和定义未赋值的为undefined&lt;br /&gt;
+2. null是一种特殊的object&lt;br /&gt;
+3. NaN是一种特殊的number&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;// 空的对象，表示这个对象创建了，里面没有东西
+// var box = {};
+var box = new Object();   // box是Object类型，值是[object,Object]，类型返回的字符串是object
+alert(box);               // [object,Object]
+alert(typeof box);        // &quot;object&quot;
+
+//空对象，表示没有创建，就是一个null
+var box = null;          // box是Null类型，值是null，类型返回的字符串是object
+alert(box);              // null
+alert(typeof box);       // &quot;object&quot;
+
+var box = function(){ var a = 20;}
+alert(box);              // function(){ var a = 20;}
+alert(typeof  box);      // &quot;function&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意：函数在ECMAScript 中是对象，不是一种数据类型。&lt;br /&gt;
+所以，使用typeof 来区分function 和object 是非常有必要的!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;var box;
+alert(box);     // undefined
+alert(cat);     // Uncaught ReferenceError: cat is not defined 浏览器报错
+alert(typeof box);     // &quot;undefined&quot;
+alert(typeof cat);     // &quot;undefined&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;变量&lt;/td&gt;
+      &lt;td&gt;描述&lt;/td&gt;
+      &lt;td&gt;值&lt;/td&gt;
+      &lt;td&gt;类型&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;box&lt;/td&gt;
+      &lt;td&gt;未初始化的变量&lt;/td&gt;
+      &lt;td&gt;“undefined”&lt;/td&gt;
+      &lt;td&gt;undefined&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cat&lt;/td&gt;
+      &lt;td&gt;根本不存在的变量(未声明的变量)&lt;/td&gt;
+      &lt;td&gt;报错&lt;/td&gt;
+      &lt;td&gt;undefined&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Undefined&lt;/strong&gt; 类型只有一个值，即特殊的”undefined”。在使用var声明变量，但没有对其初始化时，这个变量的值就是undefined。无法使用 for/in 循环来枚举 undefined 属性，也不能用 delete 运算符来删除它。undefined 不是常量，可以把它设置为其他值。&lt;br /&gt;
+&lt;strong&gt;Null&lt;/strong&gt; 类型是一个只有一个值，即特殊的值”null”。它表示一个空对象引用(指针)，而typeof操作符检测null会返回object。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box;
+var car = null;
+alert(box == car)  // true
+alert(typeof box == typeof car)  // false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;有个要说明的是：undefined 是派生自null 的，因此ECMA-262 规定对它们的相等性测试返回true。&lt;br /&gt;
+&lt;code&gt;alert(undefined == null);   //true值相等&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(undefined === null); //false值相等，数据类型不等&lt;/code&gt;&lt;br /&gt;
+由于undefined 和null 两个值的比较是相等的，所以，未初始化的变量和赋值为null 的变量会相等。&lt;br /&gt;
+这时，可以采用typeof 变量的类型进行比较。但，建议还是养成编码的规范，不要忘记初始化变量。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;var a1;         //a1的值为undefined
+var a2 = null;
+var a3 = NaN;
+alert(a1 == a2); //显示&quot;true&quot;
+alert(a1 != a2); //显示&quot;false&quot;
+alert(a1 == a3); //显示&quot;false&quot;
+alert(a1 != a3); //显示&quot;true&quot;
+alert(a2 == a3); //显示&quot;false&quot;
+alert(a2 != a3); //显示&quot;true&quot;
+alert(a3 == a3); //显示&quot;false&quot;
+alert(a3 != a3); //显示&quot;true&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;从上面的例子可以得出结论：&lt;br /&gt;
+1.undefined与null是相等；&lt;br /&gt;
+2.NaN与任何值都不相等，与自己也不相等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;boolean&quot;&gt;Boolean&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;var box = true;
+alert(box == 1); //true
+alert(box === 1); //false
+alert(typeof box == typeof 1); //false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;强制性转——要将一个值转换为其对应的Boolean 值，可以使用转型函数Boolean()&lt;br /&gt;
+隐式转换——if 条件语句里面的条件判断&lt;/p&gt;
+
+&lt;p&gt;以下是其他类型转换成Boolean类型规则：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;数据类型&lt;/td&gt;
+      &lt;td&gt;转换为true的值&lt;/td&gt;
+      &lt;td&gt;转换为false的值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Boolean&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;非空字符串&lt;/td&gt;
+      &lt;td&gt;空字符串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Number&lt;/td&gt;
+      &lt;td&gt;任何非0数值（包括无穷大）&lt;/td&gt;
+      &lt;td&gt;0 和 NaN&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Object&lt;/td&gt;
+      &lt;td&gt;任何对象&lt;/td&gt;
+      &lt;td&gt;null&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Undefined&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;undefined&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;number&quot;&gt;Number&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;var box = 070;   //八进制
+alert(box);      //56  -- 输出都是十进制！！！
+
+var box = 079;
+alert(box);      //无效的八进制，自动解析为79
+
+浮点类型
+var box = 03.8;
+alert(box);      //error
+var box = 3.80;
+alert(box);      //3.8
+var box = .8     //0.8 有效，但不推荐此写法
+
+//由于保存浮点数值需要的内存空间比整型数值大两倍，因此ECMAScript 会自动将可以转换为整型的浮点数值转成为整型。
+var box = 8.;   //小数点后面没有值，转换为8
+var box = 12.0; //小数点后面是0，转成为12
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;alert(Number.MIN_VALUE); //最小值 5e-324
+alert(Number.MAX_VALUE); //最大值 1.7976931348623157e+308
+
+var box1 = 100e1000; //超出范围，Infinity
+var box2 = -100e1000; //超出范围，-Infinity
+alert(box1);   // Infinity
+alert(box2);   // -Infinity
+
+alert(Number.POSITIVE_INFINITY); //Infinity(正无穷)
+alert(Number.NEGATIVE_INFINITY); //-Infinity(负无穷)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;isFinite()&lt;/code&gt;函数。如果没有超过，返回true，超过了返回false。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = 100e1000;
+alert(isFinite(box));  // false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;NaN&lt;/code&gt;，即非数值(Not a Number)是一个特殊的值，这个数值用于表示一个本来要返回数值的操作数未返回数值的情况(这样就不会抛出错误了)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = 0 / 0; //NaN
+var box = 12 / 0; //Infinity
+var box = 12 / 0 * 0; //NaN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以通过&lt;code&gt;Number.NaN&lt;/code&gt; 得到NaN 值，任何与NaN 进行运算的结果均为NaN，NaN 与自身不相等(NaN 不与任何值相等)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alert(Number.NaN); //NaN
+alert(NaN+1); //NaN
+alert(NaN == NaN) //false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ECMAScript 提供了&lt;code&gt;isNaN()&lt;/code&gt;函数，用来判断这个值到底是不是NaN。isNaN()函数在接收到一个值之后，会尝试将这个值转换为数值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alert(isNaN(NaN)); //true
+alert(isNaN(25)); //false，25 是一个数值
+alert(isNaN(&#39;25&#39;)); //false，&#39;25&#39;是一个字符串数值，可以转成数值
+alert(isNaN(&#39;Lee&#39;)); //true，&#39;Lee&#39;不能转换为数值
+alert(isNaN(true)); //false， true可以转成成1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;isNaN()&lt;/code&gt;函数也适用于对象。在调用isNaN()函数过程中，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果不能，则基于这个返回值再调用toString()方法，再测试返回值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = {
+    toString : function () {
+        return &#39;123&#39;; //可以改成return &#39;Lee&#39;查看效果
+    }
+};
+alert(isNaN(box)); //false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;非数值转换为数值&lt;/h4&gt;
+
+&lt;p&gt;有3 个函数可以把非数值转换为数值：&lt;code&gt;Number()&lt;/code&gt;、&lt;code&gt;parseInt()&lt;/code&gt;和&lt;code&gt;parseFloat()&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Number()&lt;/code&gt;函数是转型函数，可以用于任何数据类型，而另外两个则专门用于把字符串转成数值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alert(Number(true)); //1，Boolean 类型的true 和false 分别转换成1 和0
+alert(Number(25)); //25，数值型直接返回
+alert(Number(null)); //0，空对象返回0
+alert(Number(undefined)); //NaN，undefined 返回NaN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果是字符串，应该遵循以下规则：&lt;br /&gt;
+1.只包含数值的字符串，会直接转成成十进制数值，如果包含前导0，即自动去掉。&lt;br /&gt;
+&lt;code&gt;alert(Number(&#39;456&#39;)); //456&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;alert(Number(&#39;070&#39;)); //70&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.只包含浮点数值的字符串，会直接转成浮点数值，如果包含前导和后导0，即自动去掉。&lt;br /&gt;
+&lt;code&gt;alert(Number(&#39;08.90&#39;)); //8.9&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;3.如果字符串是空，那么直接转成成0。&lt;br /&gt;
+&lt;code&gt;alert(Number(&#39;&#39;)); //0&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;4.如果不是以上三种字符串类型，则返回NaN。&lt;br /&gt;
+&lt;code&gt;alert(Number(&#39;Lee123&#39;)); //NaN&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;5.如果是对象，首先会调用valueOf()方法，然后确定返回值是否能够转换成数值。如果&lt;br /&gt;
+转换的结果是NaN，则基于这个返回值再调用toString()方法，再测试返回值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = {
+    toString : function () {
+        return &#39;123&#39;; //可以改成return &#39;Lee&#39;查看效果
+    }
+};
+alert(Number(box)); //123
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由于&lt;code&gt;Number()&lt;/code&gt;函数在转换字符串时比较复杂且不够合理，因此在处理整数的时候更常用的是&lt;code&gt;parseInt()&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alert(parsetInt(&#39;456Lee&#39;)); //456，会返回整数部分
+alert(parsetInt(&#39;Lee456Lee&#39;)); //NaN，如果第一个不是数值，就返回NaN
+alert(parseInt(&#39;12Lee56Lee&#39;)); //12，从第一数值开始取，到最后一个连续数值结束
+alert(parseInt(&#39;56.12&#39;)); //56，小数点不是数值，会被去掉
+alert(parseInt(&#39;&#39;)); //NaN，空返回NaN
+
+//parseInt()除了能够识别十进制数值，也可以识别八进制和十六进制。
+alert(parseInt(&#39;0xA&#39;)); //10，十六进制
+alert(parseInt(&#39;070&#39;)); //56，八进制
+alert(parseInt(&#39;0xALee&#39;)); //100，十六进制，Lee 被自动过滤掉
+
+//ECMAScript 为parseInt()提供了第二个参数，用于解决各种进制的转换。
+alert(parseInt(&#39;0xAF&#39;)); //175，十六进制
+alert(parseInt(&#39;AF&#39;,16)); //175，第二参数指定十六进制，可以去掉0x 前导
+alert(parseInt(&#39;AF&#39;)); //NaN，理所当然
+alert(parseInt(&#39;101010101&#39;,2)); //314，二进制转换
+alert(parseInt(&#39;70&#39;,8)) //56，八进制转换
+
+//parseFloat()是用于浮点数值转换的，和parseInt()一样，从第一位解析到非浮点数值位置。
+alert(parseFloat(&#39;123Lee&#39;)); //123，去掉不是别的部分
+alert(parseFloat(&#39;0xA&#39;)); //0，不认十六进制
+alert(parseFloat(&#39;123.4.5&#39;)); //123.4，只认一个小数点
+alert(parseFloat(&#39;0123.400&#39;)); //123.4，去掉前后导
+alert(parseFloat(&#39;1.234e7&#39;)); //12340000，把科学技术法转成普通数值
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;string&quot;&gt;String&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;字面量&lt;/td&gt;
+      &lt;td&gt;含义&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\n&lt;/td&gt;
+      &lt;td&gt;换行&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\t&lt;/td&gt;
+      &lt;td&gt;制表&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\b&lt;/td&gt;
+      &lt;td&gt;空格&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\r&lt;/td&gt;
+      &lt;td&gt;回车&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\f&lt;/td&gt;
+      &lt;td&gt;换页&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\&lt;/td&gt;
+      &lt;td&gt;斜杠&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&#39;&lt;/td&gt;
+      &lt;td&gt;单引号&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&quot;&lt;/td&gt;
+      &lt;td&gt;双引号&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\xnn&lt;/td&gt;
+      &lt;td&gt;以十六进制代码nn表示的一个字符(0~F)。例：\x41&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\unnn&lt;/td&gt;
+      &lt;td&gt;以十六进制代码nnn表示的一个Unicode字符(0~F)。例：\u01a9&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;ECMAScript 中的字符串是不可变的，也就是说，字符串一旦创建它们的值就不能改变。要改变某个变量保存的字符串，首先要销毁原来的字符串，然后再用另一个包含新值的字符串填充该变量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = &#39;Mr.&#39;;
+box = box + &#39; Lee&#39;;   //把原来的‘Mr’复制一份，再加上‘Lee’，赋值给box，原来的‘Mr’销毁
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;toString()&lt;/code&gt;方法一般是不需要传参的，但在数值转成字符串的时候，可以传递进制参数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = 10;
+alert(box.toString()); //&#39;10&#39;，默认输出
+alert(box.toString(2)); //&#39;1010&#39;，二进制输出
+alert(box.toString(8)); //&#39;12&#39;，八进制输出
+alert(box.toString(10)); //&#39;10&#39;，十进制输出
+alert(box.toString(16)); //&#39;a&#39;，十六进制输出
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果在转型之前不知道变量是否是null 或者undefined 的情况下，我们还可以使用转型函数&lt;code&gt;String()&lt;/code&gt;，这个函数能够将任何类型的值转换为字符串。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = null;
+alert(String(box));//&#39;null&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;objec&quot;&gt;Objec&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = null;
+var box = {};
+var box = new Object();
+var box = Object();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Object()里可以任意传参，可以传数值、字符串、布尔值等。而且，还可以进行相应的计算。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = new Object(2);  //Object 类型，值是2
+alert(box);               //2
+alert(typeof box);        //&quot;object&quot;
+alert(box+2);             //4，可以和普通变量运算
+alert(typeof (box+2));    //&quot;number&quot;，输出结果转型成Number类型了
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Number，String，Boolean用&lt;code&gt;new&lt;/code&gt;出来的是Object类型&lt;br /&gt;
+数组和对象不用new也是object类型&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var box = new Number(22);
+alert(typeof box);   //object
+
+var cat = 22;
+alert(typeof cat);     //number
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Tue, 03 Sep 2013 00:00:00 +0800</pubDate>
+        <link>http://kathyxxu.github.io/2013/09/03/jsBasic01/</link>
+        <guid isPermaLink="true">http://kathyxxu.github.io/2013/09/03/jsBasic01/</guid>
+        
+        <category>js基础</category>
         
         
       </item>

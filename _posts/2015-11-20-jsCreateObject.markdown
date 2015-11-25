@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "js创建对象"
-subtitle:   ""
+title:      "javascript创建对象"
+subtitle:   "工厂模式、构造函数模式、原型模式"
 date:       2015-11-20
 author:     "徐璇"
 header-img: "img/post-bg-universe.jpg"

@@ -9,9 +9,9 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>webkit-box弹性盒子 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>javascript模式笔记1——基本技巧 - 徐璇的博客 | Kathyxxu Blog</title>
 
-    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/09/webkit-box/">
+    <link rel="canonical" href="http://kathyxxu.github.io/2013/11/25/jsPatternNote_1/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -124,12 +124,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-os-metro.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/post-bg-os-metro.jpg')
+        background-image: url('/img/post-bg-universe.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -139,15 +139,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#webkit-box" title="webkit-box">webkit-box</a>
+                        <a class="tag" href="/tags/#js模式笔记" title="js模式笔记">js模式笔记</a>
                         
                     </div>
-                    <h1>webkit-box弹性盒子</h1>
+                    <h1>javascript模式笔记1——基本技巧</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by 徐璇 on November 9, 2015</span>
+                    <span class="meta">Posted by 徐璇 on November 25, 2013</span>
                 </div>
             </div>
         </div>
@@ -165,217 +165,452 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h1 id="icon">栗子1：icon和文字对齐并居中显示</h1>
-
-<!-- !["栗子1"](../../../../imgPost/2015-11-09/1.png) -->
-
-<style type="text/css">
-    .ajax-loader{
-        margin: 30px 0 20px 0;
-        width: 100%;
-        height: 40px;
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-    }
-    .ajax-loader i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-        margin-right: 8px;
-    }
-    .ajax-loader span{
-        display: block;
-        font-size: 24px;
-        color: #ababab;
-        line-height: 40px !important;
-    }
+				<style type="text/css">
+	p{
+		margin: 30px 0 5px 0;
+	}
+	img{
+		margin-top: 5px !important;
+	}
+	.post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+    	margin: 60px 0 10px;
+	}
+	.post-container ul, .post-container ol {
+	    margin-bottom: 20px;
+	}
 </style>
 
-<div class="ajax-loader">
-    <i class="ico ico-ajax-loader"></i>
-    <span>正在加载...</span>
-</div>
+<h3 id="section">关于全局变量</h3>
 
-<pre><code>&lt;div class="ajax-loader"&gt;
-    &lt;i class="ico ico-ajax-loader"&gt;&lt;/i&gt;
-    &lt;span&gt;正在加载...&lt;/span&gt;
-&lt;/div&gt;
+<p>js使用函数管理作用域，变量在函数内声明，只在函数内有效，外部无法访问。<br />
+全局变量在函数外声明，在函数内无需声明就可使用。</p>
 
-&lt;style type="text/css"&gt;
-    .ajax-loader{
-        width: 100%;
-        height: 40px;
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
+<p>js如下特性，即<strong>意外创建全局变量：</strong></p>
+
+<ol>
+  <li>可以直接使用变量，甚至无需声明</li>
+  <li>有个暗示全局变量，即任何变量若未经声明，就为全局对象所有</li>
+</ol>
+
+<pre><code>myGolbal = "hello";  //反模式
+console.log(myGolbal);  //hello
+console.log(window.myGolbal);  //hello
+console.log(window["myGolbal"]);  //hello
+console.log(this.myGolbal);  //hello
+
+function xx(){
+    console.log(typeof this.myGolbal);  //"string"
+    console.log(this.myGolbal); //hello
+}
+xx();
+
+var Xu= function(){
+    this.say = function(){
+        console.log(typeof this.myGolbal);  //"undefined"
+        console.log(this.myGolbal); //undefined
     }
-    .ajax-loader i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/ajax-loader.gif") no-repeat;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-        margin-right: 8px;
-    }
-    .ajax-loader span{
-        display: block;
-        font-size: 24px;
-        color: #ababab;
-        line-height: 40px !important;
-    }
-&lt;/style&gt;
+}
+var xu = new Xu();
+xu.say();
 </code></pre>
 
-<p>-webkit-box-pack: center;<br />
-水平方向，icon和图片当做一个整体，一起居中显示</p>
+<p><strong>最小化全局变量：</strong></p>
 
-<p>-webkit-box-align: center;<br />
-垂直方向，规定如何对齐框的子元素<br />
-<br /> <br /> <br /> <br /></p>
+<ol>
+  <li>使用var声明</li>
+  <li>命名空间模式</li>
+  <li>自执行立即生效函数(the self-executing immediate functions)</li>
+</ol>
 
-<h1 id="webkit-box-flex">栗子2：webkit-box-flex</h1>
-<style type="text/css">
-    .action-bar{
-        padding: 0 !important;
-        margin: 20px 0 30px 0;
-        height: 45px;
-        background-color: #f8f9fa;
-        display: -webkit-box;
-    }
-    .action-item{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        -webkit-box-flex: 1;
-        position: relative;
-    }
-    .action-item.action-item-0{
-        -webkit-box-flex: 1;
-    }
-    .action-item.action-item-1{
-        -webkit-box-flex: 2;
-    }
-    .action-item.action-item-2{
-        -webkit-box-flex: 3;
-    }
-    .action-item i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
-        width: 26px;
-        height: 26px;
-        background-size: contain;
-        margin-right: 5px;
-    }
-    .action-item span{
-        display: block;
-        font-size: 16px;
-        color: #777777;
-    }
-    .action-item:after{
-        position: absolute;
-        right: 0;
-        bottom: 10px;
-        top: 10px;
-        width: 1px;
-        content: '';
-        background-color: #DEDFE0;
-    }
-    .action-item:last-of-type:after{
-        width: 0;
-    }
-    .action-item:active{
-        background-color: #e5e6e7;
-    }
-</style>
+<pre><code>function foo(){
+    var a = b = 0;
+    // 结果：a-局部  b-全局
+    // 解释：var a =( b= 0);  从右至左的操作符优先级；优先级高的是表达式b=0,此时b未声明；表达式的返回值为0，赋给var声明的局部变量a
+}
+</code></pre>
 
-<ul class="action-bar">
-    <li class="action-item action-item-0">
-        <i class="ico"></i>
-        <span>截屏</span>
-    </li>
-    <li class="action-item action-item-1">
-        <i class="ico"></i>
-        <span>收藏</span>
-    </li>
-    <li class="action-item action-item-2">
-        <i class="ico"></i>
-        <span>我要</span>
-    </li>
-</ul>
+<pre><code>function foo(){
+    var a, b;
+    a = b = 0;
+    // 这样，a，b都是全局变量
+}
+</code></pre>
 
-<pre><code>&lt;style type="text/css"&gt;
-    .action-bar{
-        padding: 0 !important;
-        margin: 20px 0 30px 0;
-        height: 45px;
-        background-color: #f8f9fa;
-        display: -webkit-box;
+<p><strong>访问全局对象：</strong><br />
+这种方式通常能获得全局对象，因为this在函数内部作为一个函数调用（而不是通过构造器new创建）时，往往指向该全局对象。但是，在严格模式下会出错。</p>
+
+<pre><code>"use strict"
+var global = (function(){
+    return this;
+})();
+console.log(global);
+</code></pre>
+
+<h3 id="varsingle-var-pattern">单一var模式（Single var Pattern）</h3>
+<p>只是用一个var在函数顶部进行变量声明</p>
+
+<pre><code>function func(){
+    var a = 1,
+        b=2,
+        sum = a + b,
+        myobject = {},
+        i,
+        j;
+    //....
+}
+</code></pre>
+
+<h3 id="section-1">变量提升</h3>
+
+<pre><code>myname = "global";
+function func(){
+    console.log(myname); //undefined
+    var myname = "local";
+    console.log(myname); //"local"
+}
+func();
+</code></pre>
+
+<p>所有的变量声明都提升到函数的最顶层<br />
+为避免混乱，最好在开始就声明要用的所有变量</p>
+
+<pre><code>myname = "global";
+function func(){
+    var myname;
+    console.log(myname); //undefined
+    var myname = "local";
+    console.log(myname); //"local"
+}
+func();
+</code></pre>
+
+<p>关于变量代码处理两个阶段：</p>
+
+<ol>
+  <li>进入上下文：创建变量、函数声明、形式参数</li>
+  <li>代码运行：创建函数表达式和不合格标示符（未定义变量）</li>
+</ol>
+
+<h3 id="for">for循环</h3>
+
+<p>问题：每次都要访问数组的长度，导致速度变慢。尤其当myarray不是数组，而是HTML容器对象的时候。</p>
+
+<pre><code>for(var i=0; i&lt;myarray.length; i++){
+  ...
+}
+</code></pre>
+
+<p>HTML容器是DOM方法返回的对象：<br />
+document.getElementsByName()<br />
+document.getElementsByClassName()<br />
+document.getElementsByTagName()<br />
+documents.images<br />
+documents.links<br />
+documents.forms<br />
+document.forms[0].elements</p>
+
+<p>容器的问题在于他们在document（HTML页面）下是活动的查询，每次访问任何容器的长度是，也就是在查询活动的DOM，通常DOM操作是非常耗时的。</p>
+
+<p><strong>优化：</strong></p>
+
+<p>用i++; 代替 i=i+1; i+=1;</p>
+
+<pre><code>for(var i=0, max=myarray.length; i&lt;max; i++){
+  ...
+}
+</code></pre>
+
+<p>使用最少的变量：</p>
+
+<pre><code>var i, myarray=[5,9,"dd"];
+for(i=myarray.length; i&gt;0 ;i--){
+    console.log(myarray[i-1]);
+}
+
+
+var i, myarray=[5,9,"dd"];
+for(i=myarray.length; i--; ){
+    console.log(myarray[i]);
+}
+</code></pre>
+
+<p>逐步减至0，因为同0比较长度效率更高</p>
+
+<pre><code>var myarray=[5,9,"dd"];
+var i = myarray.length;
+console.log(i); //3
+while(i--){
+    console.log(i);  //2 1 0
+    console.log(myarray[i]);  //dd 9 5
+}
+</code></pre>
+
+<h3 id="for-in">for-in循环</h3>
+
+<p>for-in遍历非数组对象，不推荐遍历数组（当数组对象已经被自定义函数扩大后，这样做会导致逻辑错误）,<br />
+所以推荐for循环处理数组，for-in循环处理对象。<br />
+当遍历对象属性遇到原型链属性时，使用hasOwnProperty()非常重要！</p>
+
+<pre><code>var man={
+    hands : 2,
+    legs : 2,
+    heads : 1
+}
+
+if(typeof Object.prototype.clone === "undefined"){
+    Object.prototype.clone = function(){
+        console.log("I'm clone!");
     }
-    .action-item{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        -webkit-box-flex: 1;
-        position: relative;
+}
+
+
+//不过滤，会打印出clone()
+for(var i in man){
+    console.log(i,":",man[i]);
+}
+/*
+hands : 2
+legs : 2
+heads : 1
+clone : (){
+    console.log("I'm clone!");
+}
+*/
+
+
+//使用hasOwnProperty过滤原型属性
+for(var i in man){
+    if(man.hasOwnProperty(i)){
+        console.log(i,":",man[i]);
     }
-    .action-item.action-item-0{
-        -webkit-box-flex: 1;
+}
+/*
+hands : 2
+legs : 2
+heads : 1
+*/
+
+
+//另一种使用hasOwnProperty的模式是在Object.prototype中调用
+for(var i in man){
+    if(Object.prototype.hasOwnProperty.call(man,i)){
+        console.log(i,":",man[i]);
     }
-    .action-item.action-item-1{
-        -webkit-box-flex: 2;
+}
+
+
+//使用本地变量缓存较长属性名
+var i,
+    hasOwn = Object.prototype.hasOwnProperty;
+for(i in man){
+    if(hasOwn.call(man,i)){
+        console.log(i,":",man[i]);
     }
-    .action-item.action-item-2{
-        -webkit-box-flex: 3;
-    }
-    .action-item i{
-        display: block;
-        background: url("../../../../imgPost/2015-11-09/icon-collect-light.png") no-repeat;
-        width: 26px;
-        height: 26px;
-        background-size: contain;
-        margin-right: 5px;
-    }
-    .action-item span{
-        display: block;
-        font-size: 16px;
-        color: #777777;
-    }
-    .action-item:after{
-        position: absolute;
-        right: 0;
-        bottom: 10px;
-        top: 10px;
-        width: 1px;
-        content: '';
-        background-color: #DEDFE0;
-    }
-    .action-item:last-of-type:after{
-        width: 0;
-    }
-    .action-item:active{
-        background-color: #e5e6e7;
-    }
-&lt;/style&gt;
-&lt;ul class="action-bar"&gt;
-    &lt;li class="action-item action-item-0"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;截屏&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="action-item action-item-1"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;收藏&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="action-item action-item-2"&gt;
-        &lt;i class="ico"&gt;&lt;/i&gt;
-        &lt;span&gt;我要&lt;/span&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;
+}
+
+
+//一种格式化的变种（没有通过JSLint测试）省略了花括号，并将if语句放在同一行中
+//好处：可读性强（拥有属性X的元素，就直接对其操作；更少的缩进达到循环的目的）
+var i,
+    hasOwn = Object.prototype.hasOwnProperty;
+for(i in man) if(hasOwn.call(man,i)){
+    console.log(i,":",man[i]);
+}
 
 </code></pre>
 
+<h3 id="section-2">不要随意增加内置的原型</h3>
+
+<p>1.影响代码可维护性<br />
+2.给原型添加的属性在没有使用hasOwnProperty()时，可能在循环中出现，导致一些混乱</p>
+
+<p>可采用如下模式为原型增加自定义的方法：</p>
+
+<pre><code>if(typeof Object.prototype.myMethod !== "function"){
+    Object.prototype.myMethod = function(){
+        //.....
+    }
+}
+</code></pre>
+
+<h3 id="switch">switch模式</h3>
+
+<p>要注意一点的是：避免使用fall-throughs（即有意不使用break语句，这样会使程序一直向下执行）</p>
+
+<pre><code>var inspect_me = 0,
+    result = "";
+
+switch(inspect_me){
+    case 0:
+        result = "zero";
+        break;
+    case 1 :
+        result = "one";
+        break;
+    default:
+        result = "unknow";
+}
+
+console.log(result);
+</code></pre>
+
+<h3 id="section-3">避免使用隐式类型转换</h3>
+
+<pre><code>var zero = 0;
+if(zero == false){
+    console.log("zero == false is true!");
+}
+if(zero === false){
+    console.log("zero === false is true!");
+}
+</code></pre>
+
+<p>结果：zero == false is true!<br />
+原因：js在使用比较语句时会执行隐式类型转换，false==0 or “”==0 会返回true；<br />
+为避免混淆，在使用比较语句的时候使用=== or !==</p>
+
+<h3 id="eval">避免使用eval()</h3>
+<pre><code>var property = "name",
+    method = "getName";
+var obj = {
+    name:"kathy",
+    getName : function(){
+        return this.name;
+    }
+};
+
+//反模式
+console.log(eval("obj."+property));
+console.log(eval("obj."+method+"()"));
+
+
+//推荐的方法，简单的使用[]访问动态属性
+console.log(obj[property]);
+console.log(obj[method]());
+</code></pre>
+
+<p>使用<code>eval()</code>包含一些安全隐患，有可能执行被篡改过得代码（例如来自网络的代码），这是在处理一个Ajax请求的JSON响应时常见的反模式。在这些情况下，最好使用浏览器内置方法解析JSON请求，确保安全性和有效性。<br />
+注意：通过<code>setInterval()</code>  <code>setTimeout()</code>  <code>function()</code>等构造函数来传递参数，大部分情况下会导致类似eval()隐患，应避免使用；</p>
+
+<pre><code>var myFunc1 = function(){
+    console.log(1);
+}
+var myFunc2 = function(p1,p2,p3){
+    console.log(p1,p2,p3);
+}
+
+//反模式
+setTimeout("myFunc1()",1000);
+setTimeout("myFunc2(2,3,4)",2000);
+
+//推荐的模式
+setTimeout(myFunc1,3000);
+setTimeout(myFunc2(7,8,9),4000);  // setTimeout(myFunc2(7,8,9),4000); 是立即执行的，所以设置4000不生效
+setTimeout(function(){
+    myFunc2(77,88,99);
+},5000);
+
+/*
+7 8 9
+1
+2 3 4
+1
+77 88 99
+*/
+</code></pre>
+
+<p>考虑使用<strong>new Function() 代替eval()</strong>或者<strong>将eval()封装到一个即时函数中</strong>。<br />
+这样做的好处是new Function()代码在局部函数空间运行，代码中任何var定义的变量不会自动成为全局变量。</p>
+
+<pre><code>console.log(typeof one);   //"undefined"
+console.log(typeof two);   //"undefined"
+console.log(typeof three); //"undefined"
+
+//使用eval
+var jsstring = "var one = 1; console.log(one);";
+eval(jsstring);
+
+//使用new Function
+var jsstring = "var two = 2; console.log(two);";
+new Function(jsstring)();
+
+//将eval封装到一个即时函数中
+var jsstring = "var three = 3; console.log(three);";
+(function(){
+    eval(jsstring);
+})();
+
+console.log(typeof one);    //"number"
+console.log(typeof two);    //"undefined"
+console.log(typeof three);  //"undefined"
+</code></pre>
+
+<p><code>eval()</code>可以访问和修改它外部作用域的变量<br />
+<code>Function</code>多类似一个沙盒，无论在哪里执行，只能看到全局作用域</p>
+
+<pre><code>(function(){
+    var local = 1;
+    //eval可以访问和修改它外部作用域的变量
+    eval("local = 3; console.log(local)"); //3
+    console.log(local);  //3
+})();
+
+
+(function(){
+    var local = 1;
+    //Function就不可以，它仅能看到全局作用域
+    new Function("local = 3; console.log(local)")();  //3
+    console.log(local);  //1
+})();
+
+
+(function(){
+    var local = 1;
+    eval("console.log(typeof local)"); //"number"
+    console.log(local);  //1
+})();
+
+
+var global = "golbal_var";
+(function(){
+    var local = 1;
+    //Function类似一个沙盒，它仅能看到全局作用域(global)，因此对局部变量(local)的影响比较小
+    Function("console.log(typeof local)")();  //"undefined"
+    Function("console.log(typeof global)")();  //"string"
+    console.log(local);  //1
+})();
+</code></pre>
+
+<h3 id="parseint">使用parseInt()的数值约定：</h3>
+
+<p>当解析的字符串是0开始，可能被当做8进制，为避免冲突，最好每次都指定具体进制参数</p>
+
+<pre><code>var month = "06";
+var day = "09";
+month = parseInt(month,10);
+day = parseInt(day,10);
+
+console.log(month,day); // 6 9
+</code></pre>
+
+<p>两个方法将非数值–&gt;数值</p>
+
+<pre><code>var box1 = "08";
+console.log(typeof +box1); //number
+
+var box2 = Number("08");
+console.log(typeof box2);  //number
+</code></pre>
+
+<p>比较：<br />
+parseInt()——解析<br />
+Number()——简单转换</p>
+
+<pre><code>console.log(Number("012xx")); //NaN
+console.log(Number("xx012")); //NaN
+console.log(parseInt("012xx")); //12
+console.log(parseInt("xx012")); //NaN,如果第一个不是数值，就返回NaN
+</code></pre>
 
 
                 <hr>
@@ -385,23 +620,18 @@
                 </style>
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2015/11/09/webkit-box"
-                    data-title="webkit-box弹性盒子"
-                    data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/"
-                    data-images="http://kathyxxu.github.io/img/post-bg-os-metro.jpg"
-                    data-content="栗子1：icon和文字对齐并居中显示
+                    data-thread-key="/2013/11/25/jsPatternNote_1"
+                    data-title="javascript模式笔记1——基本技巧"
+                    data-url="http://kathyxxu.github.io/2013/11/25/jsPatternNote_1/"
+                    data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
+                    data-content="
 
+关于全局变量
 
+js使用函数管理作用域，变量在函数内声明，只在函数内有效，外部无法访问。
+全局变量在函数外声明，在函数内无需声明就可使用。
 
-
-
-
-    
-    正在加载...
-
-
-&lt;div class="ajax-loader"&gt;
- ... | 徐璇的博客 | Kathyxxu Blog " >
+js如下... | 徐璇的博客 | Kathyxxu Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -421,12 +651,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2013/12/02/jsPatternNote_2/" data-toggle="tooltip" data-placement="top" title="javascript模式笔记2——字面量和构造函数">&larr; Previous Post</a>
+                        <a href="/2013/09/03/jsBasic01/" data-toggle="tooltip" data-placement="top" title="javascript基础一：六大基本数据类型Undefined、Null、Boolean、Number、String、Object">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2015/11/14/form/" data-toggle="tooltip" data-placement="top" title="表单常用代码">Next Post &rarr;</a>
+                        <a href="/2013/12/02/jsPatternNote_2/" data-toggle="tooltip" data-placement="top" title="javascript模式笔记2——字面量和构造函数">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -436,9 +666,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2015/11/09/webkit-box"
-                        data-title="webkit-box弹性盒子"
-                        data-url="http://kathyxxu.github.io/2015/11/09/webkit-box/" >
+                        data-thread-key="/2013/11/25/jsPatternNote_1"
+                        data-title="javascript模式笔记1——基本技巧"
+                        data-url="http://kathyxxu.github.io/2013/11/25/jsPatternNote_1/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
