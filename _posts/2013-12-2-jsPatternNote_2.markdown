@@ -138,3 +138,252 @@ console.log(xuxuan.say());
 `//var this = {};`
 以上语句并不是真相的全部哦。因为“空”对象实际上并不空，已从Person的原型中继承了许多成员，因此它更像下面的语句：
 `//var this = Object.create(Person.prototype);`
+
+
+
+
+
+
+### 构造函数的返回值
+
+栗子1:
+当new出一个对象，构造函数默认总是返回this引用的对象；
+但是如果在构造函数中不向this添加任何成员，那么返回的对象也不是空的（继承了构造函数原型成员）
+
+```
+var Person = function(){}
+
+Person.prototype.name = "student";
+Person.prototype.say = function(){
+    return "I'am " + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.say());
+```
+输出：
+!["栗子1"](../../../../imgPost/2013-12-2/1.png)
+
+
+
+栗子2:
+如果原型属性和方法和实例属性和方法同名， 查找顺序：**先对象本身，后原型属性**,如果要访问原型中同名属性和方法，通过`__proto__`来访问
+
+```
+var Person = function(){
+    this.name = "xuxuan";
+    this.say = function(){
+        return "My name is " + this.name;
+    };
+}
+
+Person.prototype.name = "student";
+Person.prototype.say = function(){
+    return "I'am a " + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(xuxuan.__proto__.name);
+console.log(xuxuan.__proto__.say());
+```
+输出：
+!["栗子2"](../../../../imgPost/2013-12-2/2.png)
+
+栗子3：
+- 构造函数可以根据需要返回任意其他对象，只要它是一个对象；
+- Person构造函数中，返回自定义对象that，这种模式的问题：**丢失原型链的链接**，添加到Person原型的成员，对于对象来说都是不可用的；
+- 如果返回并非对象的值，不会出错，但是函数会忽略该值，隐式地返回this所引用的对象；
+
+```
+var Person = function(){
+    this.name = "xuxuan";
+    this.say = function(){
+        return "My name is " + this.name;
+    };
+
+    var that = {};
+    that.name = "that";
+    that.say = function(){
+        return "My name is " + that.name;
+    };
+    return that;
+}
+
+Person.prototype.nameProto = "student";
+Person.prototype.sayProto = function(){
+    return "I'am a " + Person.prototype.nameProto;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(Person.prototype.nameProto);
+console.log(Person.prototype.sayProto());
+console.log(xuxuan.nameProto);
+console.log(xuxuan.sayProto());
+```
+输出：
+!["栗子3"](../../../../imgPost/2013-12-2/3.png)
+
+
+栗子4：
+将上例的return that; 改为 return 1;
+输出：
+!["栗子4"](../../../../imgPost/2013-12-2/4.png)
+
+
+
+
+
+
+
+
+
+### 强制使用new的模式
+
+问题的提出：构造函数不用new调用，不会导致语法或运行错误，但是会导致逻辑错误，即this指向全局对象window
+
+```
+var name = "global";
+function Person(){
+    this.name = "xuxuan";
+}
+
+var xx = new Person();
+console.log(typeof xx);//object
+console.log(xx.name);//xuxuan
+console.log(xx instanceof Person);//true
+
+console.log(window.name);//global
+var oo = Person();
+console.log(window.name);//xuxuan
+console.log(typeof oo);//undefined
+console.log(oo.name);//Uncaught TypeError: Cannot read property 'name' of undefined
+```
+
+>这种意外情况在ECMAScript5中得到了解决，并且在严格模式下，this不会指向全局对象
+
+
+
+解决方式一：**使用that**
+缺点：丢失原型的链接
+
+```
+//下面的模式可以确保构造函数的行为总是表现出构造函数应有的行为
+//这种模式的缺点：丢失原型的链接
+function Person(){
+    var that={};
+    that.name = "that";
+    return that;
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//that
+console.log(oo.name);//that
+console.log(xx.wantMore);//undefined
+console.log(oo.wantMore);//undefined
+```
+
+```
+//对于简单的对象，可以仅仅从字面量返回一个对象
+function Person(){
+    return{
+        name : "that";
+    };
+}
+```
+
+
+解决方式二：**自调用构造函数**
+优点：解决了上述丢失原型链接的问题
+
+```
+//在构造函数中检查this是否为构造函数的一个实例，如果否，构造函数再次调用自身，并在这次调用中正确的使用new操作符
+function Person(){
+    if(!(this instanceof Person)){
+        return new Person();
+    }
+    this.name = "xuxuan";
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//xuxuan
+console.log(oo.name);//xuxuan
+console.log(xx.wantMore);//true
+console.log(oo.wantMore);//true
+```
+
+
+另一种检测方法：将`this`与`arguments.callee`比较，而不是在代码中硬编码构造函数名称
+
+```
+if(!(this instanceof arguments.callee)){
+    return new arguments.callee();
+}
+```
+
+解释：当函数被调用时，在每个函数内部将会创建一个名为`arguments`的对象，包含了传递给该函数的所有参数；
+同时，它有一个名为`callee`的属性，指向被调用的函数；
+注意：ES5严格模式不支持`arguments.callee`属性
+
+
+### 两种方法创建数组：
+1. Array()构造函数
+2. 数组字面量
+
+```
+var a = new Array("foo","bar");
+var b = ["xx","oo"];
+
+console.log(typeof a);//object
+console.log(typeof b);//object
+console.log(a instanceof Array);//true
+console.log(b instanceof Array);//true
+console.log(a instanceof Object);//true
+console.log(b instanceof Object);//true
+console.log(a.constructor === Array);//true
+console.log(b.constructor === Array);//true
+console.log(a.constructor === Object);//false
+console.log(b.constructor === Object);//false
+```
+
+数组字面量优点：
+1. 语法简单、明确
+2. 避免Array()构造函数可能产生的陷阱
+
+```
+var a = [3];
+console.log(a.length);  //1
+console.log(a[0]);      //3
+
+
+var a = new Array(3);
+console.log(a.length);  //3
+console.log(typeof a[0]); //undefined
+
+
+var a = [3.14];
+console.log(a.length);  //1
+console.log(a[0]);      //3.14
+
+
+var a = new Array(3.14);//Uncaught RangeError: Invalid array length
+```
+
+但是，可以巧妙地使用Array()构造函数，比如创建重复字符串
+
+```
+var white = new Array(5).join("a");
+console.log(white);//aaaa
+```

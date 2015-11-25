@@ -292,41 +292,230 @@ console.log(xuxuan.say());
 以上语句并不是真相的全部哦。因为“空”对象实际上并不空，已从Person的原型中继承了许多成员，因此它更像下面的语句：<br />
 <code>//var this = Object.create(Person.prototype);</code></p>
 
+<h3 id="section-3">构造函数的返回值</h3>
+
+<p>栗子1:<br />
+当new出一个对象，构造函数默认总是返回this引用的对象；<br />
+但是如果在构造函数中不向this添加任何成员，那么返回的对象也不是空的（继承了构造函数原型成员）</p>
+
+<pre><code>var Person = function(){}
+
+Person.prototype.name = "student";
+Person.prototype.say = function(){
+    return "I'am " + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.say());
+</code></pre>
+<p>输出：<br />
+<img src="../../../../imgPost/2013-12-2/1.png" alt="&quot;栗子1&quot;" /></p>
+
+<p>栗子2:<br />
+如果原型属性和方法和实例属性和方法同名， 查找顺序：<strong>先对象本身，后原型属性</strong>,如果要访问原型中同名属性和方法，通过<code>__proto__</code>来访问</p>
+
+<pre><code>var Person = function(){
+    this.name = "xuxuan";
+    this.say = function(){
+        return "My name is " + this.name;
+    };
+}
+
+Person.prototype.name = "student";
+Person.prototype.say = function(){
+    return "I'am a " + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(xuxuan.__proto__.name);
+console.log(xuxuan.__proto__.say());
+</code></pre>
+<p>输出：<br />
+<img src="../../../../imgPost/2013-12-2/2.png" alt="&quot;栗子2&quot;" /></p>
+
+<p>栗子3：<br />
+- 构造函数可以根据需要返回任意其他对象，只要它是一个对象；<br />
+- Person构造函数中，返回自定义对象that，这种模式的问题：<strong>丢失原型链的链接</strong>，添加到Person原型的成员，对于对象来说都是不可用的；<br />
+- 如果返回并非对象的值，不会出错，但是函数会忽略该值，隐式地返回this所引用的对象；</p>
+
+<pre><code>var Person = function(){
+    this.name = "xuxuan";
+    this.say = function(){
+        return "My name is " + this.name;
+    };
+
+    var that = {};
+    that.name = "that";
+    that.say = function(){
+        return "My name is " + that.name;
+    };
+    return that;
+}
+
+Person.prototype.nameProto = "student";
+Person.prototype.sayProto = function(){
+    return "I'am a " + Person.prototype.nameProto;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(Person.prototype.nameProto);
+console.log(Person.prototype.sayProto());
+console.log(xuxuan.nameProto);
+console.log(xuxuan.sayProto());
+</code></pre>
+<p>输出：<br />
+<img src="../../../../imgPost/2013-12-2/3.png" alt="&quot;栗子3&quot;" /></p>
+
+<p>栗子4：<br />
+将上例的return that; 改为 return 1;<br />
+输出：<br />
+<img src="../../../../imgPost/2013-12-2/4.png" alt="&quot;栗子4&quot;" /></p>
+
+<h3 id="new">强制使用new的模式</h3>
+
+<p>问题的提出：构造函数不用new调用，不会导致语法或运行错误，但是会导致逻辑错误，即this指向全局对象window</p>
+
+<pre><code>var name = "global";
+function Person(){
+    this.name = "xuxuan";
+}
+
+var xx = new Person();
+console.log(typeof xx);//object
+console.log(xx.name);//xuxuan
+console.log(xx instanceof Person);//true
+
+console.log(window.name);//global
+var oo = Person();
+console.log(window.name);//xuxuan
+console.log(typeof oo);//undefined
+console.log(oo.name);//Uncaught TypeError: Cannot read property 'name' of undefined
+</code></pre>
+
+<blockquote>
+  <p>这种意外情况在ECMAScript5中得到了解决，并且在严格模式下，this不会指向全局对象</p>
+</blockquote>
+
+<p>解决方式一：<strong>使用that</strong><br />
+缺点：丢失原型的链接</p>
+
+<pre><code>//下面的模式可以确保构造函数的行为总是表现出构造函数应有的行为
+//这种模式的缺点：丢失原型的链接
+function Person(){
+    var that={};
+    that.name = "that";
+    return that;
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//that
+console.log(oo.name);//that
+console.log(xx.wantMore);//undefined
+console.log(oo.wantMore);//undefined
+</code></pre>
+
+<pre><code>//对于简单的对象，可以仅仅从字面量返回一个对象
+function Person(){
+    return{
+        name : "that";
+    };
+}
+</code></pre>
+
+<p>解决方式二：<strong>自调用构造函数</strong><br />
+优点：解决了上述丢失原型链接的问题</p>
+
+<pre><code>//在构造函数中检查this是否为构造函数的一个实例，如果否，构造函数再次调用自身，并在这次调用中正确的使用new操作符
+function Person(){
+    if(!(this instanceof Person)){
+        return new Person();
+    }
+    this.name = "xuxuan";
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//xuxuan
+console.log(oo.name);//xuxuan
+console.log(xx.wantMore);//true
+console.log(oo.wantMore);//true
+</code></pre>
+
+<p>另一种检测方法：将<code>this</code>与<code>arguments.callee</code>比较，而不是在代码中硬编码构造函数名称</p>
+
+<pre><code>if(!(this instanceof arguments.callee)){
+    return new arguments.callee();
+}
+</code></pre>
+
+<p>解释：当函数被调用时，在每个函数内部将会创建一个名为<code>arguments</code>的对象，包含了传递给该函数的所有参数；<br />
+同时，它有一个名为<code>callee</code>的属性，指向被调用的函数；<br />
+注意：ES5严格模式不支持<code>arguments.callee</code>属性</p>
+
+<h3 id="section-4">两种方法创建数组：</h3>
+<ol>
+  <li>Array()构造函数</li>
+  <li>数组字面量</li>
+</ol>
+
+<pre><code>var a = new Array("foo","bar");
+var b = ["xx","oo"];
+
+console.log(typeof a);//object
+console.log(typeof b);//object
+console.log(a instanceof Array);//true
+console.log(b instanceof Array);//true
+console.log(a instanceof Object);//true
+console.log(b instanceof Object);//true
+console.log(a.constructor === Array);//true
+console.log(b.constructor === Array);//true
+console.log(a.constructor === Object);//false
+console.log(b.constructor === Object);//false
+</code></pre>
+
+<p>数组字面量优点：<br />
+1. 语法简单、明确<br />
+2. 避免Array()构造函数可能产生的陷阱</p>
+
+<pre><code>var a = [3];
+console.log(a.length);  //1
+console.log(a[0]);      //3
+
+
+var a = new Array(3);
+console.log(a.length);  //3
+console.log(typeof a[0]); //undefined
+
+
+var a = [3.14];
+console.log(a.length);  //1
+console.log(a[0]);      //3.14
+
+
+var a = new Array(3.14);//Uncaught RangeError: Invalid array length
+</code></pre>
+
+<p>但是，可以巧妙地使用Array()构造函数，比如创建重复字符串</p>
+
+<pre><code>var white = new Array(5).join("a");
+console.log(white);//aaaa
+</code></pre>
+
 
                 <hr>
 
-                
-                <!-- 多说 Share start -->
-                </style>
-                <div class="ds-share"
-                    style="text-align: right"
-                    data-thread-key="/2013/12/02/jsPatternNote_2"
-                    data-title="javascript模式笔记2——字面量和构造函数"
-                    data-url="http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/"
-                    data-images="http://kathyxxu.github.io/img/post-bg-universe.jpg"
-                    data-content="
-
-对象字面量：
-
-//开始定义一个空对象
-var dog = {};
-//添加属性
-dog.name = "wangwagn";
-//添加方法
-dog.... | 徐璇的博客 | Kathyxxu Blog " >
-                    <div class="ds-share-inline">
-                      <ul  class="ds-share-icons-16">
-                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
-                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
-                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
-                      </ul>
-                      <div class="ds-share-icons-more">
-                      </div>
-                    </div>
-                <hr>
-                </div>
-                <!-- 多说 Share end-->
                 
 
 
