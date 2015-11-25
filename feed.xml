@@ -5,8 +5,8 @@
     <description>前端工程师 | 这里是 @Kathyxxu 的个人博客，记录点点滴滴。</description>
     <link>http://kathyxxu.github.io/</link>
     <atom:link href="http://kathyxxu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 25 Nov 2015 08:58:16 +0800</pubDate>
-    <lastBuildDate>Wed, 25 Nov 2015 08:58:16 +0800</lastBuildDate>
+    <pubDate>Wed, 25 Nov 2015 13:19:03 +0800</pubDate>
+    <lastBuildDate>Wed, 25 Nov 2015 13:19:03 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -1288,6 +1288,227 @@ console.log(xuxuan.say());
 &lt;p&gt;&lt;code&gt;//var this = {};&lt;/code&gt;&lt;br /&gt;
 以上语句并不是真相的全部哦。因为“空”对象实际上并不空，已从Person的原型中继承了许多成员，因此它更像下面的语句：&lt;br /&gt;
 &lt;code&gt;//var this = Object.create(Person.prototype);&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;构造函数的返回值&lt;/h3&gt;
+
+&lt;p&gt;栗子1:&lt;br /&gt;
+当new出一个对象，构造函数默认总是返回this引用的对象；&lt;br /&gt;
+但是如果在构造函数中不向this添加任何成员，那么返回的对象也不是空的（继承了构造函数原型成员）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var Person = function(){}
+
+Person.prototype.name = &quot;student&quot;;
+Person.prototype.say = function(){
+    return &quot;I&#39;am &quot; + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.say());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出：&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2013-12-2/1.png&quot; alt=&quot;&amp;quot;栗子1&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;栗子2:&lt;br /&gt;
+如果原型属性和方法和实例属性和方法同名， 查找顺序：&lt;strong&gt;先对象本身，后原型属性&lt;/strong&gt;,如果要访问原型中同名属性和方法，通过&lt;code&gt;__proto__&lt;/code&gt;来访问&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var Person = function(){
+    this.name = &quot;xuxuan&quot;;
+    this.say = function(){
+        return &quot;My name is &quot; + this.name;
+    };
+}
+
+Person.prototype.name = &quot;student&quot;;
+Person.prototype.say = function(){
+    return &quot;I&#39;am a &quot; + this.name;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(xuxuan.__proto__.name);
+console.log(xuxuan.__proto__.say());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出：&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2013-12-2/2.png&quot; alt=&quot;&amp;quot;栗子2&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;栗子3：&lt;br /&gt;
+- 构造函数可以根据需要返回任意其他对象，只要它是一个对象；&lt;br /&gt;
+- Person构造函数中，返回自定义对象that，这种模式的问题：&lt;strong&gt;丢失原型链的链接&lt;/strong&gt;，添加到Person原型的成员，对于对象来说都是不可用的；&lt;br /&gt;
+- 如果返回并非对象的值，不会出错，但是函数会忽略该值，隐式地返回this所引用的对象；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var Person = function(){
+    this.name = &quot;xuxuan&quot;;
+    this.say = function(){
+        return &quot;My name is &quot; + this.name;
+    };
+
+    var that = {};
+    that.name = &quot;that&quot;;
+    that.say = function(){
+        return &quot;My name is &quot; + that.name;
+    };
+    return that;
+}
+
+Person.prototype.nameProto = &quot;student&quot;;
+Person.prototype.sayProto = function(){
+    return &quot;I&#39;am a &quot; + Person.prototype.nameProto;
+}
+
+var xuxuan = new Person();
+console.log(xuxuan);
+console.log(xuxuan.name);
+console.log(xuxuan.say());
+console.log(Person.prototype.nameProto);
+console.log(Person.prototype.sayProto());
+console.log(xuxuan.nameProto);
+console.log(xuxuan.sayProto());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出：&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2013-12-2/3.png&quot; alt=&quot;&amp;quot;栗子3&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;栗子4：&lt;br /&gt;
+将上例的return that; 改为 return 1;&lt;br /&gt;
+输出：&lt;br /&gt;
+&lt;img src=&quot;../../../../imgPost/2013-12-2/4.png&quot; alt=&quot;&amp;quot;栗子4&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;new&quot;&gt;强制使用new的模式&lt;/h3&gt;
+
+&lt;p&gt;问题的提出：构造函数不用new调用，不会导致语法或运行错误，但是会导致逻辑错误，即this指向全局对象window&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name = &quot;global&quot;;
+function Person(){
+    this.name = &quot;xuxuan&quot;;
+}
+
+var xx = new Person();
+console.log(typeof xx);//object
+console.log(xx.name);//xuxuan
+console.log(xx instanceof Person);//true
+
+console.log(window.name);//global
+var oo = Person();
+console.log(window.name);//xuxuan
+console.log(typeof oo);//undefined
+console.log(oo.name);//Uncaught TypeError: Cannot read property &#39;name&#39; of undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这种意外情况在ECMAScript5中得到了解决，并且在严格模式下，this不会指向全局对象&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;解决方式一：&lt;strong&gt;使用that&lt;/strong&gt;&lt;br /&gt;
+缺点：丢失原型的链接&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//下面的模式可以确保构造函数的行为总是表现出构造函数应有的行为
+//这种模式的缺点：丢失原型的链接
+function Person(){
+    var that={};
+    that.name = &quot;that&quot;;
+    return that;
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//that
+console.log(oo.name);//that
+console.log(xx.wantMore);//undefined
+console.log(oo.wantMore);//undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;//对于简单的对象，可以仅仅从字面量返回一个对象
+function Person(){
+    return{
+        name : &quot;that&quot;;
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解决方式二：&lt;strong&gt;自调用构造函数&lt;/strong&gt;&lt;br /&gt;
+优点：解决了上述丢失原型链接的问题&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//在构造函数中检查this是否为构造函数的一个实例，如果否，构造函数再次调用自身，并在这次调用中正确的使用new操作符
+function Person(){
+    if(!(this instanceof Person)){
+        return new Person();
+    }
+    this.name = &quot;xuxuan&quot;;
+}
+
+Person.prototype.wantMore = true;
+
+var xx = new Person();
+var oo = Person();
+console.log(xx.name);//xuxuan
+console.log(oo.name);//xuxuan
+console.log(xx.wantMore);//true
+console.log(oo.wantMore);//true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另一种检测方法：将&lt;code&gt;this&lt;/code&gt;与&lt;code&gt;arguments.callee&lt;/code&gt;比较，而不是在代码中硬编码构造函数名称&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if(!(this instanceof arguments.callee)){
+    return new arguments.callee();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解释：当函数被调用时，在每个函数内部将会创建一个名为&lt;code&gt;arguments&lt;/code&gt;的对象，包含了传递给该函数的所有参数；&lt;br /&gt;
+同时，它有一个名为&lt;code&gt;callee&lt;/code&gt;的属性，指向被调用的函数；&lt;br /&gt;
+注意：ES5严格模式不支持&lt;code&gt;arguments.callee&lt;/code&gt;属性&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;两种方法创建数组：&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Array()构造函数&lt;/li&gt;
+  &lt;li&gt;数组字面量&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = new Array(&quot;foo&quot;,&quot;bar&quot;);
+var b = [&quot;xx&quot;,&quot;oo&quot;];
+
+console.log(typeof a);//object
+console.log(typeof b);//object
+console.log(a instanceof Array);//true
+console.log(b instanceof Array);//true
+console.log(a instanceof Object);//true
+console.log(b instanceof Object);//true
+console.log(a.constructor === Array);//true
+console.log(b.constructor === Array);//true
+console.log(a.constructor === Object);//false
+console.log(b.constructor === Object);//false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;数组字面量优点：&lt;br /&gt;
+1. 语法简单、明确&lt;br /&gt;
+2. 避免Array()构造函数可能产生的陷阱&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = [3];
+console.log(a.length);  //1
+console.log(a[0]);      //3
+
+
+var a = new Array(3);
+console.log(a.length);  //3
+console.log(typeof a[0]); //undefined
+
+
+var a = [3.14];
+console.log(a.length);  //1
+console.log(a[0]);      //3.14
+
+
+var a = new Array(3.14);//Uncaught RangeError: Invalid array length
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，可以巧妙地使用Array()构造函数，比如创建重复字符串&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var white = new Array(5).join(&quot;a&quot;);
+console.log(white);//aaaa
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         <pubDate>Mon, 02 Dec 2013 00:00:00 +0800</pubDate>
         <link>http://kathyxxu.github.io/2013/12/02/jsPatternNote_2/</link>
