@@ -387,3 +387,216 @@ var a = new Array(3.14);//Uncaught RangeError: Invalid array length
 var white = new Array(5).join("a");
 console.log(white);//aaaa
 ```
+
+
+
+
+
+### 检查数组性质
+
+当数组作为操作数并使用typeof操作符时，其结果会返回"object"，因为数组也是对象。但是这对于排除错误没有什么帮助，通常我们需要知道某个值是否为一个数组。有时候检查代码可以用是否存在length属性或一些数组方法，但是这些检查并非万能，我们无法确定一个非数组对象就不能拥有这些属性和方法。还可以使用`instanceof Array`进行检查，但是这种检查存在兼容性问题。
+
+ECMAScript定义了`Array.isArray()`方法，接受参数为数组时返回true。但是有些环境不支持这种方法，最好的检查数组性质的方法是`Object.prototype.toString.call`方法，若是数组会返回`[object Array]`，若是对象则为`[object object]`，因此要用如下方法检测：
+
+```
+if(typeof Array.isArray === "undefined"){
+    Array.isArray = function(arg){
+        return Object.prototype.toString.call(arg) === "[object Array]";
+    };
+}
+
+//调用Array.isArray()
+```
+
+
+```
+var xx = function(arg){
+    return Object.prototype.toString.call(arg);
+}
+console.log(xx(false));   //[object Boolean]
+console.log(xx(1));       //[object Number]
+console.log(xx({}));      //[object Object]
+console.log(xx([]));      //[object Array]
+console.log(xx(new Number(1)));   //[object Number]
+```
+
+```
+//测试：
+console.log(Array.isArray([]));//true
+console.log(Array.isArray({o:[1,2,3]}));//false
+
+
+Array.isxxArray = function(arg){
+    console.log(Object.prototype.toString());
+    console.log(arg.toString());
+    console.log(arg);
+    return Object.prototype.toString.call(arg) === "[object Array]";
+}
+
+
+console.log(Array.isxxArray([1,2,3]));
+console.log(Array.isxxArray({o:[1,2,3]}));
+
+/*
+    [object Object]
+    1,2,3
+    [1, 2, 3]
+    true
+    [object Object]
+    [object Object]
+    Object {o: Array[3]}
+    false
+*/
+```
+
+
+
+
+### 正则表达式的两种创建方法：
+1. 字面量
+2. new RegExp()构造函数
+
+```
+var re = /\\/gm;
+var re = new RegExp("\\\\","gm");
+```
+
+推荐字面量的方式：
+1.字面量写法简短
+2.new RegExp()，需要转义引号，还需要双反斜杠
+
+```
+var no_letters = "abc123XYZ".replace(/[a-z]/gi,"");
+console.log(no_letters);//123
+```
+
+使用new RegExp()的场景：
+某些场景中无法实现确定模式，只能在运行时以字符串方式创建
+
+两者区别：
+字面量在解析时只有一次创建了一个对象；
+如果在一个循环中创建了相同的正则表达式（使用字面量的方式），那么后面返回的对象与前面创建的对象相同，并且将所有的属性将被设置为第一次的值。
+
+下面栗子演示了如何两次返回同一个对象：
+
+```
+function getRE(){
+    var re = /[a-z]/;
+    re.foo = "bar";
+    return re;
+}
+
+
+var reg = new getRE(),
+    reg2 = new getRE();
+console.log(reg === reg2); //true
+reg.foo = "baz";
+console.log(reg2.foo); //baz
+```
+
+>但是，这种情况已经在ES5中得到改变，并且字面量会创建新的对象，许多浏览器已支持，所以这种模式并不可依赖哦~
+
+
+
+
+
+### 基本类型值包装器
+js 5个基本的值类型：数字、字符串、布尔、null、undefined
+除了null、undefined，其他三个都有基本包装对象（primitive wrapper object）
+Number()  String()  Boolean()
+
+栗子1：基本（primitive） vs.  对象（object）
+
+```
+var n = 100;
+console.log(typeof n); //number
+
+var nobj = new Number("100");
+console.log(typeof nobj); //object
+```
+
+栗子2:
+包装对象包含了一些有用的属性和方法，但是这些方法在基本值类型上也能起作用，只要调用这些方法，基本值类型就可在在后台被临时转换为一个对象。
+
+
+```
+var s = "hello";
+console.log(s.toUpperCase()); //HELLO
+
+console.log("monkey".slice(3,6)); //key
+
+console.log((22/7).toPrecision(3)); //3.14
+```
+
+
+栗子3：
+使用包装对象的场景就是有扩充值以及持久保存状态的需要，因为基本值类型不是对象，不可能扩充属性。
+
+```
+//基本字符串
+var greet = "Hello there";
+
+
+//为了使用split()方法，基本数据类型被转为对象
+console.log(greet.split(" ")[0]); //Hello
+
+
+//试图增加一个原始数据类型并不会导致错误
+greet.smile = true;
+
+
+//但是它并不会实际运行
+console.log(greet.smile); //undefined
+
+
+//包装对象
+var sayHi = new String("Hi sweet");
+sayHi.smile = true;
+console.log(sayHi.smile); //true
+```
+
+
+栗子4：
+当使用没有带new操作符时，包装函数将传递进来的参数转成一个基本类型值。
+
+```
+console.log(typeof Number(1)); //number
+console.log(typeof Number("1")); //number
+console.log(typeof Number(new Number())); //number
+console.log(Number(new Number())); //0
+console.log(typeof String(1)); //string
+console.log(typeof Boolean(1)); //boolean
+```
+
+> 在一般情况下，除了`Date()`构造函数以外，很少需要用其他内置构造函数。
+
+
+
+
+
+### 错误对象
+
+js 内置错误构造函数：`Error()` `SyntaxError()` `TypeError()` ...
+这些错误构造函数都带有`throw`语句
+错误对象有如下属性：
+- name —— 错误类型
+- message —— 错误消息
+- 其他属性多个浏览器不一致，不可靠
+
+`throw`用于任何对象，并不是由某个错误构造函数所创建的对象，因此可以选择抛出自己的对象。
+这种错误对象可以有属性`name`  `message`，以及任意希望传递给`catch`语句来处理的其他类型的信息。
+
+```
+try{
+    //发生意外的事情，抛出一个错误
+    throw {
+        name:"myErrorType",  //自定义错误类型
+        message:"oops",
+        extra:"This was rather embarrassing",
+        remedy:genericErrorHandler  //指定应该处理该错误的函数
+    };
+}catch(e){
+    alert(e.message);  //oops
+    e.remedy();        //调用函数genericErrorHandler()
+}
+```
