@@ -25,19 +25,24 @@ tags:
 </style>
 
 
-### 函数
+# 1.函数
 
 特点1. 函数是第一类对象（first-class object）
+
 - 可以在运行时动态创建，还可以在程序执行过程中创建
 - 可以分配给变量，可以将其引用复制到其他变量，可以被扩展，甚至可以被删除（除少数情况外）
 - 可以作为参数传递给其他函数，也可以由其他函数返回
 - 可以有自己的属性和方法
 
 特点2. 函数提供作用域
+
 - 块不创建作用域，js中仅存在函数作用域
 - if for while的{ }中，使用var声明的变量，对于包装函数来说才是局部变量
 
-函数3类型：
+
+
+## 1.1函数3类型
+
 - 函数声明
 - 命名函数表达式
 - 未命名函数表达式
@@ -57,7 +62,9 @@ var add = function(arg){};
 ```
 
 
-函数的命名属性：
+
+## 1.2函数的命名属性
+
 函数有个只读属性`name`，虽然不是标准属性，但是在很多环境中都可以使用它。在函数声明和命名函数表达式中，已定义了`name`属性。在匿名函数表达式中，依赖于其实现方式，`name`属性可能是未定义，也能是空字符串。
 
 ```
@@ -75,14 +82,14 @@ console.log(baz.name);//baz
 
 
 
-### 函数的提升
+## 1.3函数的提升
 
 ```
-funciton foo() {
+function foo() {
     console.log("global foo");
 }
 
-funciton bar() {
+function bar() {
     console.log("global bar");
 }
 
@@ -111,7 +118,6 @@ function hoistMe(){
 hoistMe();
 ```
 
-
 `hoistMe()`函数中的foo和bar，声明被提到的顶部，覆盖了全局的foo和bar。
 
 两者区别：
@@ -123,7 +129,21 @@ hoistMe();
 
 
 
-### 回调模式
+
+
+
+
+
+# 2.API模式(API patterns)
+为函数提供更好的接口
+
+- 回调模式(Callback patterns)——将函数作为参数传递
+- 配置对象(Configuration objects)——控制参数数量
+- 返回函数(Returning functions)——当一个函数的返回值是另一个函数时
+- curry化(Currying)——新函数是基于现有函数，并加上部分参数列表创建时
+
+
+## 2.1回调模式(Callback patterns)
 
 ```
 function writeCode(callback){
@@ -330,8 +350,6 @@ findNodes(myapp.paint, myapp);
 
 
 
-
-
 ```
 __bind = function(fn, me){
     return function(){
@@ -400,8 +418,6 @@ findNodes(myappInstance.paint);
 
 
 
-
-
 ES5为所有的Function对象引入一个新的`bind`方法，它实现下面的行为：
 
 ```
@@ -455,7 +471,24 @@ $("#some-div").click(__bind(person.hello, person));
 
 
 
-### 返回函数
+## 2.2配置对象模式(Configuration patterns)
+
+使用一个参数对象替代所有参数，将该参数称为conf，即配置的意思。
+优点：控制参数数量。
+
+```
+var conf = {
+    username: "batman",
+    first: "Bruce",
+    last: "Wayne"
+};
+addPerson(conf);
+```
+
+
+
+
+## 2.3返回函数(Returning functions)
 
 ```
 var setup = function () {
@@ -487,7 +520,502 @@ next(); // 3
 
 
 
-### 自定义函数
+
+## 2.4curry化(Currying)
+
+### 2.4.1函数调用&函数应用
+
+函数调用 called/invoked
+函数应用 applied，使用方法 `Function.prototype.apply()`来应用函数
+
+```
+//sayHi()是全局函数,可以直接调用
+var sayHi = function(who){
+    return "Hello" + (who ? ", " + who : "") + "!";
+}
+
+
+//函数调用（called or invoked）
+console.log(sayHi());  //Hello!
+console.log(sayHi("kathy"));  //Hello, kathy!
+
+
+//函数应用（applied），使用方法Function.prototype.apply()
+//第一个参数 - 将要绑定到该函数内部this的一个对象，如果为null，this-->全局对象
+//第二个参数 - 一个数组或多个参数变量，这些参数将变成可用于该函数内部的类似数组的arguments对象
+console.log(sayHi.apply(null, ["kathy"])); //Hello, kathy!
+```
+
+
+
+
+第一个`apply()`传递alien引用，内部的this指向alien对象，this.age是alien的age
+第二个`apply()`传递null引用，内部的this指向全局对象，this.age是全局的age
+
+```
+//sayHi()是一个对象的方法，必须通过改对象调用
+var age = 20;
+var alien = {
+    age : 15,
+    sayHi : function(who){
+        return "Hello" + (who ? ", " + who : "") + "! And you're " + this.age + " year's old ?";
+    }
+};
+
+
+console.log(alien.sayHi("xuxuan")); //Hello, xuxuan! 
+console.log(alien.sayHi.apply(alien,["xuxuan"]));  //Hello, xuxuan! And you're 15 year's old ?
+console.log(alien.sayHi.apply(null,["xuxuan"]));  //Hello, xuxuan! And you're 20 year's old ?
+
+
+console.log(sayHi("xuxuan"));    //报错：sayHi未定义
+console.log(sayHi.apply(alien,["xuxuan"])); //报错：sayHi未定义
+console.log(sayHi.apply(null,["xuxuan"]));  //报错：sayHi未定义
+```
+
+
+
+
+注意`call`和`apply`的区别：
+`Function.prototype.call`是建立在`apply`上的“语法糖”(syntax sugar): 当函数只有一个参数时，可以根据实际情况避免创建只有一个元素的数组。
+
+```
+//sayHi()是一个构造函数里的方法，必须通过实例调用
+var age = 20;
+var Alien = function(){
+    this.age = 15;
+    this.sayHi = function(who){
+        return "Hello" + (who ? ", " + who : "") + "! And you're " + this.age + " year's old ?";
+    };
+};
+
+
+var alien = new Alien();
+console.log(alien.sayHi("xuxuan")); //Hello, xuxuan! And you're 15 year's old ?
+console.log(alien.sayHi.apply(alien,["xuxuan"]));  //Hello, xuxuan! And you're 15 year's old ?
+console.log(alien.sayHi.apply(null,["xuxuan"]));  //Hello, xuxuan! And you're 20 year's old ?
+
+
+console.log(alien.sayHi.call(alien,"xuxuan")); //Hello, xuxuan! And you're 15 year's old ?
+console.log(alien.sayHi.call(null,"xuxuan"));  //Hello, xuxuan! And you're 20 year's old ?
+```
+
+
+
+
+### 2.4.2部分应用（partial application）
+
+部分应用向我们提供了另一个函数，随后再以其他参数调用该函数。
+假想的partialApply()方法：
+
+```
+var add = function(x, y){
+    return x + y;
+}
+
+//完全应用
+add.apply(null, [5,4]);  //9
+
+//部分应用
+var newadd = add.partialApply(null,[5]);
+
+//应用一个参数到函数中
+newadd.apply(null,[4]);  //9
+```
+
+事实上，js没有partialApply()方法，默认也不会表现出上述类似行为。但是可以构造出这种行为，成为`Curry`过程。
+
+
+
+### 2.4.3Curry化
+
+```
+function add(x, y){
+    var oldx = x, oldy = y;
+    //部分
+    if(typeof oldy === "undefined"){
+        return function(newly){
+            return oldx + newly;
+        }
+    }
+    //完全应用
+    return x + y;
+}
+
+
+console.log(typeof add(5)); //function
+console.log(add(3)(4));  //7
+
+
+//add2000是一个新函数
+var add2000 = add(2000);
+console.log(add2000(13));  //2013
+```
+
+更为精简的实现版本:
+
+```
+function add(x, y){
+    //部分应用
+    if(typeof y === "undefined"){
+        return function(y){
+            return x + y;
+        }
+    }
+    //完全应用
+    return x + y;
+}
+```
+
+
+更通用的方式，将任意函数转换成一个新的可以接受部分参数的函数:
+
+```
+function schonfinkelize(fn){
+    var slice = Array.prototype.slice,
+        stored_args = slice.call(arguments, 1);
+    return function(){
+        var new_args = slice.call(arguments),
+            args = stored_args.concat(new_args);
+        return fn.apply(null, args);
+    };
+}
+
+
+//普通函数
+function add(x, y){
+    return x + y;
+}
+
+
+//将一个函数curry化以获得一个新的函数
+var newadd = schonfinkelize(add, 5);
+console.log(newadd(4));  //9
+
+
+//另一种用法————直接调用新函数
+console.log(schonfinkelize(add,5)(4)); //9
+
+
+//---------------------------------------------------------------
+
+
+//普通函数
+function add2(a, b, c, d, e){
+    return a + b + c + d + e;
+}
+
+
+//两步curry化
+var addOne = schonfinkelize(add2, 1);
+console.log(addOne(10, 10, 10, 10));  //41
+
+
+var addTow = schonfinkelize(addOne, 2, 3);  //addOne函数只用传递4个参数
+console.log(addTow(5,5));  //16
+
+
+//可运行于任意数量的参数
+console.log(schonfinkelize(add2, 1, 2, 3)(5, 5));  //16
+```
+
+curry使用场景：
+
+- 调用同一个函数，并且传递的参数绝大多数是相同的。
+- 通过将一个函数集合部分应用到函数中，从而动态创建一个新函数。这个新函数会保存重复的参数（所以，不用每次都传这些重复的参数），而且还会使用预填充原始函数所期望的完整参数列表。
+
+
+
+
+
+
+
+
+
+
+
+# 3.初始化模式(Initialization patterns)
+
+不污染全局命名空间，使用临时变量，以一种更加整洁、结构化的方式执行初始化以及设置任务
+
+- 即时函数(Immediate functions)——定义之后立即执行
+- 即时对象初始化(Immediate object initialization)——匿名对象组织了初始化任务，提供了可被立即调用的方法
+- 初始化时分支(Init-time branching)——帮助分支代码在初始化过程中仅检测一次
+
+
+## 3.1即时函数模式(Immediate Function pattern)
+
+两种写法：
+
+```
+(function () {
+    alert('watch out!');
+}());
+
+
+(function () {
+    alert('watch out!');
+})();
+```
+
+作用：初始化代码提供了一个作用域沙箱(sandbox)。
+
+使用场景：页面加载时，需要一些初始化工作，而且仅需要执行一次，没有理由去创建一个可复用的命名函数。但是代码也需要一些临时变量，初始化阶段完成后就不需要了。以全局变量形式创建变量是一个差劲的方式。这时候，即时函数就可以派上用场了，我们将所有代码包装到它的局部作用域，且不会将任何变量泄露到全局作用域中。
+
+```
+(function () {
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        today = new Date(),
+        msg = 'Today is ' + days[today.getDay()] + ', ' + today.getDate();
+    alert(msg); //Today is Tue, 26
+}());
+```
+
+可以将参数传到即时函数中：
+
+```
+(function (who, when) {
+    console.log("I met " + who + " on " + when);
+}("Joe Black", new Date()));
+//I met Joe Black on Tue Nov 26 2013 10:32:50 GMT+0800 (中国标准时间)
+```
+
+一般情况下，全局对象是以参数的方式传递给及时函数，以便于在不使用window指定全局作用域限定的情况下可以在函数内部方位该对象，这样使得代码在浏览器环境之外时具有更好的互操作性。
+
+```
+(function (global) {
+    // access the global object via `global`
+}(this));
+```
+
+即时函数的返回值：
+
+```
+//返回一个数值
+var result = (function(){
+    return 2 + 2;
+}());
+
+
+//另一种方式忽略包装函数的括号，因为将及时函数的返回值分配给一个变量时并不需要这些括号
+var result = function(){
+    return 2 + 2;
+}();
+
+
+//返回一个函数
+var getResult = (function(){
+    var res = 2 + 2;
+    return function(){
+        return res;
+    };
+}());
+console.log(getResult);  //getResult是一个函数
+/*
+function (){
+    return res;
+}
+*/
+console.log(getResult());  //4
+
+
+//当定义对象属性也可以用即时函数
+//场景：需要定义一个对象在生命周期内永远不会改变的属性，但是在定义之前需要执行一些工作以找出正确的值，
+//此时，使用即时函数包装这些工作，返回值将会成为属性值
+var o = {
+    message : (function(){
+        var who = "me",
+            what = "call";
+        return what + " " + who;
+    }()),
+    getMsg : function(){
+        return this.message;
+    }
+};
+
+console.log(o.getMsg()); //call me
+console.log(o.message); //call me
+```
+
+
+
+
+## 3.2即时对象初始化(Immediate object initialization)
+
+保护全局作用域：
+- **即时函数模式**(Immediate Function pattern)
+- **即时对象初始化**(Immediate object initialization)
+  使用带有init( )方法的对象，该方法在对象创建后立即执行，init( )函数负责所有的初始化任务。
+
+以下两种写法都可以：
+
+```
+({...}).init();
+({...}.init());
+```
+
+
+下面是即时对象模式的一个栗子：
+
+```
+({
+    // here you can define setting values
+    // a.k.a. configuration constants
+    maxwidth: 600,
+    maxheight: 400,
+    // you can also define utility methods
+    gimmeMax: function () {
+        return this.maxwidth + "x" + this.maxheight;
+    },
+    // initialize
+    init: function () {
+        console.log(this.gimmeMax());
+        // more init tasks...
+    }
+}).init();
+```
+
+优点：
+1、执行一次性的初始化任务时保护全局命名空间
+2、使整个初始化过程更有结构化
+
+缺点：
+压缩问题，私有属性和方法不会被重命名为更短的名称。
+
+注意：
+这种模式只适用于一次性任务，之后没有对该对象的访问。如果要的话，可以在`init( )`尾部添加 `return this;`。
+
+
+
+
+
+## 3.3初始化时分支(Init-time branching)
+也称为加载时分支(load-time branching)，是一种一种优化模式。
+当知道某个条件在整个程序声明周期内都不会发生改变的时候，仅对该条件测试一次是很有意义的。
+
+此段代码效率低下，每次调用`utils.addListenter( )` 或者 `utils.removeListener( )` 都会重复地执行相同的查:
+
+```
+// BEFORE
+var utils = {
+    addListener: function (el, type, fn) {
+        if (typeof window.addEventListener === 'function') {
+            el.addEventListener(type, fn, false);
+        } else if (typeof document.attachEvent === 'function') { // IE
+            el.attachEvent('on' + type, fn);
+        } else { // older browsers
+            el['on' + type] = fn;
+        }
+    },
+    removeListener: function (el, type, fn) {
+        // pretty much the same...
+    }
+};
+```
+
+
+解决方式：
+使用初始化时分支，在脚本初始化加载时一次性嗅探出浏览器特称
+
+```
+// AFTER
+// the interface
+var utils = {
+    addListener: null,
+    removeListener: null
+};
+// the implementation
+if (typeof window.addEventListener === 'function') {
+    utils.addListener = function (el, type, fn) {
+        el.addEventListener(type, fn, false);
+    };
+    utils.removeListener = function (el, type, fn) {
+        el.removeEventListener(type, fn, false);
+    };
+} else if (typeof document.attachEvent === 'function') { // IE
+    utils.addListener = function (el, type, fn) {
+        el.attachEvent('on' + type, fn);
+    };
+    utils.removeListener = function (el, type, fn) {
+        el.detachEvent('on' + type, fn);
+    };
+} else { // older browsers
+    utils.addListener = function (el, type, fn) {
+        el['on' + type] = fn;
+    };
+    utils.removeListener = function (el, type, fn) {
+        el['on' + type] = null;
+    };
+}
+```
+
+
+
+
+
+
+# 4.性能模式
+加速代码运行
+
+- 备忘模式——使用函数属性存储计算结果
+- 自定义模式——以新的主体重写本身，是的在第二次或以后调用时仅需执行更少的工作
+
+
+## 4.1备忘模式
+
+给函数添加自定义属性，缓存函数结果，那么在下一次调用函数时，如果缓存在，就直接从缓存中取结果。就不用再做重复的繁琐的计算。
+
+```
+var myFunc = function (param) {
+    if (!myFunc.cache[param]) {
+        var result = {};
+        // ... expensive operation ...
+        myFunc.cache[param] = result;
+    }
+    return myFunc.cache[param];
+};
+// cache storage
+myFunc.cache = {};
+```
+
+如果参数复杂，可以将其序列化，如果序列化为一个JSON字符串。
+注意：在序列化过程中，对象的“标识”将会丢失，如果有两个不同的对象并且恰好都有相同的属性，这两个对象会共享同一个缓存条目。
+
+```
+var myFunc = function () {
+    var cachekey = JSON.stringify(Array.prototype.slice.call(arguments)),
+        result;
+    if (!myFunc.cache[cachekey]) {
+        result = {};
+        // ... expensive operation ...
+        myFunc.cache[cachekey] = result;
+    }
+    return myFunc.cache[cachekey];
+};
+// cache storage
+myFunc.cache = {};
+```
+
+另一种方法使用`arguments.callee`，注意ES5不支持`arguments.callee`。
+
+```
+var myFunc = function (param) {
+    var f = arguments.callee,
+    result;
+    if (!f.cache[param]) {
+        result = {};
+        // ... expensive operation ...
+        f.cache[param] = result;
+    }
+    return f.cache[param];
+};
+// cache storage
+myFunc.cache = {};
+```
+
+
+
+## 4.2自定义模式
 
 ```
 var scareMe = function () {
@@ -588,485 +1116,5 @@ scareMe(); // Double boo!
 scareMe(); // Double boo!
 console.log(scareMe.property);//undefined
 ```
-
-
-
-### 即时函数模式(Immediate Function pattern)
-
-两种写法：
-
-```
-(function () {
-    alert('watch out!');
-}());
-
-
-(function () {
-    alert('watch out!');
-})();
-```
-
-作用：初始化代码提供了一个作用域沙箱(sandbox)。
-
-使用场景：页面加载时，需要一些初始化工作，而且仅需要执行一次，没有理由去创建一个可复用的命名函数。但是代码也需要一些临时变量，初始化阶段完成后就不需要了。以全局变量形式创建变量是一个差劲的方式。这时候，即时函数就可以派上用场了，我们将所有代码包装到它的局部作用域，且不会将任何变量泄露到全局作用域中。
-
-```
-(function () {
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        today = new Date(),
-        msg = 'Today is ' + days[today.getDay()] + ', ' + today.getDate();
-    alert(msg); //Today is Tue, 26
-}());
-```
-
-可以将参数传到即时函数中：
-
-```
-(function (who, when) {
-    console.log("I met " + who + " on " + when);
-}("Joe Black", new Date()));
-//I met Joe Black on Tue Nov 26 2013 10:32:50 GMT+0800 (中国标准时间)
-```
-
-一般情况下，全局对象是以参数的方式传递给及时函数，以便于在不使用window指定全局作用域限定的情况下可以在函数内部方位该对象，这样使得代码在浏览器环境之外时具有更好的互操作性。
-
-```
-(function (global) {
-    // access the global object via `global`
-}(this));
-```
-
-
-即时函数的返回值：
-
-```
-//返回一个数值
-var result = (function(){
-    return 2 + 2;
-}());
-
-
-//另一种方式忽略包装函数的括号，因为将及时函数的返回值分配给一个变量时并不需要这些括号
-var result = function(){
-    return 2 + 2;
-}();
-
-
-//返回一个函数
-var getResult = (function(){
-    var res = 2 + 2;
-    return function(){
-        return res;
-    };
-}());
-console.log(getResult);  //getResult是一个函数
-/*
-function (){
-    return res;
-}
-*/
-console.log(getResult());  //4
-
-
-//当定义对象属性也可以用即时函数
-//场景：需要定义一个对象在生命周期内永远不会改变的属性，但是在定义之前需要执行一些工作以找出正确的值，
-//此时，使用即时函数包装这些工作，返回值将会成为属性值
-var o = {
-    message : (function(){
-        var who = "me",
-            what = "call";
-        return what + " " + who;
-    }()),
-    getMsg : function(){
-        return this.message;
-    }
-};
-
-console.log(o.getMsg()); //call me
-console.log(o.message); //call me
-```
-
-
-### 即时对象初始化
-保护全局作用域的：
-- **即时函数模式**(Immediate Function pattern)
-- **即时对象初始化**(immediate object initialization)
-  使用带有init( )方法的对象，该方法在对象创建后立即执行，init( )函数负责所有的初始化任务。
-
-以下两种写法都可以：
-
-```
-({...}).init();
-({...}.init());
-```
-
-
-下面是即时对象模式的一个栗子：
-
-```
-({
-    // here you can define setting values
-    // a.k.a. configuration constants
-    maxwidth: 600,
-    maxheight: 400,
-    // you can also define utility methods
-    gimmeMax: function () {
-        return this.maxwidth + "x" + this.maxheight;
-    },
-    // initialize
-    init: function () {
-        console.log(this.gimmeMax());
-        // more init tasks...
-    }
-}).init();
-```
-
-
-
-优点：
-1、执行一次性的初始化任务时保护全局命名空间
-2、使整个初始化过程更有结构化
-
-缺点：
-压缩问题，私有属性和方法不会被重命名为更短的名称。
-
-注意：
-这种模式只适用于一次性任务，之后没有对该对象的访问。如果要的话，可以在`init( )`尾部添加 `return this;`。
-
-
-
-
-
-### 初始化时分支(Init-time branching)
-也称为加载时分支(load-time branching)，是一种一种优化模式。
-当知道某个条件在整个程序声明周期内都不会发生改变的时候，仅对该条件测试一次是很有意义的。
-
-此段代码效率低下，每次调用`utils.addListenter( )` 或者 `utils.removeListener( )` 都会重复地执行相同的查:
-
-```
-// BEFORE
-var utils = {
-    addListener: function (el, type, fn) {
-        if (typeof window.addEventListener === 'function') {
-            el.addEventListener(type, fn, false);
-        } else if (typeof document.attachEvent === 'function') { // IE
-            el.attachEvent('on' + type, fn);
-        } else { // older browsers
-            el['on' + type] = fn;
-        }
-    },
-    removeListener: function (el, type, fn) {
-        // pretty much the same...
-    }
-};
-```
-
-
-解决方式：
-使用初始化时分支，在脚本初始化加载时一次性嗅探出浏览器特称
-
-```
-// AFTER
-// the interface
-var utils = {
-    addListener: null,
-    removeListener: null
-};
-// the implementation
-if (typeof window.addEventListener === 'function') {
-    utils.addListener = function (el, type, fn) {
-        el.addEventListener(type, fn, false);
-    };
-    utils.removeListener = function (el, type, fn) {
-        el.removeEventListener(type, fn, false);
-    };
-} else if (typeof document.attachEvent === 'function') { // IE
-    utils.addListener = function (el, type, fn) {
-        el.attachEvent('on' + type, fn);
-    };
-    utils.removeListener = function (el, type, fn) {
-        el.detachEvent('on' + type, fn);
-    };
-} else { // older browsers
-    utils.addListener = function (el, type, fn) {
-        el['on' + type] = fn;
-    };
-    utils.removeListener = function (el, type, fn) {
-        el['on' + type] = null;
-    };
-}
-```
-
-
-### 函数属性——备忘模式
-
-给函数添加自定义属性，缓存函数结果，那么在下一次调用函数时，如果缓存在，就直接从缓存中取结果。就不用再做重复的繁琐的计算。
-
-```
-var myFunc = function (param) {
-    if (!myFunc.cache[param]) {
-        var result = {};
-        // ... expensive operation ...
-        myFunc.cache[param] = result;
-    }
-    return myFunc.cache[param];
-};
-// cache storage
-myFunc.cache = {};
-```
-
-如果参数复杂，可以将其序列化，如果序列化为一个JSON字符串。
-注意：在序列化过程中，对象的“标识”将会丢失，如果有两个不同的对象并且恰好都有相同的属性，这两个对象会共享同一个缓存条目。
-
-```
-var myFunc = function () {
-    var cachekey = JSON.stringify(Array.prototype.slice.call(arguments)),
-        result;
-    if (!myFunc.cache[cachekey]) {
-        result = {};
-        // ... expensive operation ...
-        myFunc.cache[cachekey] = result;
-    }
-    return myFunc.cache[cachekey];
-};
-// cache storage
-myFunc.cache = {};
-```
-
-另一种方法使用`arguments.callee`，注意ES5不支持`arguments.callee`。
-
-```
-var myFunc = function (param) {
-    var f = arguments.callee,
-    result;
-    if (!f.cache[param]) {
-        result = {};
-        // ... expensive operation ...
-        f.cache[param] = result;
-    }
-    return f.cache[param];
-};
-// cache storage
-myFunc.cache = {};
-```
-
-
-
-### 配置对象模式(configuration)
-
-使用一个参数对象替代所有参数，将该参数称为conf，即配置的意思。
-
-```
-var conf = {
-    username: "batman",
-    first: "Bruce",
-    last: "Wayne"
-};
-addPerson(conf);
-```
-
-
-
-### 函数调用&函数应用
-
-函数调用 called/invoked
-函数应用 applied，使用方法 `Function.prototype.apply()`来应用函数
-
-```
-//sayHi()是全局函数,可以直接调用
-var sayHi = function(who){
-    return "Hello" + (who ? ", " + who : "") + "!";
-}
-
-
-//函数调用（called or invoked）
-console.log(sayHi());  //Hello!
-console.log(sayHi("kathy"));  //Hello, kathy!
-
-
-//函数应用（applied），使用方法Function.prototype.apply()
-//第一个参数 - 将要绑定到该函数内部this的一个对象，如果为null，this-->全局对象
-//第二个参数 - 一个数组或多个参数变量，这些参数将变成可用于该函数内部的类似数组的arguments对象
-console.log(sayHi.apply(null, ["kathy"])); //Hello, kathy!
-```
-
-
-
-
-第一个`apply()`传递alien引用，内部的this指向alien对象，this.age是alien的age
-第二个`apply()`传递null引用，内部的this指向全局对象，this.age是全局的age
-
-```
-//sayHi()是一个对象的方法，必须通过改对象调用
-var age = 20;
-var alien = {
-    age : 15,
-    sayHi : function(who){
-        return "Hello" + (who ? ", " + who : "") + "! And you're " + this.age + " year's old ?";
-    }
-};
-
-
-console.log(alien.sayHi("xuxuan")); //Hello, xuxuan! 
-console.log(alien.sayHi.apply(alien,["xuxuan"]));  //Hello, xuxuan! And you're 15 year's old ?
-console.log(alien.sayHi.apply(null,["xuxuan"]));  //Hello, xuxuan! And you're 20 year's old ?
-
-
-console.log(sayHi("xuxuan"));    //报错：sayHi未定义
-console.log(sayHi.apply(alien,["xuxuan"])); //报错：sayHi未定义
-console.log(sayHi.apply(null,["xuxuan"]));  //报错：sayHi未定义
-```
-
-
-
-
-注意`call`和`apply`的区别：
-`Function.prototype.call`是建立在`apply`上的“语法糖”(syntax sugar): 当函数只有一个参数时，可以根据实际情况避免创建只有一个元素的数组。
-
-```
-//sayHi()是一个构造函数里的方法，必须通过实例调用
-var age = 20;
-var Alien = function(){
-    this.age = 15;
-    this.sayHi = function(who){
-        return "Hello" + (who ? ", " + who : "") + "! And you're " + this.age + " year's old ?";
-    };
-};
-
-
-var alien = new Alien();
-console.log(alien.sayHi("xuxuan")); //Hello, xuxuan! And you're 15 year's old ?
-console.log(alien.sayHi.apply(alien,["xuxuan"]));  //Hello, xuxuan! And you're 15 year's old ?
-console.log(alien.sayHi.apply(null,["xuxuan"]));  //Hello, xuxuan! And you're 20 year's old ?
-
-
-console.log(alien.sayHi.call(alien,"xuxuan")); //Hello, xuxuan! And you're 15 year's old ?
-console.log(alien.sayHi.call(null,"xuxuan"));  //Hello, xuxuan! And you're 20 year's old ?
-```
-
-
-
-
-### 部分应用（partial application）
-
-部分应用向我们提供了另一个函数，随后再以其他参数调用该函数。
-假想的partialApply()方法：
-
-```
-var add = function(x, y){
-    return x + y;
-}
-
-//完全应用
-add.apply(null, [5,4]);  //9
-
-//部分应用
-var newadd = add.partialApply(null,[5]);
-
-//应用一个参数到函数中
-newadd.apply(null,[4]);  //9
-```
-
-事实上，js没有partialApply()方法，默认也不会表现出上述类似行为。但是可以构造出这种行为，成为`Curry`过程。
-
-
-
-### Curry化
-
-```
-function add(x, y){
-    var oldx = x, oldy = y;
-    //部分
-    if(typeof oldy === "undefined"){
-        return function(newly){
-            return oldx + newly;
-        }
-    }
-    //完全应用
-    return x + y;
-}
-
-
-console.log(typeof add(5)); //function
-console.log(add(3)(4));  //7
-
-
-//add2000是一个新函数
-var add2000 = add(2000);
-console.log(add2000(13));  //2013
-```
-
-更为精简的实现版本:
-
-```
-function add(x, y){
-    //部分应用
-    if(typeof y === "undefined"){
-        return function(y){
-            return x + y;
-        }
-    }
-    //完全应用
-    return x + y;
-}
-```
-
-
-更通用的方式，将任意函数转换成一个新的可以接受部分参数的函数:
-
-```
-function schonfinkelize(fn){
-    var slice = Array.prototype.slice,
-        stored_args = slice.call(arguments, 1);
-    return function(){
-        var new_args = slice.call(arguments),
-            args = stored_args.concat(new_args);
-        return fn.apply(null, args);
-    };
-}
-
-
-//普通函数
-function add(x, y){
-    return x + y;
-}
-
-
-//将一个函数curry化以获得一个新的函数
-var newadd = schonfinkelize(add, 5);
-console.log(newadd(4));  //9
-
-
-//另一种用法————直接调用新函数
-console.log(schonfinkelize(add,5)(4)); //9
-
-
-//---------------------------------------------------------------
-
-
-//普通函数
-function add2(a, b, c, d, e){
-    return a + b + c + d + e;
-}
-
-
-//两步curry化
-var addOne = schonfinkelize(add2, 1);
-console.log(addOne(10, 10, 10, 10));  //41
-
-
-var addTow = schonfinkelize(addOne, 2, 3);  //addOne函数只用传递4个参数
-console.log(addTow(5,5));  //16
-
-
-//可运行于任意数量的参数
-console.log(schonfinkelize(add2, 1, 2, 3)(5, 5));  //16
-```
-
-curry使用场景：
-
-- 调用同一个函数，并且传递的参数绝大多数是相同的。
-- 通过将一个函数集合部分应用到函数中，从而动态创建一个新函数。这个新函数会保存重复的参数（所以，不用每次都传这些重复的参数），而且还会使用预填充原始函数所期望的完整参数列表。
-
 
 
