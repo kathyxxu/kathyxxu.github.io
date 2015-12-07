@@ -9,9 +9,9 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>javascript创建对象 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>javascript基础二：javascript创建对象 - 徐璇的博客 | Kathyxxu Blog</title>
 
-    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/20/jsCreateObject/">
+    <link rel="canonical" href="http://kathyxxu.github.io/2013/09/10/jsBasic02/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -139,19 +139,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#工厂模式" title="工厂模式">工厂模式</a>
-                        
-                        <a class="tag" href="/tags/#构造函数模式" title="构造函数模式">构造函数模式</a>
-                        
-                        <a class="tag" href="/tags/#原型模式" title="原型模式">原型模式</a>
+                        <a class="tag" href="/tags/#js基础" title="js基础">js基础</a>
                         
                     </div>
-                    <h1>javascript创建对象</h1>
+                    <h1>javascript基础二：javascript创建对象</h1>
                     
                     
                     <h2 class="subheading">工厂模式、构造函数模式、原型模式</h2>
                     
-                    <span class="meta">Posted by 徐璇 on November 20, 2015</span>
+                    <span class="meta">Posted by 徐璇 on September 10, 2013</span>
                 </div>
             </div>
         </div>
@@ -169,7 +165,22 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="section">1.创建对象</h2>
+				<style type="text/css">
+    p{
+        margin: 30px 0 5px 0;
+    }
+    img{
+        margin-top: 5px !important;
+    }
+    .post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+        margin: 60px 0 10px;
+    }
+    .post-container ul, .post-container ol {
+        margin-bottom: 20px;
+    }
+</style>
+
+<h2 id="section">1.创建对象</h2>
 
 <pre><code>var person = new Object();
 person.name = 'kathy';
@@ -383,7 +394,7 @@ alert(p1.sayName == p2.sayName);  //true
 
 <h4 id="section-7">4.1理解原型：</h4>
 
-<p><img src="../../../../imgPost/2015-11-20/p1.png" alt="&quot;理解原型&quot;" /></p>
+<p><img src="../../../../imgPost/2013-09-10/p1.png" alt="&quot;理解原型&quot;" /></p>
 
 <blockquote>
   <p>一旦创建函数，就为该函数创建一个prototype属性。<br />
@@ -462,7 +473,7 @@ alert('name' in p1);  //true
 </code></pre>
 
 <p>上段代码图解如下：<br />
-<img src="../../../../imgPost/2015-11-20/p2.png" alt="&quot;理解原型&quot;" /></p>
+<img src="../../../../imgPost/2013-09-10/p2.png" alt="&quot;理解原型&quot;" /></p>
 
 <p>总结如下：</p>
 
@@ -564,11 +575,11 @@ person.sayHi(); //hi
 <strong>注意：</strong> 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的<code>_proto_</code>指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。</p>
 </blockquote>
 
-<p><img src="../../../../imgPost/2015-11-20/p3.png" alt="&quot;理解原型&quot;" /></p>
+<p><img src="../../../../imgPost/2013-09-10/p3.png" alt="&quot;理解原型&quot;" /></p>
 
 <p>从图中可看出：重写原型对象切断了现有原型与任何之前已经存在的对象实例之间的联系，它们引用的仍然是最初的原型。</p>
 
-<p><img src="../../../../imgPost/2015-11-20/p4.png" alt="&quot;理解原型&quot;" /></p>
+<p><img src="../../../../imgPost/2013-09-10/p4.png" alt="&quot;理解原型&quot;" /></p>
 
 <h4 id="section-10">4.5原型对象的问题</h4>
 
@@ -666,9 +677,13 @@ person.sayName();
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/14/form/" data-toggle="tooltip" data-placement="top" title="表单常用代码">&larr; Previous Post</a>
+                        <a href="/2013/09/03/jsBasic01/" data-toggle="tooltip" data-placement="top" title="javascript基础一：六大基本数据类型Undefined、Null、Boolean、Number、String、Object">&larr; Previous Post</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2013/10/07/jsBasic03/" data-toggle="tooltip" data-placement="top" title="javascript基础三：this">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -677,9 +692,9 @@ person.sayName();
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2015/11/20/jsCreateObject"
-                        data-title="javascript创建对象"
-                        data-url="http://kathyxxu.github.io/2015/11/20/jsCreateObject/" >
+                        data-thread-key="/2013/09/10/jsBasic02"
+                        data-title="javascript基础二：javascript创建对象"
+                        data-url="http://kathyxxu.github.io/2013/09/10/jsBasic02/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -701,13 +716,13 @@ person.sayName();
                     <div class="tags">
         				
                             
-                				<a href="/tags/#js基础" title="js基础" rel="1">
+                				<a href="/tags/#js基础" title="js基础" rel="3">
                                     js基础
                                 </a>
                             
         				
                             
-                				<a href="/tags/#js模式笔记" title="js模式笔记" rel="3">
+                				<a href="/tags/#js模式笔记" title="js模式笔记" rel="4">
                                     js模式笔记
                                 </a>
                             
@@ -715,24 +730,6 @@ person.sayName();
                             
                 				<a href="/tags/#webkit-box" title="webkit-box" rel="1">
                                     webkit-box
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#工厂模式" title="工厂模式" rel="1">
-                                    工厂模式
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#构造函数模式" title="构造函数模式" rel="1">
-                                    构造函数模式
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#原型模式" title="原型模式" rel="1">
-                                    原型模式
                                 </a>
                             
         				

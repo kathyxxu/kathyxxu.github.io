@@ -9,9 +9,9 @@
     <meta name="keyword"  content="前端开发, Kathyxxu, 博客, HTML5, javascript">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>表单常用代码 - 徐璇的博客 | Kathyxxu Blog</title>
+    <title>javascript基础三：this - 徐璇的博客 | Kathyxxu Blog</title>
 
-    <link rel="canonical" href="http://kathyxxu.github.io/2015/11/14/form/">
+    <link rel="canonical" href="http://kathyxxu.github.io/2013/10/07/jsBasic03/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -139,13 +139,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/#js基础" title="js基础">js基础</a>
+                        
                     </div>
-                    <h1>表单常用代码</h1>
+                    <h1>javascript基础三：this</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by 徐璇 on November 14, 2015</span>
+                    <span class="meta">Posted by 徐璇 on October 7, 2013</span>
                 </div>
             </div>
         </div>
@@ -163,420 +165,249 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h1 id="section">1.去除字符串左右两边的空格</h1>
-
-<style type="text/css">
+				<style type="text/css">
 	p{
-		margin: 10px 0;
+		margin: 30px 0 5px 0;
 	}
 	img{
 		margin-top: 5px !important;
 	}
-</style>
-
-<div>
-	<textarea id="tvalue" width="500" height="200">  我的左右两边都有空格   </textarea><br />
-	<input type="button" id="tbtn" value="过滤" />
-</div>
-
-<p><code>inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")</code></p>
-
-<script type="text/javascript">
-	var tvalue = document.getElementById("tvalue"),
-		tbtn = document.getElementById("tbtn");
-
-	tbtn.onclick = function() {
-		tvalue.value = tvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
+	.post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+    	margin: 60px 0 10px;
 	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-1">2.验证用户是否输入</h1>
-
-<p><input type="text" id="cvalue" value="kathyxxu" /><br />
-<input type="button" id="cbtn" value="验证是否为空" /></p>
-
-<pre><code>if(!inputObj.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
-    alert('empty input')
-}else{
-    alert('not empty input')
-}
-</code></pre>
-
-<script type="text/javascript">
-	var cvalue = document.getElementById("cvalue"),
-		cbtn = document.getElementById("cbtn");
-	cbtn.onclick = function() {
-		if(!cvalue.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")){
-			alert('empty input')
-		}else{
-			alert('not empty input')
-		}
-	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-2">3.禁止输入</h1>
-
-<h4 id="disabled-readonly">方案1.通过表单属性disabled readonly来控制输入</h4>
-
-<p><input type="text" value="disabled" disabled="" /><br />
-<input type="text" value="disabled='disabled'" disabled="disabled" /><br />
-<input type="text" value="readonly" readonly="" /></p>
-
-<pre><code>&lt;input type="text" value="disabled" disabled/&gt;
-&lt;input type="text" value="disabled='disabled'" disabled="disabled"/&gt;
-&lt;input type="text" value="readonly" readonly/&gt;
-</code></pre>
-
-<ul>
-  <li>disabled-禁用input元素。<br />
-无法与 <code>&lt;input type="hidden"&gt;</code>一起使用</li>
-  <li>readonly-字段为只读，不能修改。<br />
-可以用tab切换到该字段</li>
-</ul>
-
-<h4 id="js">方案2.通过js来控制输入</h4>
-<p>js控制1-focus &amp; blur <input type="text" value="禁止输入" id="noInput1" /><br />
-js控制2-keyup &amp; blur <input type="text" value="禁止输入" id="noInput2" /></p>
-
-<pre><code>_noInput1.onfocus = function() {
-    this.blur();
-}
-
-_noInput2.onkeyup = _noInput2.onblur = function() {
-    this.value = "";
-}
-</code></pre>
-
-<ul>
-  <li>focus &amp; blur<br />
-第一种写法更简洁，体验效果更好</li>
-  <li>keyup &amp; blur<br />
-第二种写法代码较多，体验上有一点缺陷，输入的文字有一闪然后消失的过程<br />
-无法阻止通过鼠标复制粘贴来的文本，虽然失去焦点时会清空内容</li>
-</ul>
-
-<script type="text/javascript">
-	var _noInput1 = document.getElementById("noInput1");
-	var _noInput2 = document.getElementById("noInput2");
-
-	_noInput1.onfocus = function() {
-		this.blur();
-	}
-
-	_noInput2.onkeyup = _noInput2.onblur = function() {
-		this.value = "";
-	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-3">关闭输入法</h1>
-
-<h4 id="css-ime-mode">方案1.使用css ime-mode属性</h4>
-
-<p><input type="text" id="banInputMethod" value="禁止输入法" /></p>
-
-<p><code>inputObj.style.imeMode = 'disabled'</code></p>
-
-<p><br /></p>
-
-<p>css非标准的ime-mode属性</p>
-
-<ul>
-  <li>设置或检索是否允许用户激活输入中文，韩文，日文等的输入法(ime)状态</li>
-  <li>取值 ime-mode : auto  active  inactive  disabled</li>
-</ul>
-
-<table>
-  <tbody>
-    <tr>
-      <td>auto</td>
-      <td>默认值，表示打开输入法。</td>
-    </tr>
-    <tr>
-      <td>active</td>
-      <td>指定所有使用IME输入的字符。即激活本地语言输入法。用户仍可以撤销激活IME</td>
-    </tr>
-    <tr>
-      <td>inactive</td>
-      <td>指定所有不使用IME输入的字符。即激活非本地语言。用户仍可以撤销激活IME</td>
-    </tr>
-    <tr>
-      <td>disabled</td>
-      <td>完全禁用IME。对于有焦点的控件(如输入框)，用户不可以激活IME</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>ime-mode的兼容性，如图 <br />
-<img src="../../../../imgPost/2015-11-14/ime.png" alt="&quot;ime-mode的兼容性&quot;" /></p>
-
-<script type="text/javascript">
-	function banInputMethodCSS(_elementArr) {
-		var arr = _elementArr,
-			self = this;
-		if(!(_elementArr instanceof Array)) {
-			arr = [_elementArr];
-		}
-		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
-			var arrI = arr[i];
-			arrI.onfocus = function() {
-				// 兼容除了chrome之外的浏览器
-				this.style.imeMode = 'disabled'
-			}
-		}
-	}
-	banInputMethodCSS(document.getElementById("banInputMethod"))
-</script>
-
-<h4 id="js-1">方案2.js正则替换中文字符</h4>
-<p><input type="text" id="banInputMethod2" value="禁止输入法" /></p>
-
-<p><code>inputObj.value.replace(/[\u4e00-\u9fa5]/g, "")</code></p>
-
-<script type="text/javascript">
-	function banInputMethodJS(_elementArr) {
-		var arr = _elementArr,
-			self = this;
-		if(!(_elementArr instanceof Array)) {
-			arr = [_elementArr];
-		}
-		var clearChinese = function(_this) {
-			var _v = _this.value;
-			_this.value = _v.replace(/[\u4e00-\u9fa5]/g, "");
-		}
-		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
-			var arrI = arr[i];
-			arrI.onfocus = function() {
-				clearChinese(this)
-			}
-			arrI.onkeyup = function() {
-				clearChinese(this)
-			}
-		}
-	}
-	banInputMethodJS(document.getElementById("banInputMethod2"))
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-4">禁止复制与粘贴</h1>
-<p><input type="text" id="banCopyPaste" value="禁止复制与粘贴" /></p>
-
-<pre><code>inputObj.oncopy = function() {
-    return false;
-}
-inputObj.onpaste = function() {
-    return false;
-}
-</code></pre>
-
-<script type="text/javascript">
-	var banCopyPaste = document.getElementById("banCopyPaste");
-	banCopyPaste.oncopy = function() {
-		return false;
-	}
-	banCopyPaste.onpaste = function() {
-		return false;
-	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-5">限制只能输入数字/中文</h1>
-
-<form>
-	type='number'<input type="number" value="" /><br />
-	pattern=[0-9]<input type="text" pattern="[0-9]" value="" /><br />
-	only number<input type="text" value="" id="onlyNumber" /><br />
-	only chinese<input type="text" value="" id="onlyChinese" /><br />
-	<input type="submit" value="submit" />
-</form>
-
-<ul>
-  <li>type=’number’，只能输入数字，在手机端调起数字键盘；在提交表单时执行验证</li>
-  <li>pattern属性，验证输入字段的正则匹配模式，在提交表单时执行验证，适用text、search、url、telephone、mail、password</li>
-  <li>正则 <code>inputObj.value.replace(/\D/g,"")</code> 去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件</li>
-  <li>正则 <code>inputObj.value.replace(/[^\u4e00-\u9fa5]/g, "")</code>去除非数字，分别绑定到输入框的onfocus、onkeyup、onblur事件</li>
-</ul>
-
-<script type="text/javascript">
-	var onlyNumber = document.getElementById("onlyNumber");
-	var onlyChinese = document.getElementById("onlyChinese");
-
-	var clearNonumber = function(tThis) {
-		tThis.value = tThis.value.replace(/\D/g,"")
-	}
-	onlyNumber.onfocus = function() {
-		clearNonumber(this);
-	}
-	onlyNumber.onkeyup = function() {
-		clearNonumber(this);
-	}
-	onlyNumber.onblur = function() {
-		clearNonumber(this);
-	}
-
-	var clearNoChinese = function(tThis) {
-		tThis.value = tThis.value.replace(/[^\u4e00-\u9fa5]/g, "")
-	}
-	onlyChinese.onfocus = function() {
-		clearNoChinese(this);
-	}
-	onlyChinese.onkeyup = function() {
-		clearNoChinese(this);
-	}
-	onlyChinese.onblur = function() {
-		clearNoChinese(this);
-	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-6">限制字符串长度(不区分中英文)</h1>
-
-<h4 id="maxlength">方案1. maxlength属性</h4>
-
-<p>maxlength限制 <input type="text" maxlength="5" /></p>
-
-<p><code>&lt;input type="text" maxlength="5"&gt;</code></p>
-
-<ul>
-  <li>并非所有浏览器都支持maxlength属性</li>
-  <li>不区分中英文和数字的编码占位</li>
-</ul>
-
-<h4 id="js-2">方案2. js控制</h4>
-
-<p>js限制 <input type="text" data-length="5" id="limitLength" data-model="Ch" /></p>
-
-<p><code>inputObj.value = inputObj.value.substr(0, maxLength);</code></p>
-
-<script type="text/javascript">
-	var limitLength = document.getElementById("limitLength");
-	var calLength = function(tThis) {
-		var _v = tThis.value,
-			_vLen = _v.length,
-			dataLength = tThis.getAttribute("data-length"),
-			dataModel = tThis.getAttribute("data-model"),
-			subLen = dataLength;
-		if(_vLen > dataLength) {
-			tThis.value = _v.substr(0, subLen);
-		}
-
-	}
-	limitLength.onfocus = function() {
-		calLength(this);
-	}
-	limitLength.onkeyup = function() {
-		calLength(this);
-	}
-	limitLength.onblur = function() {
-		calLength(this);
-	}
-</script>
-
-<p><br /><br /></p>
-
-<h1 id="section-7">限制字符串长度(区分中英文) 并实时提示可输入字符</h1>
-
-<style type="text/css">
-	.remainingCharacters{
-		color: green;
-		font-weight: bold;
+	.post-container ul, .post-container ol {
+	    margin-bottom: 20px;
 	}
 </style>
 
-<p><input type="text" data-length="20" id="remainingCharacters" data-model="Ch" data-remainingcharacters="charActers1,charActers2" /></p>
+<p>在JAVA，C，C#，C++等语言中，this很专一，总是指向当前的运行对象。<br />
+但是javascript的this却很花心，在哪个对象的家里，它就是那个对象的！</p>
 
-<p>测试1：还可以输入<span class="remainingCharacters" id="charActers1">20</span></p>
-<p>测试2：还可以输入<span class="remainingCharacters" id="charActers2">20</span></p>
+<p>请牢牢记住这句话：<br />
+<strong>this变量永远指向函数运行时所在的对象，而不是函数被创建时所在的对象。如果处在匿名函数中或者不处于任何对象中，this都指向宿主的根对象（在浏览器里面就是 window）。</strong></p>
 
-<ul>
-  <li>data-model “En”-不区分中英文(默认) “Ch”-区分中英文</li>
-</ul>
+<p>另外，javascript中还用 <code>call()</code> 和 <code>apply()</code> 来调用函数，再记住下面这两句话：<br />
+<strong>如果是call()、apply()、with()，指定的this是谁，就是谁。</strong><br />
+<strong>普通的函数调用，函数被谁调用，this就是谁。</strong></p>
 
-<script type="text/javascript">
-	var forElementArr = function(_elementArr, callBack) {
-		var arr = _elementArr,
-			self = this;
-		if(!_elementArr instanceof Array) {
-			arr = [_elementArr];
-		}
-		for(var i=0, arrLen=arr.length; i<arrLen; i++) {
-			var arrI = arr[i];
-			if(typeof arrI == "string") {
-				arrI = document.getElementById(arrI);
-			}
-			callBack && callBack(i, arrI);
-		}
-	}
-	var showRemainingCharacters = function(_nums, _remainingCharacters) {
-		if(_remainingCharacters.search(",") != -1) {
-			_remainingCharacters = _remainingCharacters.split(",");
-		}
-		forElementArr(_remainingCharacters, function(_index, _this) {
-			_this.innerHTML = (_nums && _nums.toString()) || "0";
-		})
-	}
-	var strLen = (function() {
-		var trim = function(chars) {
-			return (chars || "").replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, "")
-		}
-		return function(_str, _model) {
-			_str = trim(_str);
-			_model = _model || "Ch";
-			var _strLen = _str.length;
-			if(_strLen == 0) {
-				return 0;
-			}
-			else{
-				var chinese = _str.match(/[\u4e00-\u9fa5]/g);
-				return _strLen + (chinese && _model == "Ch" ? chinese.length : 0);
-			}
-		}
-	})()
-	var remainingCharacters = document.getElementById("remainingCharacters");
-	var calLength = function(tThis) {
-		
-		var _v = tThis.value,
-			_vLen = _v.length,
-			dataLength = tThis.getAttribute("data-length"),
-			dataModel = tThis.getAttribute("data-model"),
-			subLen = dataLength;
-			remainingCharacters = tThis.getAttribute("data-remainingCharacters");
-			
-		if(dataModel == "Ch") {
-			_vLen = strLen(_v, dataModel);
-			var vv = _v.match(/[\u4e00-\u9fa5]/g);
-			subLen = dataLength - (!vv ? 0 : vv.length);
-		}
-		if(_vLen > dataLength) {
-			tThis.value = _v.substr(0, subLen);
-			// for(var i=0; i<tThis.value.length; i++) {
-			// 	var str = tThis.
-			// 	if()
-			// }
-		}
+<p>注意：ECMAScript 5 的严格模式中，严禁使用with()函数，并且ECMAScript 3 中并不推荐使用with()。</p>
 
-		if(remainingCharacters) {
-			showRemainingCharacters(!_vLen ? dataLength : (_vLen > dataLength ? 0 : dataLength - _vLen), remainingCharacters)
-		}
-	}
-	remainingCharacters.onfocus = function() {
-		calLength(this);
-	}
-	remainingCharacters.onkeyup = function() {
-		calLength(this);
-	}
-	remainingCharacters.onblur = function() {
-		calLength(this);
-	}
-</script>
+<p>下面介绍下js函数的几种调用形式：</p>
+
+<h3 id="section">1.纯粹的函数调用</h3>
+
+<p>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</p>
+
+<pre><code>var x = 1;
+
+function test(){
+    console.log(this);    // window 证明this就是全局对象
+    console.log(this.x);  // 1
+    this.x = 0;           // 改变window.x，此时若window没有变量x，则在window下创建一个x变量
+    console.log(this.x);  // 0
+}
+
+console.log(this.x);     // 1
+test();
+console.log(this.x);     // 0
+</code></pre>
+
+<p>以下情况会意外创建全局变量，要避免</p>
+
+<pre><code>function makeNoSense(x) {
+     this.x = x;     // this被绑定到全局对象
+}
+makeNoSense(5);
+console.log(x);      // x已经成为一个值为5的全局变量
+</code></pre>
+
+<h3 id="section-1">2.作为对象方法的调用</h3>
+<p>函数还可以作为某个对象的方法调用，这时this就指这个上级对象</p>
+
+<pre><code>function test(){
+    console.log(this.x);  //this指函数的调用者
+}
+var o = {
+    x: 1,
+    m: test
+};
+test();  //undefined
+o.m();   //1
+</code></pre>
+
+<pre><code>var obj = {
+    that: this,
+    fn: function(){
+        console.log(this);
+    }
+}
+console.log(obj.that); //window, this不存在Object对象中的时候,this就指向window全局对象
+obj.fn();              //obj, this指向调用其所在函数的对象
+</code></pre>
+
+<h3 id="section-2">3.作为构造函数调用</h3>
+
+<pre><code>var x = 2;
+function test(){
+    this.x = 1;
+}
+
+var o = new test();  // 没有改变global的x
+console.log(o.x);    // 1
+console.log(x);      // 2
+
+test();              // 改变了global的x
+console.log(o.x);    // 1
+console.log(x);      // 1
+</code></pre>
+
+<h3 id="apply">4.apply调用</h3>
+
+<pre><code>var x = 2;
+function test(){
+    console.log(this.x);
+}
+
+var o = {};
+o.x = 1;
+o.m = test;
+
+o.m();          //1
+o.m.apply();    //2  参数为空时，默认调用全局对象
+o.m.apply(o);   //1
+</code></pre>
+
+<pre><code>function changeStyle(type, value){
+    this.style[type] = value;
+}
+var one = document.getElementById( 'one' );
+changeStyle.call(one, 'fontSize', '100px');
+changeStyle.apply(one, ['fontSize', '100px']);
+changeStyle('fontSize' , '300px');  //出现错误，因为此时changeStyle中this引用的是window对象，而window并无style属性。
+</code></pre>
+
+<h3 id="section-3">私有属性和方法、特权属性和方法、共有属性和方法、共有静态属性和方法</h3>
+
+<p><strong>私有属性和方法</strong>：函数有作用域,在函数内用<code>var</code>关键字声明的变量在外部无法访问, 私有属性和方法本质就是你希望在对象外部无法访问的变量。</p>
+
+<p><strong>特权属性和方法</strong>：创建属性和方法时使用的<code>this</code>关键字,因为这些方法定义在构造器的作用域中,所以它们可以访问到私有属性和方法; 只有那些需要直接访问私有成员的方法才应该被设计为特权方法。</p>
+
+<p><strong>共有属性和方法</strong>：直接链在<code>prototype</code>上的属性和方法,不可以访问构造器内的私有成员,可以访问特权成员,子类会继承所有的共有方法。</p>
+
+<p><strong>共有静态属性和方法</strong>：最好的理解方式就是把它想象成一个命名空间,实际上相当于把构造器作为命名空间来使用。</p>
+
+<pre><code>var _packaging= function (){
+    //私有属性和方法
+    var name= 'Darren';
+    var method1= function(){...}
+
+    //特权属性和方法
+    this.title= 'JavaScript Design Patterns' ;
+    this.getName= function(){return name;}
+ }
+
+ //共有静态属性和方法
+ _packaging._name= 'Darren code';
+ _packaging.alertName= function (){
+    alert(_packaging._name);
+ }
+
+ //共有属性和方法
+ _packaging.prototype= {
+    init:function (){...}
+}
+</code></pre>
+
+<p>小栗子1：</p>
+
+<pre><code>//全局变量
+name = "xuxuan";
+
+var Pet = function(){
+
+    //私有属性和方法
+    var name = "xxx";
+    function showname(){
+        console.log("2 "+this.name); // 这里的this-&gt;window 'xuxuan'
+        console.log("3 "+name);      // 'xxx'
+    }
+
+    //特权属性和方法
+    this.name = "xx";
+    this.show = function(){
+        console.log("1 "+this.name); // 这里的this-&gt;pet  'xx'
+        showname();
+        console.log("4 "+name);      // 'xxx'
+    }
+}
+
+var cat = new Pet();
+console.log("0 "+cat.name); //xx
+cat.show();
+
+/*
+输出如下：
+0 xx
+1 xx
+2 xuxuan
+3 xxx
+4 xxx
+*/
+
+</code></pre>
+
+<blockquote>
+  <p>私有方法的this分两种情况，单独调用的指向window，有调用者的指向调用者<br />
+特权方法的this指向当前实例</p>
+</blockquote>
+
+<p>小栗子2：</p>
+
+<pre><code>//全局变量
+name = "xuxuan";
+
+var Pet = function(){
+
+    //私有属性和方法
+    var name = "xxx";
+    function showname(){
+        console.log(this.name); // 这里的this-&gt;window 'xuxuan'
+    }
+
+    //特权属性和方法
+    this.name = "xx";
+    this.show = function(){
+        console.log(this.name); // 这里的this-&gt;pet  'xx'
+        showname();
+    }
+}
+
+Pet.prototype.setnamePet = function(str){   // 共有方法,可以访问特权成员
+    this.name = str;   // 这里的name-&gt;特权属性name
+}
+
+Pet.prototype.setnameGlobal = function(str){ // 共有方法
+    name = str;        // 这里的name-&gt;全局变量name
+}
+
+var cat = new Pet();
+console.log(cat.name); //xx
+cat.show();   //xx xuxuan
+
+cat.setnamePet("Penguin1");
+cat.show();   //Penguin1 xuxuan
+cat.setnamePet("wind1");
+cat.show();   //wind1 xuxuan
+
+cat.setnameGlobal("Penguin2");
+cat.show();   //wind1 Penguin2
+cat.setnameGlobal("wind2");
+cat.show();   //wind1 wind2
+</code></pre>
+
+<blockquote>
+  <p>特权方法可以访问私有属性和方法</p>
+</blockquote>
 
 
 
@@ -588,9 +419,13 @@ inputObj.onpaste = function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/09/webkit-box/" data-toggle="tooltip" data-placement="top" title="webkit-box弹性盒子">&larr; Previous Post</a>
+                        <a href="/2013/09/10/jsBasic02/" data-toggle="tooltip" data-placement="top" title="javascript基础二：javascript创建对象">&larr; Previous Post</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2013/11/25/jsPatternNote_1/" data-toggle="tooltip" data-placement="top" title="javascript模式笔记1——基本技巧">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -599,9 +434,9 @@ inputObj.onpaste = function() {
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2015/11/14/form"
-                        data-title="表单常用代码"
-                        data-url="http://kathyxxu.github.io/2015/11/14/form/" >
+                        data-thread-key="/2013/10/07/jsBasic03"
+                        data-title="javascript基础三：this"
+                        data-url="http://kathyxxu.github.io/2013/10/07/jsBasic03/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
