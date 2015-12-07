@@ -1,15 +1,28 @@
 ---
 layout:     post
-title:      "javascript创建对象"
+title:      "javascript基础二：javascript创建对象"
 subtitle:   "工厂模式、构造函数模式、原型模式"
-date:       2015-11-20
+date:       2013-09-10
 author:     "徐璇"
 header-img: "img/post-bg-universe.jpg"
 tags:
-    - 工厂模式
-    - 构造函数模式
-    - 原型模式
+    - js基础
 ---
+
+<style type="text/css">
+    p{
+        margin: 30px 0 5px 0;
+    }
+    img{
+        margin-top: 5px !important;
+    }
+    .post-container h1, .post-container h2, .post-container h3, .post-container h4, .post-container h5, .post-container h6 {
+        margin: 60px 0 10px;
+    }
+    .post-container ul, .post-container ol {
+        margin-bottom: 20px;
+    }
+</style>
 
 
 ## 1.创建对象
@@ -229,7 +242,7 @@ alert(p1.sayName == p2.sayName);  //true
 
 #### 4.1理解原型：
 
-!["理解原型"](../../../../imgPost/2015-11-20/p1.png)
+!["理解原型"](../../../../imgPost/2013-09-10/p1.png)
 
 > 一旦创建函数，就为该函数创建一个prototype属性。
 > 默认情况，所有prototype属性自动获得一个constructor属性，至于其他方法，都是从Object继承而来。
@@ -303,7 +316,7 @@ alert('name' in p1);  //true
 ```
 
 上段代码图解如下：
-!["理解原型"](../../../../imgPost/2015-11-20/p2.png)
+!["理解原型"](../../../../imgPost/2013-09-10/p2.png)
 
 总结如下：
 
@@ -388,11 +401,11 @@ person.sayHi(); //hi
 > **原因：** 实例与原型的松散链接关系，调用person.sayHi()时，先在实例中搜sayHi属性，没有，搜原型；实例与原型之间连接是一个**指针**，而非一个副本，就可以在原型中找到sayHi属性并返回。
 > **注意：** 如果重写整个原型对象，情况就不一样了。因为调用构造函数会为实例添加一个指向最初原型的`_proto_`指针，而把原型修改为另外一个对象，就等于切断了构造函数与最初原型之间的联系。
 
-!["理解原型"](../../../../imgPost/2015-11-20/p3.png)
+!["理解原型"](../../../../imgPost/2013-09-10/p3.png)
 
 从图中可看出：重写原型对象切断了现有原型与任何之前已经存在的对象实例之间的联系，它们引用的仍然是最初的原型。
 
-!["理解原型"](../../../../imgPost/2015-11-20/p4.png)
+!["理解原型"](../../../../imgPost/2013-09-10/p4.png)
 
 
 
